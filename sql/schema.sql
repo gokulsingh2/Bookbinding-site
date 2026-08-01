@@ -1,0 +1,93 @@
+-- ============================================
+-- Book Binding Site — Database Schema
+-- Run this against your TiDB Cloud Serverless database.
+-- ============================================
+
+-- PHASE 1: only `users` is needed for auth. Run this now.
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  phone VARCHAR(20),
+  password_hash VARCHAR(255) NOT NULL,
+  role ENUM('customer', 'admin') DEFAULT 'customer',
+  reset_token VARCHAR(255),
+  reset_token_expires TIMESTAMP NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================
+-- Everything below is for later phases (2-5).
+-- Uncomment and run each block when you get to that phase,
+-- so the schema always matches the current step you're building.
+-- ============================================
+
+-- PHASE 2: services + gallery
+-- CREATE TABLE services (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   name VARCHAR(150) NOT NULL,
+--   slug VARCHAR(150) NOT NULL UNIQUE,
+--   description TEXT,
+--   base_price DECIMAL(10,2) NOT NULL,
+--   price_note VARCHAR(100),
+--   turnaround_days INT DEFAULT 3,
+--   image_url VARCHAR(255),
+--   is_active BOOLEAN DEFAULT TRUE,
+--   display_order INT DEFAULT 0,
+--   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- );
+--
+-- CREATE TABLE gallery_images (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   service_id INT,
+--   image_url VARCHAR(255) NOT NULL,
+--   caption VARCHAR(200),
+--   display_order INT DEFAULT 0,
+--   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
+-- );
+
+-- PHASE 3: orders
+-- CREATE TABLE orders (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   order_number VARCHAR(30) NOT NULL UNIQUE,
+--   customer_id INT NOT NULL,
+--   service_id INT NOT NULL,
+--   quantity INT DEFAULT 1,
+--   page_count INT,
+--   cover_type VARCHAR(50),
+--   cover_color VARCHAR(50),
+--   special_instructions TEXT,
+--   uploaded_file_url VARCHAR(255),
+--   fulfillment_type ENUM('pickup', 'local_delivery', 'shipping') NOT NULL,
+--   delivery_address TEXT,
+--   is_urgent BOOLEAN DEFAULT FALSE,
+--   price_estimate DECIMAL(10,2),
+--   final_price DECIMAL(10,2),
+--   payment_status ENUM('pending', 'paid', 'cod', 'failed') DEFAULT 'pending',
+--   payment_id VARCHAR(100),
+--   order_status ENUM('received', 'in_progress', 'ready', 'delivered', 'cancelled') DEFAULT 'received',
+--   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   FOREIGN KEY (customer_id) REFERENCES users(id),
+--   FOREIGN KEY (service_id) REFERENCES services(id)
+-- );
+--
+-- CREATE TABLE order_status_history (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   order_id INT NOT NULL,
+--   status VARCHAR(30) NOT NULL,
+--   note VARCHAR(255),
+--   changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+-- );
+
+-- PHASE 5: contact form
+-- CREATE TABLE contact_messages (
+--   id INT AUTO_INCREMENT PRIMARY KEY,
+--   name VARCHAR(100) NOT NULL,
+--   email VARCHAR(150) NOT NULL,
+--   message TEXT NOT NULL,
+--   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
