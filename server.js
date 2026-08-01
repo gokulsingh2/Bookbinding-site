@@ -9,7 +9,9 @@ const { verifyMailer } = require('./utils/mailer');
 const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
 const orderRoutes = require('./routes/orders');
+const galleryRoutes = require('./routes/gallery');
 const serviceModel = require('./models/serviceModel');
+const galleryModel = require('./models/galleryModel');
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 // Public pages (server-rendered)
 app.get('/', async (req, res, next) => {
@@ -54,6 +57,15 @@ app.get('/services/:slug', async (req, res, next) => {
       return res.status(404).send('Service not found');
     }
     res.render('service-detail', { service });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/gallery', async (req, res, next) => {
+  try {
+    const images = await galleryModel.findAll();
+    res.render('gallery', { images });
   } catch (err) {
     next(err);
   }

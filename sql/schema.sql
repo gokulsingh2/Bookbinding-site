@@ -49,15 +49,25 @@ INSERT INTO services (name, slug, description, base_price, price_note, turnaroun
 -- Everything below is for later phases still. Uncomment and run each block when you get there.
 
 -- PHASE 4: gallery
--- CREATE TABLE gallery_images (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   service_id INT,
---   image_url VARCHAR(255) NOT NULL,
---   caption VARCHAR(200),
---   display_order INT DEFAULT 0,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
--- );
+CREATE TABLE IF NOT EXISTS gallery_images (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  service_id INT,
+  image_url VARCHAR(255) NOT NULL,
+  caption VARCHAR(200),
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
+);
+
+-- Placeholder photos so the gallery isn't empty while you build — swap these
+-- for real photos of finished work through the admin panel later (Phase 9).
+INSERT INTO gallery_images (image_url, caption, display_order) VALUES
+  ('https://picsum.photos/seed/bookbind1/600/450', 'Hardcover finish — walnut brown', 1),
+  ('https://picsum.photos/seed/bookbind2/600/450', 'Restored family bible, leather rebind', 2),
+  ('https://picsum.photos/seed/bookbind3/600/450', 'Spiral-bound workbook set', 3),
+  ('https://picsum.photos/seed/bookbind4/600/450', 'Perfect-bound annual report', 4),
+  ('https://picsum.photos/seed/bookbind5/600/450', 'Custom gold-foil title stamping', 5),
+  ('https://picsum.photos/seed/bookbind6/600/450', 'Thesis binding, university edition', 6);
 
 -- PHASE 5: orders (order form, price estimate)
 CREATE TABLE IF NOT EXISTS orders (

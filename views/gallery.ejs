@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner">
+      <h1>Our Work</h1>
+      <p class="section__subtitle">A look at finished bindings and restorations.</p>
+
+      <% if (images && images.length > 0) { %>
+        <div class="gallery-grid">
+          <% images.forEach(function(image) { %>
+            <figure class="gallery-item">
+              <img src="<%= image.image_url %>" alt="<%= image.caption || 'Finished bookbinding work' %>" loading="lazy" />
+              <% if (image.caption) { %>
+                <figcaption>
+                  <%= image.caption %>
+                  <% if (image.service_name) { %>
+                    <a href="/services/<%= image.service_slug %>" class="gallery-item__tag"><%= image.service_name %></a>
+                  <% } %>
+                </figcaption>
+              <% } %>
+            </figure>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>No photos yet — check back soon.</p>
+      <% } %>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
