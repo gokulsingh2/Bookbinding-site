@@ -205,3 +205,57 @@ body {
 .service-detail__price span { font-weight: normal; color: #888; font-size: 0.9rem; }
 .service-detail__turnaround { color: #888; margin-bottom: 24px; }
 .service-detail__description { margin-bottom: 32px; line-height: 1.6; }
+
+/* ---------- Order form ---------- */
+.order-form__notice {
+  text-align: center;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 40px 24px;
+}
+.order-form__notice p { margin-bottom: 20px; color: #555; }
+
+.order-form { display: flex; flex-direction: column; gap: 4px; }
+.order-form label {
+  font-size: 0.9rem;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  display: block;
+}
+.order-form input[type="text"],
+.order-form input[type="number"],
+.order-form select,
+.order-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.order-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px !important;
+  font-size: 0.95rem;
+}
+.checkbox-label input { width: auto; }
+.order-form__estimate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3ece2;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 24px 0;
+  font-size: 1rem;
+}
+.order-form__estimate strong { font-size: 1.3rem; color: var(--leather); }
+.order-form button[type="submit"] { width: 100%; }

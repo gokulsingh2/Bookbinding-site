@@ -8,6 +8,7 @@ const { verifyConnection } = require('./config/db');
 const { verifyMailer } = require('./utils/mailer');
 const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
+const orderRoutes = require('./routes/orders');
 const serviceModel = require('./models/serviceModel');
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Public pages (server-rendered)
 app.get('/', async (req, res, next) => {
@@ -55,6 +57,10 @@ app.get('/services/:slug', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+app.get('/order/new', (req, res) => {
+  res.render('order-form', { preselectedSlug: req.query.service || '' });
 });
 
 app.get('/forgot-password', (req, res) => {

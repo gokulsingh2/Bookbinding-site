@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Place an Order — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+
+      <div id="loginNotice" class="order-form__notice" style="display:none;">
+        <p>You'll need to be logged in to place an order.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in / Register</a>
+      </div>
+
+      <div id="orderFormWrapper" style="display:none;">
+        <h1>Place an Order</h1>
+
+        <form id="orderForm" class="order-form">
+          <label for="serviceSelect">Service</label>
+          <select id="serviceSelect" required></select>
+
+          <div class="order-form__row">
+            <div>
+              <label for="quantity">Quantity</label>
+              <input type="number" id="quantity" min="1" value="1" required />
+            </div>
+            <div>
+              <label for="pageCount">Page count (optional)</label>
+              <input type="number" id="pageCount" min="1" />
+            </div>
+          </div>
+
+          <div class="order-form__row">
+            <div>
+              <label for="coverType">Cover type (optional)</label>
+              <input type="text" id="coverType" placeholder="e.g. Matte, Glossy" />
+            </div>
+            <div>
+              <label for="coverColor">Cover color (optional)</label>
+              <input type="text" id="coverColor" placeholder="e.g. Black, Navy" />
+            </div>
+          </div>
+
+          <label for="specialInstructions">Special instructions (optional)</label>
+          <textarea id="specialInstructions" rows="3" placeholder="Anything we should know about this order?"></textarea>
+
+          <label for="fulfillmentType">Fulfillment</label>
+          <select id="fulfillmentType" required>
+            <option value="pickup">Pickup</option>
+            <option value="local_delivery">Local Delivery</option>
+            <option value="shipping">Shipping</option>
+          </select>
+
+          <div id="addressField" style="display:none;">
+            <label for="deliveryAddress">Delivery address</label>
+            <textarea id="deliveryAddress" rows="2" placeholder="Full address for delivery/shipping"></textarea>
+          </div>
+
+          <label class="checkbox-label">
+            <input type="checkbox" id="isUrgent" />
+            This is urgent (rush order)
+          </label>
+
+          <div class="order-form__estimate">
+            <span>Estimated price</span>
+            <strong id="priceEstimate">₹0.00</strong>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Place Order</button>
+        </form>
+
+        <div id="result"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    window.__PRESELECTED_SLUG__ = <%- JSON.stringify(preselectedSlug || '') %>;
+  </script>
+  <script src="/js/order-form.js"></script>
+</body>
+</html>

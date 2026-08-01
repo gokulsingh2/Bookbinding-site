@@ -59,40 +59,42 @@ INSERT INTO services (name, slug, description, base_price, price_note, turnaroun
 --   FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
 -- );
 
--- PHASE 3: orders
--- CREATE TABLE orders (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   order_number VARCHAR(30) NOT NULL UNIQUE,
---   customer_id INT NOT NULL,
---   service_id INT NOT NULL,
---   quantity INT DEFAULT 1,
---   page_count INT,
---   cover_type VARCHAR(50),
---   cover_color VARCHAR(50),
---   special_instructions TEXT,
---   uploaded_file_url VARCHAR(255),
---   fulfillment_type ENUM('pickup', 'local_delivery', 'shipping') NOT NULL,
---   delivery_address TEXT,
---   is_urgent BOOLEAN DEFAULT FALSE,
---   price_estimate DECIMAL(10,2),
---   final_price DECIMAL(10,2),
---   payment_status ENUM('pending', 'paid', 'cod', 'failed') DEFAULT 'pending',
---   payment_id VARCHAR(100),
---   order_status ENUM('received', 'in_progress', 'ready', 'delivered', 'cancelled') DEFAULT 'received',
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---   FOREIGN KEY (customer_id) REFERENCES users(id),
---   FOREIGN KEY (service_id) REFERENCES services(id)
--- );
---
--- CREATE TABLE order_status_history (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   order_id INT NOT NULL,
---   status VARCHAR(30) NOT NULL,
---   note VARCHAR(255),
---   changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
--- );
+-- PHASE 5: orders (order form, price estimate)
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_number VARCHAR(30) NOT NULL UNIQUE,
+  customer_id INT NOT NULL,
+  service_id INT NOT NULL,
+  quantity INT DEFAULT 1,
+  page_count INT,
+  cover_type VARCHAR(50),
+  cover_color VARCHAR(50),
+  special_instructions TEXT,
+  uploaded_file_url VARCHAR(255),
+  fulfillment_type ENUM('pickup', 'local_delivery', 'shipping') NOT NULL,
+  delivery_address TEXT,
+  is_urgent BOOLEAN DEFAULT FALSE,
+  price_estimate DECIMAL(10,2),
+  final_price DECIMAL(10,2),
+  payment_status ENUM('pending', 'paid', 'cod', 'failed') DEFAULT 'pending',
+  payment_id VARCHAR(100),
+  order_status ENUM('received', 'in_progress', 'ready', 'delivered', 'cancelled') DEFAULT 'received',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES users(id),
+  FOREIGN KEY (service_id) REFERENCES services(id)
+);
+
+CREATE TABLE IF NOT EXISTS order_status_history (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  order_id INT NOT NULL,
+  status VARCHAR(30) NOT NULL,
+  note VARCHAR(255),
+  changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+);
+
+-- Everything below is for later phases still. Uncomment and run each block when you get there.
 
 -- PHASE 5: contact form
 -- CREATE TABLE contact_messages (
