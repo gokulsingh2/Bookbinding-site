@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const userModel = require('../models/userModel');
+const { sendPasswordResetEmail } = require('../utils/mailer');
 
 const COOKIE_NAME = process.env.COOKIE_NAME || 'bb_token';
 
@@ -107,4 +109,76 @@ async function me(req, res) {
   }
 }
 
-module.exports = { register, login, logout, me };
+async function forgotPassword(req, res) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const user = await userModel.findByEmail(email.toLowerCase().trim());
+
+    // Always return the same response whether or not the account exists —
+    // otherwise this endpoint could be used to check which emails are registered.
+    const genericResponse = {
+      message: 'If an account exists for that email, a reset link has been sent.',
+    };
+
+    if (!user) {
+      return res.json(genericResponse);
+    }
+
+    const rawToken = crypto.randomBytes(32).toString('hex');
+    const tokenHash = crypto.createHash('sha256').update(rawToken).digest('hex');
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+
+    await userModel.setResetToken(user.id, tokenHash, expiresAt);
+
+    const appUrl = process.env.APP_URL || 'http://localhost:3000';
+    const resetUrl = `${appUrl}/reset-password/${rawToken}`;
+
+    try {
+      await sendPasswordResetEmail({ to: user.email, name: user.name, resetUrl });
+    } catch (mailErr) {
+      // Log it, but don't leak to the client whether the email actually sent —
+      // same reasoning as above.
+      console.error('Failed to send password reset email:', mailErr.message);
+    }
+
+    return res.json(genericResponse);
+  } catch (err) {
+    console.error('Forgot password error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
+async function resetPassword(req, res) {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({ error: 'Token and new password are required' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const tokenHash = crypto.createHash('sha256').update(token).digest('hex');
+    const user = await userModel.findByValidResetToken(tokenHash);
+
+    if (!user) {
+      return res.status(400).json({ error: 'This reset link is invalid or has expired' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    await userModel.updatePasswordAndClearToken(user.id, passwordHash);
+
+    return res.json({ message: 'Password updated successfully. You can now log in.' });
+  } catch (err) {
+    console.error('Reset password error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
+module.exports = { register, login, logout, me, forgotPassword, resetPassword };

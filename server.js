@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const { verifyConnection } = require('./config/db');
+const { verifyMailer } = require('./utils/mailer');
 const authRoutes = require('./routes/auth');
 
 const app = express();
@@ -22,9 +23,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // API routes
 app.use('/api/auth', authRoutes);
 
-// Public pages (server-rendered) — only Home exists so far; more come in Phase 2
+// Public pages (server-rendered)
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+app.get('/forgot-password', (req, res) => {
+  res.render('forgot-password');
+});
+
+app.get('/reset-password/:token', (req, res) => {
+  res.render('reset-password', { token: req.params.token });
 });
 
 // A quick way to check the server + DB are alive without needing Postman
@@ -48,4 +57,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   await verifyConnection();
+  await verifyMailer();
 });
