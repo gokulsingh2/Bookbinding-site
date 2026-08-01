@@ -23,21 +23,32 @@ CREATE TABLE IF NOT EXISTS users (
 -- ============================================
 
 -- PHASE 2: services + gallery
--- CREATE TABLE services (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   name VARCHAR(150) NOT NULL,
---   slug VARCHAR(150) NOT NULL UNIQUE,
---   description TEXT,
---   base_price DECIMAL(10,2) NOT NULL,
---   price_note VARCHAR(100),
---   turnaround_days INT DEFAULT 3,
---   image_url VARCHAR(255),
---   is_active BOOLEAN DEFAULT TRUE,
---   display_order INT DEFAULT 0,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
--- );
---
+CREATE TABLE IF NOT EXISTS services (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  slug VARCHAR(150) NOT NULL UNIQUE,
+  description TEXT,
+  base_price DECIMAL(10,2) NOT NULL,
+  price_note VARCHAR(100),
+  turnaround_days INT DEFAULT 3,
+  image_url VARCHAR(255),
+  is_active BOOLEAN DEFAULT TRUE,
+  display_order INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- A few sample services so the site isn't empty while you build. Edit or delete these later —
+-- once the admin panel exists (Phase 5) you'll manage these through the UI instead.
+INSERT INTO services (name, slug, description, base_price, price_note, turnaround_days, display_order) VALUES
+  ('Hardcover Binding', 'hardcover-binding', 'Durable, professional hardcover binding — ideal for theses, portfolios, and keepsake books.', 450.00, 'per book', 4, 1),
+  ('Softcover / Perfect Binding', 'softcover-perfect-binding', 'Clean, glued spine binding perfect for reports, manuals, and everyday documents.', 200.00, 'per book', 2, 2),
+  ('Spiral Binding', 'spiral-binding', 'Quick, budget-friendly binding that lets pages lie flat — great for workbooks and presentations.', 80.00, 'per book', 1, 3),
+  ('Leather-Bound Restoration', 'leather-bound-restoration', 'Careful restoration and rebinding of old or damaged leather-bound books and family heirlooms.', 1200.00, 'starting price', 7, 4);
+
+-- Everything below is for later phases still. Uncomment and run each block when you get there.
+
+-- PHASE 4: gallery
 -- CREATE TABLE gallery_images (
 --   id INT AUTO_INCREMENT PRIMARY KEY,
 --   service_id INT,

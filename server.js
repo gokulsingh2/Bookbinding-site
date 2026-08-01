@@ -7,6 +7,8 @@ const path = require('path');
 const { verifyConnection } = require('./config/db');
 const { verifyMailer } = require('./utils/mailer');
 const authRoutes = require('./routes/auth');
+const serviceRoutes = require('./routes/services');
+const serviceModel = require('./models/serviceModel');
 
 const app = express();
 
@@ -22,10 +24,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // API routes
 app.use('/api/auth', authRoutes);
+app.use('/api/services', serviceRoutes);
 
 // Public pages (server-rendered)
-app.get('/', (req, res) => {
-  res.render('index');
+app.get('/', async (req, res, next) => {
+  try {
+    const services = await serviceModel.findAllActive();
+    res.render('index', { services });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/services', async (req, res, next) => {
+  try {
+    const services = await serviceModel.findAllActive();
+    res.render('services', { services });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/services/:slug', async (req, res, next) => {
+  try {
+    const service = await serviceModel.findBySlug(req.params.slug);
+    if (!service) {
+      return res.status(404).send('Service not found');
+    }
+    res.render('service-detail', { service });
+  } catch (err) {
+    next(err);
+  }
 });
 
 app.get('/forgot-password', (req, res) => {

@@ -3,27 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book Binding Co. — Handcrafted Bookbinding & Restoration</title>
+  <title>Our Services — Book Binding Co.</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <%- include('partials/header') %>
 
-  <section class="hero">
-    <div class="hero__inner">
-      <h1>Every book deserves a binding worthy of its story.</h1>
-      <p>Hardcover, softcover, spiral, and restoration binding — crafted by hand, built to last.</p>
-      <a href="/services" class="btn btn--primary">Explore Our Services</a>
-    </div>
-  </section>
-
   <section class="section">
     <div class="section__inner">
-      <h2>Featured Services</h2>
+      <h1>Our Services</h1>
+      <p class="section__subtitle">Every binding is made to order, by hand.</p>
 
       <% if (services && services.length > 0) { %>
         <div class="card-grid">
-          <% services.slice(0, 3).forEach(function(service) { %>
+          <% services.forEach(function(service) { %>
             <a href="/services/<%= service.slug %>" class="service-card">
               <h3><%= service.name %></h3>
               <p><%= service.description %></p>
@@ -31,16 +24,13 @@
                 ₹<%= Number(service.base_price).toFixed(2) %>
                 <% if (service.price_note) { %><span><%= service.price_note %></span><% } %>
               </p>
+              <p class="service-card__turnaround">Typical turnaround: <%= service.turnaround_days %> day<%= service.turnaround_days === 1 ? '' : 's' %></p>
             </a>
           <% }); %>
         </div>
       <% } else { %>
-        <p>Services coming soon.</p>
+        <p>No services available right now — please check back soon.</p>
       <% } %>
-
-      <div class="section__cta">
-        <a href="/services" class="btn btn--outline">View All Services</a>
-      </div>
     </div>
   </section>
 

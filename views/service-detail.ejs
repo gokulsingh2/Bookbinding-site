@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= service.name %> — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <a href="/services" class="back-link">&larr; All services</a>
+
+      <h1><%= service.name %></h1>
+      <p class="service-detail__price">
+        ₹<%= Number(service.base_price).toFixed(2) %>
+        <% if (service.price_note) { %><span><%= service.price_note %></span><% } %>
+      </p>
+      <p class="service-detail__turnaround">Typical turnaround: <%= service.turnaround_days %> day<%= service.turnaround_days === 1 ? '' : 's' %></p>
+
+      <div class="service-detail__description">
+        <p><%= service.description %></p>
+      </div>
+
+      <a href="/order/new?service=<%= service.slug %>" class="btn btn--primary">Order Now</a>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
