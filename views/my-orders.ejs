@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Orders — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <h1>My Orders</h1>
+
+      <div id="loadingState"><p>Loading your orders…</p></div>
+
+      <div id="loginNotice" class="order-form__notice" style="display:none;">
+        <p>You'll need to be logged in to view your orders.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in / Register</a>
+      </div>
+
+      <div id="emptyState" style="display:none;">
+        <p>You haven't placed any orders yet.</p>
+        <a href="/services" class="btn btn--primary">Browse Services</a>
+      </div>
+
+      <div id="ordersList" class="orders-list" style="display:none;"></div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/my-orders.js"></script>
+</body>
+</html>

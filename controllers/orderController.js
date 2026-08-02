@@ -105,7 +105,8 @@ async function getById(req, res) {
       return res.status(403).json({ error: 'You do not have access to this order' });
     }
 
-    return res.json({ order });
+    const history = await orderModel.findStatusHistory(order.id);
+    return res.json({ order, history });
   } catch (err) {
     console.error('Get order error:', err);
     return res.status(500).json({ error: 'Something went wrong' });

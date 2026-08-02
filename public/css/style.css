@@ -321,3 +321,85 @@ body {
 .confirmation__table td:last-child { text-align: right; font-weight: bold; }
 #notesSection { margin-bottom: 32px; }
 #notesSection h3 { font-size: 1rem; margin-bottom: 6px; }
+
+/* ---------- My Orders list ---------- */
+.orders-list { display: flex; flex-direction: column; gap: 14px; }
+.order-card {
+  display: block;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: box-shadow 0.2s ease;
+}
+.order-card:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.06); }
+.order-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.order-card__service { color: #666; font-size: 0.95rem; margin: 0 0 10px; }
+.order-card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #888;
+}
+.order-card__bottom strong { color: var(--ink); font-size: 1rem; }
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+.status-badge--received { background: #e3edfb; color: #2454a0; }
+.status-badge--in_progress { background: #fdf1d6; color: #916b0a; }
+.status-badge--ready { background: #e6f4ea; color: #1e6b2f; }
+.status-badge--delivered { background: #e6e6e6; color: #444; }
+.status-badge--cancelled { background: #fbe2e0; color: #a32a1f; }
+
+/* ---------- Order tracking timeline ---------- */
+.timeline {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  position: relative;
+}
+.timeline__item {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 28px;
+  position: relative;
+}
+.timeline__item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 16px;
+  bottom: 0;
+  width: 2px;
+  background: #e0d8cc;
+}
+.timeline__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-top: 4px;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.timeline__item--done .timeline__dot { background: var(--leather); }
+.timeline__item--current .timeline__dot {
+  background: var(--leather);
+  box-shadow: 0 0 0 4px rgba(107, 63, 42, 0.2);
+}
+.timeline__item--cancelled .timeline__dot { background: #c0392b; }
+.timeline__item--pending strong { color: #999; }
+.timeline__date { font-size: 0.85rem; color: #888; margin-top: 2px; }
+.timeline__note { font-size: 0.85rem; color: #666; margin-top: 4px; font-style: italic; }

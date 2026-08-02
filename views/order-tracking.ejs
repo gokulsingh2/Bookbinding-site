@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Track Order — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <a href="/my-orders" class="back-link">&larr; All my orders</a>
+
+      <div id="loadingState"><p>Loading order…</p></div>
+
+      <div id="errorState" style="display:none;">
+        <p id="errorMessage"></p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in</a>
+      </div>
+
+      <div id="orderDetail" style="display:none;">
+        <h1 id="orderNumber"></h1>
+
+        <table class="confirmation__table">
+          <tr><td>Service</td><td id="serviceName"></td></tr>
+          <tr><td>Quantity</td><td id="quantity"></td></tr>
+          <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
+          <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
+        </table>
+
+        <h3>Status Timeline</h3>
+        <ul id="timeline" class="timeline"></ul>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    window.__ORDER_ID__ = <%- JSON.stringify(orderId) %>;
+  </script>
+  <script src="/js/order-tracking.js"></script>
+</body>
+</html>

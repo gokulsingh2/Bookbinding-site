@@ -71,6 +71,14 @@ app.get('/gallery', async (req, res, next) => {
   }
 });
 
+app.get('/my-orders', (req, res) => {
+  res.render('my-orders');
+});
+
+app.get('/my-orders/:id', (req, res) => {
+  res.render('order-tracking', { orderId: req.params.id });
+});
+
 app.get('/order/:id/confirmation', (req, res) => {
   res.render('order-confirmation', { orderId: req.params.id });
 });

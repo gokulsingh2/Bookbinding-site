@@ -95,4 +95,12 @@ async function findAllForAdmin() {
   return rows;
 }
 
-module.exports = { createOrder, findById, findByCustomer, findAllForAdmin };
+async function findStatusHistory(orderId) {
+  const [rows] = await pool.query(
+    'SELECT * FROM order_status_history WHERE order_id = ? ORDER BY changed_at ASC',
+    [orderId]
+  );
+  return rows;
+}
+
+module.exports = { createOrder, findById, findByCustomer, findAllForAdmin, findStatusHistory };
