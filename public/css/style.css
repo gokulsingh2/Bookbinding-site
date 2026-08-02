@@ -297,3 +297,27 @@ body {
   text-decoration: none;
   white-space: nowrap;
 }
+
+/* ---------- Order confirmation ---------- */
+.confirmation__badge {
+  display: inline-block;
+  background: #e6f4ea;
+  color: #1e4620;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+.confirmation__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0 32px;
+}
+.confirmation__table td {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.confirmation__table td:first-child { color: #888; }
+.confirmation__table td:last-child { text-align: right; font-weight: bold; }
+#notesSection { margin-bottom: 32px; }
+#notesSection h3 { font-size: 1rem; margin-bottom: 6px; }

@@ -1,5 +1,7 @@
 const orderModel = require('../models/orderModel');
 const serviceModel = require('../models/serviceModel');
+const userModel = require('../models/userModel');
+const { sendOrderConfirmationEmail } = require('../utils/mailer');
 
 const VALID_FULFILLMENT_TYPES = ['pickup', 'local_delivery', 'shipping'];
 
@@ -58,6 +60,20 @@ async function create(req, res) {
       isUrgent: !!isUrgent,
       priceEstimate,
     });
+
+    // Send the confirmation email in the background — a slow or failed email
+    // should never block the order response, since the order itself already succeeded.
+    try {
+      const customer = await userModel.findById(req.user.id);
+      await sendOrderConfirmationEmail({
+        to: customer.email,
+        name: customer.name,
+        order,
+        serviceName: service.name,
+      });
+    } catch (mailErr) {
+      console.error('Failed to send order confirmation email:', mailErr.message);
+    }
 
     return res.status(201).json({ order });
   } catch (err) {

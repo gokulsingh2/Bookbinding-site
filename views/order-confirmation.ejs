@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <div id="loadingState">
+        <p>Loading your order…</p>
+      </div>
+
+      <div id="errorState" style="display:none;">
+        <p id="errorMessage">We couldn't find that order.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in</a>
+      </div>
+
+      <div id="confirmationState" style="display:none;">
+        <div class="confirmation__badge">✅ Order Confirmed</div>
+        <h1 id="orderNumber"></h1>
+
+        <table class="confirmation__table">
+          <tr><td>Service</td><td id="serviceName"></td></tr>
+          <tr><td>Quantity</td><td id="quantity"></td></tr>
+          <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
+          <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
+          <tr><td>Status</td><td id="orderStatus"></td></tr>
+          <tr><td>Payment</td><td>Pay on pickup/delivery</td></tr>
+        </table>
+
+        <div id="notesSection" style="display:none;">
+          <h3>Special instructions</h3>
+          <p id="specialInstructions"></p>
+        </div>
+
+        <a href="/services" class="btn btn--outline">Place Another Order</a>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    window.__ORDER_ID__ = <%- JSON.stringify(orderId) %>;
+  </script>
+  <script src="/js/order-confirmation.js"></script>
+</body>
+</html>

@@ -71,6 +71,10 @@ app.get('/gallery', async (req, res, next) => {
   }
 });
 
+app.get('/order/:id/confirmation', (req, res) => {
+  res.render('order-confirmation', { orderId: req.params.id });
+});
+
 app.get('/order/new', (req, res) => {
   res.render('order-form', { preselectedSlug: req.query.service || '' });
 });

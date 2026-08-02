@@ -108,16 +108,9 @@
       }
 
       const order = data.order;
-      resultEl.innerHTML = `
-        <strong>Order placed! 🎉</strong><br>
-        Order number: <strong>${order.order_number}</strong><br>
-        Estimated price: <strong>${formatPrice(order.price_estimate)}</strong><br>
-        Status: ${order.order_status}
-      `;
+      resultEl.innerHTML = `<strong>Order placed! Redirecting to your confirmation…</strong>`;
       resultEl.className = 'ok';
-      orderForm.reset();
-      onFulfillmentChange();
-      onServiceChange();
+      window.location.href = `/order/${order.id}/confirmation`;
     } catch (err) {
       resultEl.textContent = 'Something went wrong. Please try again.';
       resultEl.className = 'err';

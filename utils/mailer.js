@@ -46,4 +46,45 @@ async function sendPasswordResetEmail({ to, name, resetUrl }) {
   });
 }
 
-module.exports = { transporter, verifyMailer, sendPasswordResetEmail };
+async function sendOrderConfirmationEmail({ to, name, order, serviceName }) {
+  const fromAddress = process.env.EMAIL_FROM || '"Book Binding Co." <no-reply@bookbinding.co>';
+  const appUrl = process.env.APP_URL || 'http://localhost:3000';
+  const confirmationUrl = `${appUrl}/order/${order.id}/confirmation`;
+
+  const fulfillmentLabels = {
+    pickup: 'Pickup',
+    local_delivery: 'Local Delivery',
+    shipping: 'Shipping',
+  };
+
+  return transporter.sendMail({
+    from: fromAddress,
+    to,
+    subject: `Order Confirmed — ${order.order_number} — Book Binding Co.`,
+    html: `
+      <div style="font-family: Georgia, 'Times New Roman', serif; max-width: 480px; margin: 0 auto; color: #2b2320;">
+        <h2 style="color:#6b3f2a;">Thanks for your order, ${name || 'there'}!</h2>
+        <p>We've received your order and will begin work on it shortly. Here's a summary:</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 24px 0;">
+          <tr><td style="padding:6px 0; color:#666;">Order number</td><td style="padding:6px 0; text-align:right; font-weight:bold;">${order.order_number}</td></tr>
+          <tr><td style="padding:6px 0; color:#666;">Service</td><td style="padding:6px 0; text-align:right;">${serviceName}</td></tr>
+          <tr><td style="padding:6px 0; color:#666;">Quantity</td><td style="padding:6px 0; text-align:right;">${order.quantity}</td></tr>
+          <tr><td style="padding:6px 0; color:#666;">Fulfillment</td><td style="padding:6px 0; text-align:right;">${fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type}</td></tr>
+          <tr><td style="padding:6px 0; color:#666;">Estimated price</td><td style="padding:6px 0; text-align:right; font-weight:bold;">₹${Number(order.price_estimate).toFixed(2)}</td></tr>
+          <tr><td style="padding:6px 0; color:#666;">Payment</td><td style="padding:6px 0; text-align:right;">Pay on pickup/delivery</td></tr>
+        </table>
+
+        <p style="text-align:center; margin: 32px 0;">
+          <a href="${confirmationUrl}" style="background:#6b3f2a;color:#ffffff;padding:12px 28px;border-radius:6px;text-decoration:none;display:inline-block;">
+            View Order
+          </a>
+        </p>
+
+        <p>We'll let you know as your order moves through production. Thanks for trusting us with your book!</p>
+      </div>
+    `,
+  });
+}
+
+module.exports = { transporter, verifyMailer, sendPasswordResetEmail, sendOrderConfirmationEmail };
