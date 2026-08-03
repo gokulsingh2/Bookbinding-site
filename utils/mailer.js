@@ -87,4 +87,32 @@ async function sendOrderConfirmationEmail({ to, name, order, serviceName }) {
   });
 }
 
-module.exports = { transporter, verifyMailer, sendPasswordResetEmail, sendOrderConfirmationEmail };
+async function sendContactNotificationEmail({ name, email, message }) {
+  const fromAddress = process.env.EMAIL_FROM || '"Book Binding Co." <no-reply@bookbinding.co>';
+  const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || process.env.SMTP_USER;
+
+  if (!notifyTo) return; // Nowhere configured to send this — skip quietly.
+
+  return transporter.sendMail({
+    from: fromAddress,
+    to: notifyTo,
+    replyTo: email,
+    subject: `New contact form message from ${name}`,
+    html: `
+      <div style="font-family: Georgia, 'Times New Roman', serif; max-width: 480px; margin: 0 auto; color: #2b2320;">
+        <h2 style="color:#6b3f2a;">New message from your website</h2>
+        <p><strong>From:</strong> ${name} (${email})</p>
+        <p><strong>Message:</strong></p>
+        <p style="white-space:pre-wrap; background:#f3ece2; padding:14px; border-radius:6px;">${message}</p>
+      </div>
+    `,
+  });
+}
+
+module.exports = {
+  transporter,
+  verifyMailer,
+  sendPasswordResetEmail,
+  sendOrderConfirmationEmail,
+  sendContactNotificationEmail,
+};

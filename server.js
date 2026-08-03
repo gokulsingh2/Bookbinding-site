@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const serviceRoutes = require('./routes/services');
 const orderRoutes = require('./routes/orders');
 const galleryRoutes = require('./routes/gallery');
+const contactRoutes = require('./routes/contact');
 const serviceModel = require('./models/serviceModel');
 const galleryModel = require('./models/galleryModel');
 
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/gallery', galleryRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Public pages (server-rendered)
 app.get('/', async (req, res, next) => {
@@ -62,6 +64,10 @@ app.get('/services/:slug', async (req, res, next) => {
   }
 });
 
+app.get('/contact', (req, res) => {
+  res.render('contact');
+});
+
 app.get('/gallery', async (req, res, next) => {
   try {
     const images = await galleryModel.findAll();
@@ -85,6 +91,10 @@ app.get('/admin/orders/:id', (req, res) => {
 
 app.get('/admin/services', (req, res) => {
   res.render('admin-services');
+});
+
+app.get('/admin/analytics', (req, res) => {
+  res.render('admin-analytics');
 });
 
 app.get('/admin/gallery', (req, res) => {

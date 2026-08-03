@@ -106,11 +106,11 @@ CREATE TABLE IF NOT EXISTS order_status_history (
 
 -- Everything below is for later phases still. Uncomment and run each block when you get there.
 
--- PHASE 5: contact form
--- CREATE TABLE contact_messages (
---   id INT AUTO_INCREMENT PRIMARY KEY,
---   name VARCHAR(100) NOT NULL,
---   email VARCHAR(150) NOT NULL,
---   message TEXT NOT NULL,
---   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
+-- PHASE 10: contact form
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
