@@ -1,0 +1,134 @@
+(function () {
+  const loadingState = document.getElementById('loadingState');
+  const errorState = document.getElementById('errorState');
+  const errorMessage = document.getElementById('errorMessage');
+  const orderContent = document.getElementById('orderContent');
+  const statusForm = document.getElementById('statusForm');
+  const resultEl = document.getElementById('result');
+  const timelineEl = document.getElementById('timeline');
+
+  const fulfillmentLabels = { pickup: 'Pickup', local_delivery: 'Local Delivery', shipping: 'Shipping' };
+  const statusLabels = {
+    received: 'Order Received',
+    in_progress: 'In Progress',
+    ready: 'Ready',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+  };
+
+  function formatPrice(amount) {
+    return '₹' + Number(amount).toFixed(2);
+  }
+  function formatDateTime(dateStr) {
+    return new Date(dateStr).toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
+    });
+  }
+
+  async function loadOrder() {
+    try {
+      const res = await fetch(`/api/orders/${window.__ORDER_ID__}`, { credentials: 'include' });
+      const data = await res.json();
+
+      if (!res.ok) {
+        loadingState.style.display = 'none';
+        errorMessage.textContent = data.error || 'Could not load this order.';
+        errorState.style.display = 'block';
+        return;
+      }
+
+      render(data.order, data.history || []);
+    } catch (err) {
+      loadingState.style.display = 'none';
+      errorMessage.textContent = 'Something went wrong.';
+      errorState.style.display = 'block';
+    }
+  }
+
+  function render(order, history) {
+    document.getElementById('orderNumber').textContent = order.order_number;
+    document.getElementById('customerInfo').textContent = `${order.customer_name || ''} (${order.customer_email || ''})`;
+    document.getElementById('serviceName').textContent = order.service_name;
+    document.getElementById('quantity').textContent = order.quantity;
+    document.getElementById('pageCount').textContent = order.page_count || '—';
+    document.getElementById('cover').textContent = [order.cover_type, order.cover_color].filter(Boolean).join(' / ') || '—';
+    document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
+    document.getElementById('deliveryAddress').textContent = order.delivery_address || '—';
+    document.getElementById('urgent').textContent = order.is_urgent ? 'Yes' : 'No';
+    document.getElementById('priceEstimate').textContent = formatPrice(order.final_price || order.price_estimate);
+
+    if (order.special_instructions) {
+      document.getElementById('specialInstructions').textContent = order.special_instructions;
+      document.getElementById('notesSection').style.display = 'block';
+    }
+
+    document.getElementById('statusSelect').value = order.order_status;
+    if (order.final_price) {
+      document.getElementById('finalPrice').value = order.final_price;
+    }
+
+    renderTimeline(history);
+
+    loadingState.style.display = 'none';
+    orderContent.style.display = 'block';
+  }
+
+  function renderTimeline(history) {
+    if (history.length === 0) {
+      timelineEl.innerHTML = '<li>No history yet.</li>';
+      return;
+    }
+    timelineEl.innerHTML = history
+      .map(
+        (entry) => `
+      <li class="timeline__item timeline__item--done">
+        <span class="timeline__dot"></span>
+        <div>
+          <strong>${statusLabels[entry.status] || entry.status}</strong>
+          <div class="timeline__date">${formatDateTime(entry.changed_at)}</div>
+          ${entry.note ? `<div class="timeline__note">${entry.note}</div>` : ''}
+        </div>
+      </li>
+    `
+      )
+      .join('');
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const payload = {
+      status: document.getElementById('statusSelect').value,
+      note: document.getElementById('note').value || null,
+    };
+    const finalPriceValue = document.getElementById('finalPrice').value;
+    if (finalPriceValue !== '') payload.finalPrice = finalPriceValue;
+
+    try {
+      const res = await fetch(`/api/orders/${window.__ORDER_ID__}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        resultEl.textContent = data.error || 'Something went wrong.';
+        resultEl.className = 'err';
+        return;
+      }
+
+      resultEl.textContent = 'Order updated successfully.';
+      resultEl.className = 'ok';
+      document.getElementById('note').value = '';
+      render(data.order, data.history || []);
+    } catch (err) {
+      resultEl.textContent = 'Something went wrong. Please try again.';
+      resultEl.className = 'err';
+    }
+  }
+
+  statusForm.addEventListener('submit', handleSubmit);
+  loadOrder();
+})();

@@ -63,9 +63,11 @@ async function createOrder(data) {
 
 async function findById(id) {
   const [rows] = await pool.query(
-    `SELECT o.*, s.name AS service_name, s.slug AS service_slug
+    `SELECT o.*, s.name AS service_name, s.slug AS service_slug,
+            u.name AS customer_name, u.email AS customer_email
      FROM orders o
      JOIN services s ON s.id = o.service_id
+     JOIN users u ON u.id = o.customer_id
      WHERE o.id = ? LIMIT 1`,
     [id]
   );
@@ -103,4 +105,22 @@ async function findStatusHistory(orderId) {
   return rows;
 }
 
-module.exports = { createOrder, findById, findByCustomer, findAllForAdmin, findStatusHistory };
+async function updateStatus(orderId, { status, note, finalPrice }) {
+  const setClauses = ['order_status = ?'];
+  const values = [status];
+
+  if (finalPrice !== undefined) {
+    setClauses.push('final_price = ?');
+    values.push(finalPrice);
+  }
+
+  values.push(orderId);
+  await pool.query(`UPDATE orders SET ${setClauses.join(', ')} WHERE id = ?`, values);
+
+  await pool.query(
+    'INSERT INTO order_status_history (order_id, status, note) VALUES (?, ?, ?)',
+    [orderId, status, note || null]
+  );
+}
+
+module.exports = { createOrder, findById, findByCustomer, findAllForAdmin, findStatusHistory, updateStatus };

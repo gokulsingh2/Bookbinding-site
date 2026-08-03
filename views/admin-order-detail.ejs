@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Detail — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <%- include('partials/admin-nav') %>
+      <a href="/admin/orders" class="back-link">&larr; All orders</a>
+
+      <div id="loadingState"><p>Loading order…</p></div>
+      <div id="errorState" style="display:none;"><p id="errorMessage"></p></div>
+
+      <div id="orderContent" style="display:none;">
+        <h1 id="orderNumber"></h1>
+
+        <table class="confirmation__table">
+          <tr><td>Customer</td><td id="customerInfo"></td></tr>
+          <tr><td>Service</td><td id="serviceName"></td></tr>
+          <tr><td>Quantity</td><td id="quantity"></td></tr>
+          <tr><td>Page count</td><td id="pageCount"></td></tr>
+          <tr><td>Cover</td><td id="cover"></td></tr>
+          <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
+          <tr><td>Delivery address</td><td id="deliveryAddress"></td></tr>
+          <tr><td>Urgent</td><td id="urgent"></td></tr>
+          <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
+        </table>
+
+        <div id="notesSection" style="display:none;">
+          <h3>Special instructions</h3>
+          <p id="specialInstructions"></p>
+        </div>
+
+        <h2 class="admin-section-title">Update Status</h2>
+        <form id="statusForm" class="order-form">
+          <label for="statusSelect">Status</label>
+          <select id="statusSelect">
+            <option value="received">Received</option>
+            <option value="in_progress">In Progress</option>
+            <option value="ready">Ready</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+
+          <label for="finalPrice">Final price (optional — overrides estimate)</label>
+          <input type="number" id="finalPrice" min="0" step="0.01" />
+
+          <label for="note">Note (optional, visible to customer)</label>
+          <textarea id="note" rows="2" placeholder="e.g. Started binding, ready for pickup Friday"></textarea>
+
+          <button type="submit" class="btn btn--primary">Update Order</button>
+        </form>
+
+        <div id="result"></div>
+
+        <h2 class="admin-section-title">Status History</h2>
+        <ul id="timeline" class="timeline"></ul>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    window.__ORDER_ID__ = <%- JSON.stringify(orderId) %>;
+  </script>
+  <script src="/js/admin-order-detail.js"></script>
+</body>
+</html>

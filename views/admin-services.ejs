@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Services — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner">
+      <%- include('partials/admin-nav') %>
+
+      <div id="loadingState"><p>Loading services…</p></div>
+      <div id="accessDenied" class="order-form__notice" style="display:none;">
+        <p>Admin access required.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in</a>
+      </div>
+
+      <div id="servicesContent" style="display:none;">
+        <h1>Manage Services</h1>
+
+        <h2 class="admin-section-title">Add a Service</h2>
+        <form id="addServiceForm" class="order-form">
+          <div class="order-form__row">
+            <div>
+              <label for="name">Name</label>
+              <input type="text" id="name" required />
+            </div>
+            <div>
+              <label for="basePrice">Base price (₹)</label>
+              <input type="number" id="basePrice" min="0" step="0.01" required />
+            </div>
+          </div>
+          <label for="description">Description</label>
+          <textarea id="description" rows="2"></textarea>
+          <div class="order-form__row">
+            <div>
+              <label for="priceNote">Price note (optional)</label>
+              <input type="text" id="priceNote" placeholder="e.g. per book" />
+            </div>
+            <div>
+              <label for="turnaroundDays">Turnaround (days)</label>
+              <input type="number" id="turnaroundDays" min="1" value="3" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn--primary">Add Service</button>
+        </form>
+        <div id="addResult"></div>
+
+        <h2 class="admin-section-title">All Services</h2>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr><th>Name</th><th>Price</th><th>Turnaround</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="servicesBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/admin-services.js"></script>
+</body>
+</html>

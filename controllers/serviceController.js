@@ -93,6 +93,11 @@ async function remove(req, res) {
     await serviceModel.remove(req.params.id);
     return res.json({ message: 'Service deleted' });
   } catch (err) {
+    if (err.code === 'ER_ROW_IS_REFERENCED_2' || err.code === 'ER_ROW_IS_REFERENCED') {
+      return res.status(409).json({
+        error: 'This service has existing orders and cannot be deleted. Deactivate it instead.',
+      });
+    }
     console.error('Delete service error:', err);
     return res.status(500).json({ error: 'Something went wrong' });
   }

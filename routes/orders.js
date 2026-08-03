@@ -7,6 +7,7 @@ const isAdmin = require('../middleware/isAdmin');
 router.post('/', requireAuth, orderController.create);
 router.get('/my', requireAuth, orderController.getMyOrders);
 router.get('/admin/all', requireAuth, isAdmin, orderController.getAllForAdmin);
+router.put('/:id/status', requireAuth, isAdmin, orderController.updateStatus);
 router.get('/:id', requireAuth, orderController.getById);
 
 module.exports = router;

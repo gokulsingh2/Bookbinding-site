@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Gallery — Book Binding Co.</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner">
+      <%- include('partials/admin-nav') %>
+
+      <div id="loadingState"><p>Loading gallery…</p></div>
+      <div id="accessDenied" class="order-form__notice" style="display:none;">
+        <p>Admin access required.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in</a>
+      </div>
+
+      <div id="galleryContent" style="display:none;">
+        <h1>Manage Gallery</h1>
+
+        <h2 class="admin-section-title">Add a Photo</h2>
+        <p class="section__subtitle" style="margin-bottom:12px;">
+          Paste a direct image URL (e.g. from Cloudinary or another host). File upload comes in a later phase.
+        </p>
+        <form id="addImageForm" class="order-form">
+          <label for="imageUrl">Image URL</label>
+          <input type="text" id="imageUrl" placeholder="https://..." required />
+          <label for="caption">Caption (optional)</label>
+          <input type="text" id="caption" placeholder="e.g. Hardcover finish — walnut brown" />
+          <label for="serviceId">Tag to a service (optional)</label>
+          <select id="serviceId"><option value="">— None —</option></select>
+          <button type="submit" class="btn btn--primary">Add Photo</button>
+        </form>
+        <div id="addResult"></div>
+
+        <h2 class="admin-section-title">Current Photos</h2>
+        <div id="galleryGrid" class="gallery-grid admin-gallery-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/admin-gallery.js"></script>
+</body>
+</html>

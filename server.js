@@ -71,6 +71,26 @@ app.get('/gallery', async (req, res, next) => {
   }
 });
 
+app.get('/admin', (req, res) => {
+  res.render('admin-dashboard');
+});
+
+app.get('/admin/orders', (req, res) => {
+  res.render('admin-orders');
+});
+
+app.get('/admin/orders/:id', (req, res) => {
+  res.render('admin-order-detail', { orderId: req.params.id });
+});
+
+app.get('/admin/services', (req, res) => {
+  res.render('admin-services');
+});
+
+app.get('/admin/gallery', (req, res) => {
+  res.render('admin-gallery');
+});
+
 app.get('/my-orders', (req, res) => {
   res.render('my-orders');
 });

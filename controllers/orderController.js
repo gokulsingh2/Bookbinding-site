@@ -123,4 +123,40 @@ async function getAllForAdmin(req, res) {
   }
 }
 
-module.exports = { create, getMyOrders, getById, getAllForAdmin };
+const VALID_ORDER_STATUSES = ['received', 'in_progress', 'ready', 'delivered', 'cancelled'];
+
+async function updateStatus(req, res) {
+  try {
+    const { status, note, finalPrice } = req.body;
+
+    if (!status || !VALID_ORDER_STATUSES.includes(status)) {
+      return res.status(400).json({ error: 'A valid status is required' });
+    }
+
+    const existing = await orderModel.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    if (finalPrice !== undefined && finalPrice !== null && finalPrice !== '') {
+      if (isNaN(Number(finalPrice)) || Number(finalPrice) < 0) {
+        return res.status(400).json({ error: 'Final price must be a valid positive number' });
+      }
+    }
+
+    await orderModel.updateStatus(req.params.id, {
+      status,
+      note,
+      finalPrice: finalPrice !== undefined && finalPrice !== '' ? Number(finalPrice) : undefined,
+    });
+
+    const order = await orderModel.findById(req.params.id);
+    const history = await orderModel.findStatusHistory(req.params.id);
+    return res.json({ order, history });
+  } catch (err) {
+    console.error('Update order status error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
+module.exports = { create, getMyOrders, getById, getAllForAdmin, updateStatus };
