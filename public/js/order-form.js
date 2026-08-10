@@ -22,8 +22,13 @@
       priceEstimateEl.textContent = formatPrice(0);
       return;
     }
+    const basePrice = Number(selectedService.base_price);
+    if (basePrice === 0) {
+      priceEstimateEl.textContent = selectedService.price_note || 'Price on request';
+      return;
+    }
     const qty = Math.max(1, parseInt(quantityInput.value, 10) || 1);
-    const estimate = Number(selectedService.base_price) * qty;
+    const estimate = basePrice * qty;
     priceEstimateEl.textContent = formatPrice(estimate);
   }
 
@@ -71,6 +76,29 @@
     }
   }
 
+  async function uploadFileIfPresent() {
+    const fileInput = document.getElementById('uploadedFile');
+    if (!fileInput) return null; // Field not present on this page — nothing to upload.
+
+    const file = fileInput.files[0];
+    if (!file) return null;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch('/api/uploads', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'File upload failed');
+    }
+    return data.url;
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -80,13 +108,31 @@
       return;
     }
 
+    const submitBtn = orderForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Placing order…';
+
+    let uploadedFileUrl = null;
+    try {
+      uploadedFileUrl = await uploadFileIfPresent();
+    } catch (err) {
+      resultEl.textContent = err.message || 'File upload failed. Please try again.';
+      resultEl.className = 'err';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Place Order';
+      return;
+    }
+
     const payload = {
       serviceId: selectedService.id,
       quantity: parseInt(quantityInput.value, 10) || 1,
       pageCount: document.getElementById('pageCount').value || null,
-      coverType: document.getElementById('coverType').value || null,
-      coverColor: document.getElementById('coverColor').value || null,
+      paperSize: document.getElementById('paperSize').value,
+      printColor: document.getElementById('printColor').value,
+      bindingType: document.getElementById('bindingType').value || null,
+      paperQuality: document.getElementById('paperQuality').value,
       specialInstructions: document.getElementById('specialInstructions').value || null,
+      uploadedFileUrl,
       fulfillmentType: fulfillmentSelect.value,
       deliveryAddress: deliveryAddressInput.value || null,
       isUrgent: document.getElementById('isUrgent').checked,
@@ -104,16 +150,26 @@
       if (!res.ok) {
         resultEl.textContent = data.error || 'Something went wrong placing your order.';
         resultEl.className = 'err';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Place Order';
         return;
       }
 
       const order = data.order;
-      resultEl.innerHTML = `<strong>Order placed! Redirecting to your confirmation…</strong>`;
+      resultEl.innerHTML = `<strong>Order placed! 🎉 Redirecting to your confirmation…</strong>`;
       resultEl.className = 'ok';
-      window.location.href = `/order/${order.id}/confirmation`;
+
+      if (window.celebrate) window.celebrate();
+      sessionStorage.setItem('justPlacedOrderId', String(order.id));
+
+      setTimeout(function () {
+        window.location.href = `/order/${order.id}/confirmation`;
+      }, 550);
     } catch (err) {
       resultEl.textContent = 'Something went wrong. Please try again.';
       resultEl.className = 'err';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Place Order';
     }
   }
 

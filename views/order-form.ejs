@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Place an Order — Book Binding Co.</title>
+  <title>Place an Order — RJ Printing Hub</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <body>
   <%- include('partials/header') %>
@@ -37,17 +38,56 @@
 
           <div class="order-form__row">
             <div>
-              <label for="coverType">Cover type (optional)</label>
-              <input type="text" id="coverType" placeholder="e.g. Matte, Glossy" />
+              <label for="paperSize">Paper size</label>
+              <select id="paperSize" required>
+                <option value="A4">A4</option>
+                <option value="A3">A3</option>
+                <option value="A2">A2</option>
+                <option value="A1">A1</option>
+              </select>
             </div>
             <div>
-              <label for="coverColor">Cover color (optional)</label>
-              <input type="text" id="coverColor" placeholder="e.g. Black, Navy" />
+              <label for="printColor">Print color</label>
+              <select id="printColor" required>
+                <option value="bw">Black &amp; White</option>
+                <option value="color">Color</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="order-form__row">
+            <div>
+              <label for="bindingType">Binding type (leave as None for posters)</label>
+              <select id="bindingType">
+                <option value="">— None —</option>
+                <option value="spiral">Spiral Binding</option>
+                <option value="soft_bind">Soft Bind</option>
+                <option value="perfect_binding">Perfect Binding</option>
+                <option value="digital_embossing">Digital Embossing</option>
+                <option value="handmade_embossing">Hand-made Embossing</option>
+              </select>
+            </div>
+            <div>
+              <label for="paperQuality">Paper quality</label>
+              <select id="paperQuality" required>
+                <option value="70gsm">70 GSM</option>
+                <option value="85gsm">85 GSM</option>
+                <option value="100gsm">100 GSM</option>
+                <option value="150gsm">150 GSM</option>
+                <option value="200gsm">200 GSM</option>
+                <option value="250gsm">250 GSM</option>
+                <option value="300gsm">300 GSM</option>
+                <option value="glossy">Glossy</option>
+              </select>
             </div>
           </div>
 
           <label for="specialInstructions">Special instructions (optional)</label>
           <textarea id="specialInstructions" rows="3" placeholder="Anything we should know about this order?"></textarea>
+
+          <label for="uploadedFile">Attach your file (optional)</label>
+          <input type="file" id="uploadedFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.gif" />
+          <p class="field-hint">Upload your thesis PDF, poster design, or document to print. PDF, Word, or image files, up to 25MB.</p>
 
           <label for="fulfillmentType">Fulfillment</label>
           <select id="fulfillmentType" required>

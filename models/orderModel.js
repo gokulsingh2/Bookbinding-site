@@ -12,8 +12,10 @@ async function createOrder(data) {
     serviceId,
     quantity,
     pageCount,
-    coverType,
-    coverColor,
+    paperSize,
+    printColor,
+    bindingType,
+    paperQuality,
     specialInstructions,
     fulfillmentType,
     deliveryAddress,
@@ -28,18 +30,20 @@ async function createOrder(data) {
     try {
       const [result] = await pool.query(
         `INSERT INTO orders
-          (order_number, customer_id, service_id, quantity, page_count, cover_type, cover_color,
-           special_instructions, fulfillment_type, delivery_address, is_urgent, price_estimate,
-           payment_status, order_status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cod', 'received')`,
+          (order_number, customer_id, service_id, quantity, page_count, paper_size, print_color,
+           binding_type, paper_quality, special_instructions, fulfillment_type, delivery_address,
+           is_urgent, price_estimate, payment_status, order_status)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cod', 'received')`,
         [
           orderNumber,
           customerId,
           serviceId,
           quantity,
           pageCount || null,
-          coverType || null,
-          coverColor || null,
+          paperSize || null,
+          printColor || null,
+          bindingType || null,
+          paperQuality || null,
           specialInstructions || null,
           fulfillmentType,
           deliveryAddress || null,
@@ -63,11 +67,9 @@ async function createOrder(data) {
 
 async function findById(id) {
   const [rows] = await pool.query(
-    `SELECT o.*, s.name AS service_name, s.slug AS service_slug,
-            u.name AS customer_name, u.email AS customer_email
+    `SELECT o.*, s.name AS service_name, s.slug AS service_slug
      FROM orders o
      JOIN services s ON s.id = o.service_id
-     JOIN users u ON u.id = o.customer_id
      WHERE o.id = ? LIMIT 1`,
     [id]
   );

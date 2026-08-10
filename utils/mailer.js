@@ -21,12 +21,12 @@ async function verifyMailer() {
 }
 
 async function sendPasswordResetEmail({ to, name, resetUrl }) {
-  const fromAddress = process.env.EMAIL_FROM || '"Book Binding Co." <no-reply@bookbinding.co>';
+  const fromAddress = process.env.EMAIL_FROM || '"RJ Printing Hub" <no-reply@bookbinding.co>';
 
   return transporter.sendMail({
     from: fromAddress,
     to,
-    subject: 'Reset your password — Book Binding Co.',
+    subject: 'Reset your password — RJ Printing Hub',
     html: `
       <div style="font-family: Georgia, 'Times New Roman', serif; max-width: 480px; margin: 0 auto; color: #2b2320;">
         <h2 style="color:#6b3f2a;">Password reset request</h2>
@@ -47,7 +47,7 @@ async function sendPasswordResetEmail({ to, name, resetUrl }) {
 }
 
 async function sendOrderConfirmationEmail({ to, name, order, serviceName }) {
-  const fromAddress = process.env.EMAIL_FROM || '"Book Binding Co." <no-reply@bookbinding.co>';
+  const fromAddress = process.env.EMAIL_FROM || '"RJ Printing Hub" <no-reply@bookbinding.co>';
   const appUrl = process.env.APP_URL || 'http://localhost:3000';
   const confirmationUrl = `${appUrl}/order/${order.id}/confirmation`;
 
@@ -60,7 +60,7 @@ async function sendOrderConfirmationEmail({ to, name, order, serviceName }) {
   return transporter.sendMail({
     from: fromAddress,
     to,
-    subject: `Order Confirmed — ${order.order_number} — Book Binding Co.`,
+    subject: `Order Confirmed — ${order.order_number} — RJ Printing Hub`,
     html: `
       <div style="font-family: Georgia, 'Times New Roman', serif; max-width: 480px; margin: 0 auto; color: #2b2320;">
         <h2 style="color:#6b3f2a;">Thanks for your order, ${name || 'there'}!</h2>
@@ -88,7 +88,7 @@ async function sendOrderConfirmationEmail({ to, name, order, serviceName }) {
 }
 
 async function sendContactNotificationEmail({ name, email, message }) {
-  const fromAddress = process.env.EMAIL_FROM || '"Book Binding Co." <no-reply@bookbinding.co>';
+  const fromAddress = process.env.EMAIL_FROM || '"RJ Printing Hub" <no-reply@bookbinding.co>';
   const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || process.env.SMTP_USER;
 
   if (!notifyTo) return; // Nowhere configured to send this — skip quietly.

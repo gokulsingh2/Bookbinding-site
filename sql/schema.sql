@@ -114,3 +114,36 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   message TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ============================================
+-- PHASE 11: Real shop categories + order specs
+-- Run this against the live database once you're ready to switch over.
+-- ============================================
+
+-- Deactivate the placeholder services (not deleted — avoids breaking any
+-- test orders/gallery images that already reference them by id).
+UPDATE services SET is_active = FALSE
+WHERE slug IN ('hardcover-binding', 'softcover-perfect-binding', 'spiral-binding', 'leather-bound-restoration');
+
+-- The shop's real categories. Prices are 0.00 / "price on request" for now —
+-- edit them anytime from Admin > Services once pricing is decided.
+INSERT INTO services (name, slug, description, base_price, price_note, turnaround_days, display_order) VALUES
+  ('PhD Thesis Binding', 'phd-thesis-binding', 'Professional binding for PhD thesis submissions, to your university''s exact specification.', 0.00, 'price on request', 3, 1),
+  ('Master''s Thesis Binding', 'masters-thesis-binding', 'Binding for Master''s thesis and dissertation submissions.', 0.00, 'price on request', 3, 2),
+  ('Project Thesis Binding', 'project-thesis-binding', 'Binding for college and diploma project reports.', 0.00, 'price on request', 3, 3),
+  ('Book Binding', 'book-binding', 'Binding for books, manuals, and any bound document.', 0.00, 'price on request', 3, 4),
+  ('Poster Printing', 'poster-printing', 'Large-format poster printing, B&W or color, up to A1.', 0.00, 'price on request', 1, 5);
+
+-- Replace the generic cover_type/cover_color fields with the shop's real order options.
+ALTER TABLE orders
+  DROP COLUMN cover_type,
+  DROP COLUMN cover_color,
+  ADD COLUMN paper_size ENUM('A1', 'A2', 'A3', 'A4') NULL AFTER page_count,
+  ADD COLUMN print_color ENUM('bw', 'color') NULL AFTER paper_size,
+  ADD COLUMN binding_type VARCHAR(50) NULL AFTER print_color,
+  ADD COLUMN paper_quality VARCHAR(50) NULL AFTER binding_type;
+
+-- binding_type values in use: spiral, soft_bind, perfect_binding, digital_embossing, handmade_embossing
+--   (nullable — posters don't get bound)
+-- paper_quality values in use: 70gsm, 85gsm, 100gsm, 150gsm, 200gsm, 250gsm, 300gsm, glossy
+--   (kept as VARCHAR instead of ENUM since gsm options are more likely to change than paper size/color)

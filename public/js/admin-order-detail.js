@@ -8,6 +8,19 @@
   const timelineEl = document.getElementById('timeline');
 
   const fulfillmentLabels = { pickup: 'Pickup', local_delivery: 'Local Delivery', shipping: 'Shipping' };
+  const printColorLabels = { bw: 'Black & White', color: 'Color' };
+  const bindingTypeLabels = {
+    spiral: 'Spiral Binding',
+    soft_bind: 'Soft Bind',
+    perfect_binding: 'Perfect Binding',
+    digital_embossing: 'Digital Embossing',
+    handmade_embossing: 'Hand-made Embossing',
+  };
+  const paperQualityLabels = {
+    '70gsm': '70 GSM', '85gsm': '85 GSM', '100gsm': '100 GSM',
+    '150gsm': '150 GSM', '200gsm': '200 GSM', '250gsm': '250 GSM', '300gsm': '300 GSM',
+    glossy: 'Glossy',
+  };
   const statusLabels = {
     received: 'Order Received',
     in_progress: 'In Progress',
@@ -51,7 +64,10 @@
     document.getElementById('serviceName').textContent = order.service_name;
     document.getElementById('quantity').textContent = order.quantity;
     document.getElementById('pageCount').textContent = order.page_count || '—';
-    document.getElementById('cover').textContent = [order.cover_type, order.cover_color].filter(Boolean).join(' / ') || '—';
+    document.getElementById('paperSize').textContent = order.paper_size || '—';
+    document.getElementById('printColor').textContent = printColorLabels[order.print_color] || order.print_color || '—';
+    document.getElementById('bindingType').textContent = bindingTypeLabels[order.binding_type] || order.binding_type || '—';
+    document.getElementById('paperQuality').textContent = paperQualityLabels[order.paper_quality] || order.paper_quality || '—';
     document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
     document.getElementById('deliveryAddress').textContent = order.delivery_address || '—';
     document.getElementById('urgent').textContent = order.is_urgent ? 'Yes' : 'No';

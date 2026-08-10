@@ -4,6 +4,10 @@ const userModel = require('../models/userModel');
 const { sendOrderConfirmationEmail } = require('../utils/mailer');
 
 const VALID_FULFILLMENT_TYPES = ['pickup', 'local_delivery', 'shipping'];
+const VALID_PAPER_SIZES = ['A1', 'A2', 'A3', 'A4'];
+const VALID_PRINT_COLORS = ['bw', 'color'];
+const VALID_BINDING_TYPES = ['spiral', 'soft_bind', 'perfect_binding', 'digital_embossing', 'handmade_embossing'];
+const VALID_PAPER_QUALITIES = ['70gsm', '85gsm', '100gsm', '150gsm', '200gsm', '250gsm', '300gsm', 'glossy'];
 
 async function create(req, res) {
   try {
@@ -11,8 +15,10 @@ async function create(req, res) {
       serviceId,
       quantity,
       pageCount,
-      coverType,
-      coverColor,
+      paperSize,
+      printColor,
+      bindingType,
+      paperQuality,
       specialInstructions,
       fulfillmentType,
       deliveryAddress,
@@ -34,6 +40,23 @@ async function create(req, res) {
       return res.status(400).json({ error: 'Quantity must be a whole number of at least 1' });
     }
 
+    if (!paperSize || !VALID_PAPER_SIZES.includes(paperSize)) {
+      return res.status(400).json({ error: 'A valid paper size is required' });
+    }
+
+    if (!printColor || !VALID_PRINT_COLORS.includes(printColor)) {
+      return res.status(400).json({ error: 'A valid print color is required' });
+    }
+
+    // Binding type is optional — posters don't get bound.
+    if (bindingType && !VALID_BINDING_TYPES.includes(bindingType)) {
+      return res.status(400).json({ error: 'Invalid binding type' });
+    }
+
+    if (!paperQuality || !VALID_PAPER_QUALITIES.includes(paperQuality)) {
+      return res.status(400).json({ error: 'A valid paper quality is required' });
+    }
+
     if (!fulfillmentType || !VALID_FULFILLMENT_TYPES.includes(fulfillmentType)) {
       return res.status(400).json({ error: 'A valid fulfillment type is required' });
     }
@@ -52,8 +75,10 @@ async function create(req, res) {
       serviceId: service.id,
       quantity: qty,
       pageCount: pageCount ? Number(pageCount) : null,
-      coverType,
-      coverColor,
+      paperSize,
+      printColor,
+      bindingType: bindingType || null,
+      paperQuality,
       specialInstructions,
       fulfillmentType,
       deliveryAddress,

@@ -1,0 +1,6 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub icon">
+  <rect x="15" y="10" width="70" height="80" rx="8" fill="#FDF6EA" stroke="#8C2E12" stroke-width="4"/>
+  <path d="M63 10 L85 10 L85 32 Z" fill="#D2601E"/>
+  <rect x="28" y="45" width="44" height="10" rx="3" fill="#8C2E12"/>
+  <rect x="28" y="60" width="30" height="6" rx="2" fill="#8C2E12" opacity="0.6"/>
+</svg>

@@ -11,7 +11,9 @@
   };
 
   function formatPrice(amount) {
-    return '₹' + Number(amount).toFixed(2);
+    const n = Number(amount);
+    if (!n || isNaN(n)) return 'Price on request';
+    return '₹' + n.toFixed(2);
   }
 
   async function loadOrder() {
@@ -52,7 +54,10 @@
     document.getElementById('serviceName').textContent = order.service_name;
     document.getElementById('quantity').textContent = order.quantity;
     document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
-    document.getElementById('priceEstimate').textContent = formatPrice(order.price_estimate);
+
+    const priceEl = document.getElementById('priceEstimate');
+    priceEl.textContent = formatPrice(order.final_price || order.price_estimate);
+
     document.getElementById('orderStatus').textContent = order.order_status;
 
     if (order.special_instructions) {
@@ -60,8 +65,26 @@
       document.getElementById('notesSection').style.display = 'block';
     }
 
+    if (order.uploaded_file_url) {
+      const fileSection = document.getElementById('fileSection');
+      const fileLink = document.getElementById('uploadedFileLink');
+      if (fileSection && fileLink) {
+        fileLink.href = order.uploaded_file_url;
+        fileLink.textContent = 'View uploaded file';
+        fileSection.style.display = 'block';
+      }
+    }
+
     loadingState.style.display = 'none';
     confirmationState.style.display = 'block';
+
+    // Only celebrate right after actually placing this order — not on every future
+    // visit to this confirmation page (e.g. reopening an old email link weeks later).
+    const justPlacedId = sessionStorage.getItem('justPlacedOrderId');
+    if (justPlacedId === String(order.id)) {
+      sessionStorage.removeItem('justPlacedOrderId');
+      if (window.celebrate) window.celebrate();
+    }
   }
 
   loadOrder();

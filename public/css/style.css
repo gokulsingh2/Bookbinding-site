@@ -112,8 +112,11 @@ body {
   color: var(--ink);
   text-decoration: none;
   font-size: 0.95rem;
+  display: inline-block;
+  transition: color 0.15s ease, transform 0.1s ease;
 }
 .site-nav a:hover { color: var(--leather); }
+.site-nav a:active { transform: scale(0.94); }
 
 .btn {
   display: inline-block;
@@ -122,12 +125,15 @@ body {
   color: #fff;
   text-decoration: none;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.12s ease, box-shadow 0.12s ease;
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  position: relative;
+  overflow: hidden;
 }
 .btn:hover { background: var(--accent); }
+.btn:active { transform: scale(0.96); box-shadow: inset 0 1px 6px rgba(0,0,0,0.15); }
 .btn--small { padding: 8px 16px; font-size: 0.85rem; }
 .btn--outline {
   background: transparent;
@@ -135,6 +141,19 @@ body {
   border: 1px solid var(--leather);
 }
 .btn--outline:hover { background: var(--leather); color: #fff; }
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  transform: scale(0);
+  animation: ripple-effect 0.55s ease-out;
+  pointer-events: none;
+}
+.btn--outline .ripple { background: rgba(107,63,42,0.25); }
+@keyframes ripple-effect {
+  to { transform: scale(3.2); opacity: 0; }
+}
 
 .site-footer {
   background: #2b2320;
@@ -187,6 +206,7 @@ body {
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
+.service-card:active { transform: translateY(0) scale(0.98); }
 .service-card h3 { margin: 0 0 8px; color: var(--leather); }
 .service-card p { margin: 0 0 12px; font-size: 0.95rem; color: #555; }
 .service-card__price { font-weight: bold; color: var(--ink) !important; }
@@ -422,6 +442,8 @@ body {
   border: 1px solid #eee;
 }
 .admin-nav a:hover { background: var(--leather); color: #fff; border-color: var(--leather); }
+.admin-nav a:active { transform: scale(0.95); }
+.admin-nav a { transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease; display: inline-block; }
 
 .admin-section-title { font-size: 1.2rem; margin: 36px 0 16px; }
 
@@ -546,4 +568,52 @@ body {
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .card-grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- FAQ page ---------- */
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.faq-item summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--ink);
+}
+.faq-item summary::marker { color: var(--leather); }
+.faq-item p { margin: 12px 0 0; color: #555; line-height: 1.6; }
+
+/* ---------- Form field hint text ---------- */
+.field-hint {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+/* ---------- Celebration effects ---------- */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 9999;
+}
+.confetti-piece {
+  position: fixed;
+  opacity: 1;
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
+  animation-name: confetti-burst;
+  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  animation-fill-mode: forwards;
+}
+@keyframes confetti-burst {
+  0%   { transform: translate(0, 0) rotate(0deg) scaleY(1); opacity: 1; }
+  12%  { transform: translate(calc(var(--burst-x) * 0.45), calc(var(--burst-y) * 0.45)) rotate(calc(var(--rotate) * 0.15)) scaleY(0.25); opacity: 1; }
+  24%  { transform: translate(var(--burst-x), var(--burst-y)) rotate(calc(var(--rotate) * 0.35)) scaleY(1); opacity: 1; }
+  50%  { transform: translate(calc((var(--burst-x) + var(--fall-x)) / 2), calc((var(--burst-y) + var(--fall-y)) / 2)) rotate(calc(var(--rotate) * 0.65)) scaleY(0.25); opacity: 1; }
+  75%  { transform: translate(calc((var(--burst-x) + var(--fall-x) * 2) / 3), calc((var(--burst-y) + var(--fall-y) * 2) / 3)) rotate(calc(var(--rotate) * 0.85)) scaleY(1); opacity: 1; }
+  100% { transform: translate(var(--fall-x), var(--fall-y)) rotate(var(--rotate)) scaleY(0.4); opacity: 0; }
 }
