@@ -11,8 +11,9 @@
     --radius: 10px;
   }
   body { font-family: var(--font-body); background: #f4f8fc; padding: 60px; }
-  .card { max-width: 640px; margin: 0 auto; background: #fff; border: 1px solid var(--paper-edge); border-radius: var(--radius); padding: 30px; }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  .card { max-width: 640px; margin: 0 auto; background: #fff; border: 1px solid var(--paper-edge); border-radius: var(--radius); padding: 30px; overflow: hidden; }
+  h1 { font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.01em; color: var(--leather); font-size: 2rem; margin: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 24px 0 12px; }
   td { padding: 10px 4px; border-bottom: 1px dashed var(--paper-edge); color: var(--ink); }
   .btn { display:inline-block; padding: 12px 22px; border-radius: 20px; border: 2px solid var(--leather); color: var(--leather); text-decoration:none; font-weight:700; }
   button.replay { margin: 20px auto 0; display:block; padding: 8px 16px; }
@@ -20,48 +21,54 @@
 </head>
 <body>
 <div class="card">
-  <table>
-    <tr><td>Estimated price</td><td style="text-align:right;">Price on request</td></tr>
-    <tr><td>Status</td><td style="text-align:right;">Received</td></tr>
-    <tr><td>Payment</td><td style="text-align:right;">Pay on pickup/delivery</td></tr>
-  </table>
+  <div class="badge" style="display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,#e6f4ea,#d4f0e0);color:#1e4620;padding:8px 16px;border-radius:20px;font-size:0.9rem;margin-bottom:16px;font-weight:700;">✔ Order Confirmed</div>
 
-  <div class="confirmation__stamp-row" id="stampRow" style="display:flex;justify-content:flex-end;margin:4px 0 24px;">
-    <div class="order-stamp" id="orderStamp" aria-hidden="true">
-      <span class="order-stamp__bleed order-stamp__bleed--1"></span>
-      <span class="order-stamp__bleed order-stamp__bleed--2"></span>
-      <span class="order-stamp__bleed order-stamp__bleed--3"></span>
-      <span class="order-stamp__shock"></span>
-      <svg viewBox="0 0 220 220" class="order-stamp__svg">
-        <defs>
-          <filter id="stampInkFine" x="-30%" y="-30%" width="160%" height="160%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n1"/>
-            <feDisplacementMap in="SourceGraphic" in2="n1" scale="1.4"/>
-          </filter>
-          <filter id="stampInkCoarse" x="-30%" y="-30%" width="160%" height="160%">
-            <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="n2"/>
-            <feDisplacementMap in="SourceGraphic" in2="n2" scale="6.5"/>
-          </filter>
-          <path id="stampArcTop" d="M 34,118 A 76,76 0 0 1 186,118" fill="none"/>
-        </defs>
-        <g filter="url(#stampInkCoarse)" class="order-stamp__rings">
-          <circle cx="110" cy="110" r="96"/>
-          <circle cx="110" cy="110" r="82" class="order-stamp__ring--dashed"/>
-        </g>
-        <g filter="url(#stampInkFine)" class="order-stamp__ink">
-          <text class="order-stamp__arc-text">
-            <textPath href="#stampArcTop" startOffset="50%" text-anchor="middle">★ RJ PRINTING HUB ★</textPath>
-          </text>
-          <text x="110" y="112" text-anchor="middle" class="order-stamp__headline">ORDER CONFIRMED</text>
-          <line x1="55" y1="126" x2="165" y2="126" class="order-stamp__rule"/>
-          <text x="110" y="152" text-anchor="middle" id="stampOrderNumber" class="order-stamp__order-no">#390001</text>
-        </g>
-      </svg>
+  <div class="confirmation__heading-row" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <h1 id="orderNumber">BB-20260813-B8L4</h1>
+
+    <div class="confirmation__stamp-row" style="display:flex;justify-content:flex-end;margin:-6px -18px -18px 0;">
+      <div class="order-stamp" id="orderStamp" aria-hidden="true">
+        <span class="order-stamp__bleed order-stamp__bleed--1"></span>
+        <span class="order-stamp__bleed order-stamp__bleed--2"></span>
+        <span class="order-stamp__bleed order-stamp__bleed--3"></span>
+        <span class="order-stamp__shock"></span>
+        <svg viewBox="0 0 220 220" class="order-stamp__svg">
+          <defs>
+            <filter id="stampInkFine" x="-30%" y="-30%" width="160%" height="160%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n1"/>
+              <feDisplacementMap in="SourceGraphic" in2="n1" scale="1.4"/>
+            </filter>
+            <filter id="stampInkCoarse" x="-30%" y="-30%" width="160%" height="160%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="n2"/>
+              <feDisplacementMap in="SourceGraphic" in2="n2" scale="6.5"/>
+            </filter>
+            <path id="stampArcTop" d="M 34,118 A 76,76 0 0 1 186,118" fill="none"/>
+          </defs>
+          <g filter="url(#stampInkCoarse)" class="order-stamp__rings">
+            <circle cx="110" cy="110" r="96"/>
+            <circle cx="110" cy="110" r="82" class="order-stamp__ring--dashed"/>
+          </g>
+          <g filter="url(#stampInkFine)" class="order-stamp__ink">
+            <text class="order-stamp__arc-text">
+              <textPath href="#stampArcTop" startOffset="50%" text-anchor="middle">★ RJ PRINTING HUB ★</textPath>
+            </text>
+            <text x="110" y="112" text-anchor="middle" class="order-stamp__headline">ORDER CONFIRMED</text>
+            <line x1="55" y1="126" x2="165" y2="126" class="order-stamp__rule"/>
+            <text x="110" y="152" text-anchor="middle" id="stampOrderNumber" class="order-stamp__order-no">#420002</text>
+          </g>
+        </svg>
+      </div>
     </div>
   </div>
 
-  <h3>Special instructions</h3>
-  <p>test no 23</p>
+  <table>
+    <tr><td>Service</td><td style="text-align:right;">Leather-Bound Restoration</td></tr>
+    <tr><td>Quantity</td><td style="text-align:right;">1</td></tr>
+    <tr><td>Fulfillment</td><td style="text-align:right;">Pickup</td></tr>
+    <tr><td>Estimated price</td><td style="text-align:right;">₹1200.00</td></tr>
+    <tr><td>Status</td><td style="text-align:right;">Received</td></tr>
+    <tr><td>Payment</td><td style="text-align:right;">Pay on pickup/delivery</td></tr>
+  </table>
 
   <div class="confirmation__bottom" style="margin-top:20px;">
     <a href="#" class="btn">Place Another Order</a>

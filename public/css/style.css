@@ -736,10 +736,21 @@ h1, h2, h3, .site-logo {
   margin-top: 8px;
 }
 
+.confirmation__heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.confirmation__heading-row #orderNumber {
+  margin: 0;
+}
+
 .confirmation__stamp-row {
   display: flex;
   justify-content: flex-end;
-  margin: 4px 0 24px;
+  margin: -6px -18px -18px 0;
 }
 
 /* ---------- Order confirmation — ink stamp ---------- */
@@ -848,7 +859,8 @@ h1, h2, h3, .site-logo {
 }
 
 @media (max-width: 560px) {
-  .confirmation__stamp-row { justify-content: center; }
+  .confirmation__heading-row { justify-content: center; text-align: center; }
+  .confirmation__stamp-row { justify-content: center; margin: 4px 0 12px; }
   .order-stamp { width: 134px; height: 134px; }
 }
 

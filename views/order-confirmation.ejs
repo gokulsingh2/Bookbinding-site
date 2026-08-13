@@ -29,19 +29,11 @@
           </svg>
           Order Confirmed
         </div>
-        <h1 id="orderNumber"></h1>
+        <div class="confirmation__heading-row">
+          <h1 id="orderNumber"></h1>
 
-        <table class="confirmation__table">
-          <tr><td>Service</td><td id="serviceName"></td></tr>
-          <tr><td>Quantity</td><td id="quantity"></td></tr>
-          <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
-          <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
-          <tr><td>Status</td><td><span id="orderStatus" class="status-pill"></span></td></tr>
-          <tr><td>Payment</td><td>Pay on pickup/delivery</td></tr>
-        </table>
-
-        <div class="confirmation__stamp-row">
-          <div class="order-stamp" id="orderStamp" aria-hidden="true">
+          <div class="confirmation__stamp-row">
+            <div class="order-stamp" id="orderStamp" aria-hidden="true">
             <span class="order-stamp__bleed order-stamp__bleed--1"></span>
             <span class="order-stamp__bleed order-stamp__bleed--2"></span>
             <span class="order-stamp__bleed order-stamp__bleed--3"></span>
@@ -56,6 +48,7 @@
                   <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="n2"/>
                   <feDisplacementMap in="SourceGraphic" in2="n2" scale="6.5"/>
                 </filter>
+
                 <path id="stampArcTop" d="M 34,118 A 76,76 0 0 1 186,118" fill="none"/>
               </defs>
 
@@ -75,6 +68,16 @@
             </svg>
           </div>
         </div>
+        </div>
+
+        <table class="confirmation__table">
+          <tr><td>Service</td><td id="serviceName"></td></tr>
+          <tr><td>Quantity</td><td id="quantity"></td></tr>
+          <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
+          <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
+          <tr><td>Status</td><td><span id="orderStatus" class="status-pill"></span></td></tr>
+          <tr><td>Payment</td><td>Pay on pickup/delivery</td></tr>
+        </table>
 
         <div id="notesSection" style="display:none;">
           <h3>Special instructions</h3>
