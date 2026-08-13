@@ -22,7 +22,13 @@
       </div>
 
       <div id="confirmationState" style="display:none;">
-        <div class="confirmation__badge">✅ Order Confirmed</div>
+        <div class="confirmation__badge">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="11"/>
+            <path d="M7 12.5l3.2 3.2L17 9"/>
+          </svg>
+          Order Confirmed
+        </div>
         <h1 id="orderNumber"></h1>
 
         <table class="confirmation__table">
@@ -30,7 +36,7 @@
           <tr><td>Quantity</td><td id="quantity"></td></tr>
           <tr><td>Fulfillment</td><td id="fulfillment"></td></tr>
           <tr><td>Estimated price</td><td id="priceEstimate"></td></tr>
-          <tr><td>Status</td><td id="orderStatus"></td></tr>
+          <tr><td>Status</td><td><span id="orderStatus" class="status-pill"></span></td></tr>
           <tr><td>Payment</td><td>Pay on pickup/delivery</td></tr>
         </table>
 
