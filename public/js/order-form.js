@@ -136,6 +136,7 @@
     };
 
     window.BBCart.addItem(item);
+    window.BBCart.showToast('Added to cart! 🛒');
 
     resultEl.innerHTML = `<strong>Added to cart! 🛒</strong>`;
     resultEl.className = 'ok';

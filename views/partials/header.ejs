@@ -50,8 +50,14 @@
       <a href="/contact">Contact</a>
     </nav>
     <div class="site-nav__auth">
-      <a href="/cart" class="btn btn--small btn--outline site-nav__cart">
-        Cart <span id="cartCount" class="cart-badge" style="display:none;">0</span>
+      <a href="/cart" class="site-nav__cart" id="cartLink" aria-label="View cart">
+        <svg id="cartIcon" class="cart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M2 3h2l.6 3M4.6 6h15.4l-1.8 7.5a1.5 1.5 0 01-1.46 1.15H7.9a1.5 1.5 0 01-1.47-1.2L4.6 6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M7.6 9.4h11.4M8.5 12.4h9.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          <circle cx="9.4" cy="19" r="1.5" fill="currentColor"/>
+          <circle cx="16.8" cy="19" r="1.5" fill="currentColor"/>
+        </svg>
+        <span id="cartCount" class="cart-badge" style="display:none;">0</span>
       </a>
       <a href="/my-orders" class="btn btn--small btn--outline">My Orders</a>
       <a href="/test-auth.html" class="btn btn--small">My Account</a>

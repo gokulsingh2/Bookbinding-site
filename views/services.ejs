@@ -69,6 +69,16 @@
                   <%= service.turnaround_days %> day<%= service.turnaround_days === 1 ? '' : 's' %>
                 </p>
               </div>
+              <button
+                type="button"
+                class="btn btn--small service-card__add-btn add-to-cart-btn"
+                data-service-id="<%= service.id %>"
+                data-service-name="<%= service.name %>"
+                data-base-price="<%= service.base_price %>"
+                data-price-note="<%= service.price_note || '' %>"
+              >
+                Add to Cart
+              </button>
             </a>
           <% }); %>
         </div>
@@ -79,5 +89,7 @@
   </section>
 
   <%- include('partials/footer') %>
+
+  <script src="/js/services-add-to-cart.js"></script>
 </body>
 </html>
