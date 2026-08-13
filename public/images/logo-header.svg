@@ -1,12 +1,16 @@
-<svg width="220" height="36" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
+<svg width="270" height="46" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
   <defs>
     <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap');</style>
+    <linearGradient id="hdrCoverGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2f8fe6"/>
+      <stop offset="100%" stop-color="#0b2f5c"/>
+    </linearGradient>
   </defs>
-  <rect x="60" y="45" width="70" height="48" rx="4" fill="#F0DCC0" stroke="#C1502B" stroke-width="1"/>
-  <rect x="64" y="41" width="70" height="48" rx="4" fill="#F7ECD8" stroke="#C1502B" stroke-width="1"/>
-  <rect x="68" y="37" width="70" height="48" rx="4" fill="#FDF6EA" stroke="#A8391B" stroke-width="1.5"/>
-  <rect x="76" y="47" width="54" height="6" rx="1.5" fill="#D2601E"/>
-  <rect x="76" y="57" width="42" height="3" rx="1" fill="#D2601E" opacity="0.6"/>
-  <rect x="76" y="64" width="32" height="3" rx="1" fill="#D2601E" opacity="0.4"/>
-  <text x="160" y="76" font-family="'Caveat', cursive" font-weight="700" font-size="40" fill="#8C2E12">RJ Printing Hub</text>
+  <rect x="60" y="45" width="70" height="48" rx="4" fill="#d3e6f7" stroke="#2f8fe6" stroke-width="1"/>
+  <rect x="64" y="41" width="70" height="48" rx="4" fill="#eaf3fc" stroke="#2f8fe6" stroke-width="1"/>
+  <rect x="68" y="37" width="70" height="48" rx="4" fill="url(#hdrCoverGrad)" stroke="#0b2f5c" stroke-width="1.5"/>
+  <rect x="76" y="47" width="54" height="6" rx="1.5" fill="#ffffff"/>
+  <rect x="76" y="57" width="42" height="3" rx="1" fill="#ffffff" opacity="0.75"/>
+  <rect x="76" y="64" width="32" height="3" rx="1" fill="#ffffff" opacity="0.55"/>
+  <text x="160" y="76" font-family="'Caveat', cursive" font-weight="700" font-size="42" fill="#0b2f5c">RJ Printing Hub</text>
 </svg>

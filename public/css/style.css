@@ -1,31 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 /* ============================================================
-   Design tokens — derived from the RJ Printing Hub logo palette
-   (the logo's terracotta/rust/cream is the brand; this system
-   extends it consistently across the whole site).
+   Design tokens — dark blue, light blue & white system.
+   Deep navy as the primary brand color, a brighter sky-blue as
+   the accent, crisp white backgrounds, navy text throughout.
    ============================================================ */
 :root {
   /* Core palette — variable names kept for compatibility with existing markup */
-  --ink: #2b2117;          /* body text */
-  --paper: #fdf6ea;        /* page background — logo's innermost cream */
-  --leather: #8c2e12;      /* primary brand color — matches logo wordmark */
-  --accent: #d2601e;       /* CTA / hover — matches logo's stripe color */
+  --ink: #0c2036;           /* body text — deep navy */
+  --paper: #ffffff;         /* page background — white */
+  --leather: #0b2f5c;       /* primary brand color — dark blue */
+  --accent: #2f8fe6;        /* CTA / hover — light blue */
 
   /* Extended tokens */
-  --ink-soft: #6e5d4e;     /* secondary text, warm gray-brown */
-  --cream-deep: #f7ecd8;   /* alt section background */
-  --paper-edge: #f0dcc0;   /* borders, dividers, subtle fills */
-  --accent-dark: #a8391b;  /* pressed/active state */
+  --ink-soft: #3d5872;      /* secondary text, slate blue */
+  --cream-deep: #eaf3fc;    /* alt section background — pale blue */
+  --paper-edge: #d3e6f7;    /* borders, dividers, subtle fills — light blue */
+  --accent-dark: #1f5fbf;   /* pressed/active state */
 
   /* Type */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'Work Sans', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
-  /* Elevation — warm-tinted shadows instead of flat black */
-  --shadow-sm: 0 2px 8px rgba(140, 46, 18, 0.07);
-  --shadow-md: 0 8px 24px rgba(140, 46, 18, 0.12);
+  /* Elevation — cool navy-tinted shadows instead of flat black */
+  --shadow-sm: 0 2px 8px rgba(11, 47, 92, 0.08);
+  --shadow-md: 0 8px 24px rgba(11, 47, 92, 0.16);
   --radius: 10px;
 }
 
@@ -35,7 +35,7 @@ body {
   margin: 0;
   font-family: var(--font-body);
   background:
-    radial-gradient(ellipse 1200px 500px at 50% -8%, rgba(210, 96, 30, 0.07), transparent 60%),
+    radial-gradient(ellipse 1200px 500px at 50% -8%, rgba(47, 143, 230, 0.09), transparent 60%),
     var(--paper);
   color: var(--ink);
   line-height: 1.5;
@@ -206,7 +206,7 @@ h1, h2, h3, .site-logo {
   animation: ripple-effect 0.55s ease-out;
   pointer-events: none;
 }
-.btn--outline .ripple { background: rgba(140, 46, 18, 0.2); }
+.btn--outline .ripple { background: rgba(11, 47, 92, 0.15); }
 @keyframes ripple-effect {
   to { transform: scale(3.2); opacity: 0; }
 }
@@ -314,59 +314,69 @@ h1, h2, h3, .site-logo {
   padding-top: 28px;
   text-decoration: none;
   color: var(--ink);
-  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
 }
 .service-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 4px;
-  background: var(--cat, var(--accent));
+  height: 5px;
+  background: linear-gradient(90deg, var(--cat, var(--accent)), var(--cat-light, var(--accent)));
 }
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: var(--cat, var(--accent));
+  opacity: 0.05;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.service-card:hover::after { opacity: 0.09; transform: scale(1.15); }
 .service-card:hover {
   box-shadow: var(--shadow-md);
-  border-color: var(--accent);
-  transform: translateY(-2px);
+  border-color: var(--cat, var(--accent));
+  transform: translateY(-4px);
 }
-.service-card:active { transform: translateY(0) scale(0.98); }
-.service-card h3 { margin: 0 0 8px; color: var(--leather); font-size: 1.15rem; }
-.service-card p { margin: 0 0 12px; font-size: 0.95rem; color: var(--ink-soft); }
+.service-card:active { transform: translateY(-1px) scale(0.99); }
+.service-card h3 { margin: 0 0 8px; color: var(--leather); font-size: 1.15rem; position: relative; }
+.service-card p { margin: 0 0 12px; font-size: 0.95rem; color: var(--ink-soft); position: relative; }
 .service-card__price { color: var(--ink) !important; font-size: 1.05rem; }
-.service-card__price span { font-weight: normal; font-family: var(--font-body); color: #927e6a; font-size: 0.8rem; }
-.service-card__turnaround { font-size: 0.85rem !important; color: #927e6a !important; }
+.service-card__price span { font-weight: normal; font-family: var(--font-body); color: var(--ink-soft); font-size: 0.8rem; }
+.service-card__turnaround { font-size: 0.85rem !important; color: var(--ink-soft) !important; }
 
-/* Category system — three warm variants keep the brand cohesive
-   while still giving each service group its own identity at a glance. */
-.service-card--thesis  { --cat: #8c2e12; }
-.service-card--books   { --cat: #b8862e; }
-.service-card--posters { --cat: #d2601e; }
-.service-card--other   { --cat: #6e5d4e; }
+/* Category system — a blue family so every card stays on-brand
+   while still giving each service group a distinct identity. */
+.service-card--thesis  { --cat: #0b2f5c; --cat-light: #2f8fe6; }
+.service-card--books   { --cat: #1f5fbf; --cat-light: #6bb3f2; }
+.service-card--posters { --cat: #2f8fe6; --cat-light: #9cd2ff; }
+.service-card--other   { --cat: #3d5872; --cat-light: #7c98b3; }
 
-.service-card--thesis:hover  { box-shadow: 0 10px 28px rgba(140, 46, 18, 0.18); border-color: #8c2e12; }
-.service-card--books:hover   { box-shadow: 0 10px 28px rgba(184, 134, 46, 0.20); border-color: #b8862e; }
-.service-card--posters:hover { box-shadow: 0 10px 28px rgba(210, 96, 30, 0.20); border-color: #d2601e; }
-.service-card--other:hover   { box-shadow: 0 10px 28px rgba(110, 93, 78, 0.18); border-color: #6e5d4e; }
+.service-card--thesis:hover  { box-shadow: 0 12px 28px rgba(11, 47, 92, 0.22); }
+.service-card--books:hover   { box-shadow: 0 12px 28px rgba(31, 95, 191, 0.22); }
+.service-card--posters:hover { box-shadow: 0 12px 28px rgba(47, 143, 230, 0.24); }
+.service-card--other:hover   { box-shadow: 0 12px 28px rgba(61, 88, 114, 0.20); }
 
 .service-card__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  position: relative;
 }
 .service-card__icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  color: var(--cat, var(--accent));
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cat, var(--accent)), var(--cat-light, var(--accent)));
+  box-shadow: 0 4px 12px rgba(11, 47, 92, 0.18);
 }
-.service-card__icon svg { width: 20px; height: 20px; }
-.service-card--thesis .service-card__icon  { background: rgba(140, 46, 18, 0.09); }
-.service-card--books .service-card__icon   { background: rgba(184, 134, 46, 0.12); }
-.service-card--posters .service-card__icon { background: rgba(210, 96, 30, 0.12); }
-.service-card--other .service-card__icon   { background: rgba(110, 93, 78, 0.09); }
+.service-card__icon svg { width: 22px; height: 22px; }
 .service-card__tag {
   font-family: var(--font-body);
   font-size: 0.68rem;
@@ -375,8 +385,9 @@ h1, h2, h3, .site-logo {
   letter-spacing: 0.07em;
   padding: 4px 10px;
   border-radius: 999px;
-  color: #fff;
-  background: var(--cat, var(--accent));
+  color: var(--cat, var(--accent));
+  background: color-mix(in srgb, var(--cat, var(--accent)) 12%, #fff);
+  border: 1px solid color-mix(in srgb, var(--cat, var(--accent)) 25%, #fff);
 }
 
 .service-card__footer {
@@ -386,20 +397,18 @@ h1, h2, h3, .site-logo {
   margin-top: 16px;
   padding-top: 14px;
   border-top: 1px dashed var(--paper-edge);
+  position: relative;
 }
 .service-card__price--quote {
   font-family: var(--font-body) !important;
   font-weight: 600;
   font-size: 0.82rem !important;
-  color: var(--cat, var(--accent)) !important;
+  color: #fff !important;
   padding: 4px 10px;
   border-radius: 6px;
   display: inline-block;
+  background: linear-gradient(90deg, var(--cat, var(--accent)), var(--cat-light, var(--accent))) !important;
 }
-.service-card--thesis .service-card__price--quote  { background: rgba(140, 46, 18, 0.07); }
-.service-card--books .service-card__price--quote   { background: rgba(184, 134, 46, 0.10); }
-.service-card--posters .service-card__price--quote { background: rgba(210, 96, 30, 0.10); }
-.service-card--other .service-card__price--quote   { background: rgba(110, 93, 78, 0.07); }
 .service-card__turnaround {
   display: flex;
   align-items: center;
@@ -407,6 +416,7 @@ h1, h2, h3, .site-logo {
   margin: 0 !important;
 }
 .service-card__turnaround svg { opacity: 0.7; flex-shrink: 0; }
+
 
 /* ---------- Service detail ---------- */
 .back-link {
@@ -418,7 +428,7 @@ h1, h2, h3, .site-logo {
   font-weight: 500;
 }
 .service-detail__price { font-size: 1.5rem; margin: 8px 0 4px; }
-.service-detail__price span { font-weight: normal; font-family: var(--font-body); color: #927e6a; font-size: 0.9rem; }
+.service-detail__price span { font-weight: normal; font-family: var(--font-body); color: var(--ink-soft); font-size: 0.9rem; }
 .service-detail__turnaround { color: var(--ink-soft); margin-bottom: 24px; }
 .service-detail__description { margin-bottom: 32px; line-height: 1.7; }
 
@@ -594,7 +604,7 @@ h1, h2, h3, .site-logo {
   justify-content: space-between;
   align-items: center;
   font-size: 0.9rem;
-  color: #927e6a;
+  color: var(--ink-soft);
 }
 .order-card__bottom strong { color: var(--ink); font-size: 1rem; }
 
@@ -660,11 +670,11 @@ h1, h2, h3, .site-logo {
 .timeline__item--done .timeline__dot { background: var(--leather); }
 .timeline__item--current .timeline__dot {
   background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(210, 96, 30, 0.22);
+  box-shadow: 0 0 0 4px rgba(47, 143, 230, 0.25);
 }
 .timeline__item--cancelled .timeline__dot { background: #c0392b; }
-.timeline__item--pending strong { color: #a89584; }
-.timeline__date { font-size: 0.85rem; color: #927e6a; margin-top: 2px; }
+.timeline__item--pending strong { color: var(--ink-soft); }
+.timeline__date { font-size: 0.85rem; color: var(--ink-soft); margin-top: 2px; }
 .timeline__note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 4px; font-style: italic; }
 
 /* ---------- Admin ---------- */
@@ -707,7 +717,7 @@ h1, h2, h3, .site-logo {
   text-align: center;
 }
 .stat-card span { display: block; font-size: 1.7rem; color: var(--leather); }
-.stat-card label { font-size: 0.78rem; color: #927e6a; text-transform: uppercase; letter-spacing: 0.02em; }
+.stat-card label { font-size: 0.78rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.02em; }
 
 .admin-filters { margin-bottom: 16px; }
 .admin-filters select {
@@ -789,7 +799,7 @@ h1, h2, h3, .site-logo {
 /* ---------- Form field hint text ---------- */
 .field-hint {
   font-size: 0.8rem;
-  color: #927e6a;
+  color: var(--ink-soft);
   margin: 4px 0 0;
 }
 
