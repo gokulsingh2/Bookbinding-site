@@ -40,14 +40,7 @@
           <tr><td>Payment</td><td>Pay on pickup/delivery</td></tr>
         </table>
 
-        <div id="notesSection" style="display:none;">
-          <h3>Special instructions</h3>
-          <p id="specialInstructions"></p>
-        </div>
-
-        <div class="confirmation__bottom">
-          <a href="/services" class="btn btn--outline">Place Another Order</a>
-
+        <div class="confirmation__stamp-row">
           <div class="order-stamp" id="orderStamp" aria-hidden="true">
             <span class="order-stamp__bleed order-stamp__bleed--1"></span>
             <span class="order-stamp__bleed order-stamp__bleed--2"></span>
@@ -57,7 +50,7 @@
               <defs>
                 <filter id="stampInkFine" x="-30%" y="-30%" width="160%" height="160%">
                   <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n1"/>
-                  <feDisplacementMap in="SourceGraphic" in2="n1" scale="2.6"/>
+                  <feDisplacementMap in="SourceGraphic" in2="n1" scale="1.4"/>
                 </filter>
                 <filter id="stampInkCoarse" x="-30%" y="-30%" width="160%" height="160%">
                   <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="n2"/>
@@ -82,11 +75,21 @@
             </svg>
           </div>
         </div>
+
+        <div id="notesSection" style="display:none;">
+          <h3>Special instructions</h3>
+          <p id="specialInstructions"></p>
+        </div>
+
+        <div class="confirmation__bottom">
+          <a href="/services" class="btn btn--outline">Place Another Order</a>
+        </div>
       </div>
     </div>
   </section>
 
   <%- include('partials/footer') %>
+
 
   <script>
     window.__ORDER_ID__ = <%- JSON.stringify(orderId) %>;

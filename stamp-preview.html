@@ -12,14 +12,21 @@
   }
   body { font-family: var(--font-body); background: #f4f8fc; padding: 60px; }
   .card { max-width: 640px; margin: 0 auto; background: #fff; border: 1px solid var(--paper-edge); border-radius: var(--radius); padding: 30px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  td { padding: 10px 4px; border-bottom: 1px dashed var(--paper-edge); color: var(--ink); }
   .btn { display:inline-block; padding: 12px 22px; border-radius: 20px; border: 2px solid var(--leather); color: var(--leather); text-decoration:none; font-weight:700; }
   button.replay { margin: 20px auto 0; display:block; padding: 8px 16px; }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="confirmation__bottom" id="wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;margin-top:8px;">
-    <a href="#" class="btn">Place Another Order</a>
+  <table>
+    <tr><td>Estimated price</td><td style="text-align:right;">Price on request</td></tr>
+    <tr><td>Status</td><td style="text-align:right;">Received</td></tr>
+    <tr><td>Payment</td><td style="text-align:right;">Pay on pickup/delivery</td></tr>
+  </table>
+
+  <div class="confirmation__stamp-row" id="stampRow" style="display:flex;justify-content:flex-end;margin:4px 0 24px;">
     <div class="order-stamp" id="orderStamp" aria-hidden="true">
       <span class="order-stamp__bleed order-stamp__bleed--1"></span>
       <span class="order-stamp__bleed order-stamp__bleed--2"></span>
@@ -29,7 +36,7 @@
         <defs>
           <filter id="stampInkFine" x="-30%" y="-30%" width="160%" height="160%">
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n1"/>
-            <feDisplacementMap in="SourceGraphic" in2="n1" scale="2.6"/>
+            <feDisplacementMap in="SourceGraphic" in2="n1" scale="1.4"/>
           </filter>
           <filter id="stampInkCoarse" x="-30%" y="-30%" width="160%" height="160%">
             <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="11" result="n2"/>
@@ -47,35 +54,43 @@
           </text>
           <text x="110" y="112" text-anchor="middle" class="order-stamp__headline">ORDER CONFIRMED</text>
           <line x1="55" y1="126" x2="165" y2="126" class="order-stamp__rule"/>
-          <text x="110" y="152" text-anchor="middle" id="stampOrderNumber" class="order-stamp__order-no">#330001</text>
+          <text x="110" y="152" text-anchor="middle" id="stampOrderNumber" class="order-stamp__order-no">#390001</text>
         </g>
       </svg>
     </div>
   </div>
+
+  <h3>Special instructions</h3>
+  <p>test no 23</p>
+
+  <div class="confirmation__bottom" style="margin-top:20px;">
+    <a href="#" class="btn">Place Another Order</a>
+  </div>
+
   <button class="replay" onclick="replay()">Replay animation</button>
 </div>
 
 <style>
 .order-stamp {
-  position: relative; width: 148px; height: 148px; flex-shrink: 0;
+  position: relative; width: 160px; height: 160px; flex-shrink: 0;
   transform: rotate(-9deg) scale(1);
   animation: stampSlam 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) 0.55s both;
   filter: drop-shadow(0 3px 2px rgba(11, 47, 92, 0.18));
 }
 .order-stamp__svg { width: 100%; height: 100%; overflow: visible; }
-.order-stamp__rings, .order-stamp__ink { fill: #b21f2d; mix-blend-mode: multiply; opacity: 0.88; }
-.order-stamp__rings circle { fill: none; stroke: #b21f2d; stroke-width: 3.5; }
-.order-stamp__rings circle.order-stamp__ring--dashed { stroke-width: 2.4; stroke-dasharray: 3 4; }
-.order-stamp__arc-text { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: 2px; }
-.order-stamp__headline { font-family: var(--font-display); font-weight: 800; font-size: 20px; letter-spacing: 0.5px; }
-.order-stamp__rule { stroke: #b21f2d; stroke-width: 2; }
-.order-stamp__order-no { font-family: var(--font-mono); font-weight: 700; font-size: 20px; letter-spacing: 0.5px; }
-.order-stamp__bleed { position: absolute; border-radius: 50%; background: #b21f2d; mix-blend-mode: multiply; opacity: 0; filter: blur(4px); pointer-events: none; }
+.order-stamp__rings, .order-stamp__ink { fill: #a3101f; mix-blend-mode: multiply; opacity: 0.95; }
+.order-stamp__rings circle { fill: none; stroke: #a3101f; stroke-width: 4.5; }
+.order-stamp__rings circle.order-stamp__ring--dashed { stroke-width: 3; stroke-dasharray: 4 4; }
+.order-stamp__arc-text { font-family: var(--font-display); font-weight: 900; font-size: 17px; letter-spacing: 1.6px; stroke: #a3101f; stroke-width: 1.4px; paint-order: stroke fill; }
+.order-stamp__headline { font-family: var(--font-display); font-weight: 900; font-size: 22px; letter-spacing: 0.5px; stroke: #a3101f; stroke-width: 1.6px; paint-order: stroke fill; }
+.order-stamp__rule { stroke: #a3101f; stroke-width: 2.5; }
+.order-stamp__order-no { font-family: var(--font-mono); font-weight: 800; font-size: 21px; letter-spacing: 0.5px; stroke: #a3101f; stroke-width: 1px; paint-order: stroke fill; }
+.order-stamp__bleed { position: absolute; border-radius: 50%; background: #a3101f; mix-blend-mode: multiply; opacity: 0; filter: blur(4px); pointer-events: none; }
 .order-stamp__bleed--1 { width: 22px; height: 14px; top: 6%;  left: 62%; transform: rotate(18deg); }
 .order-stamp__bleed--2 { width: 16px; height: 10px; top: 72%; left: 8%;  transform: rotate(-24deg); }
 .order-stamp__bleed--3 { width: 12px; height: 9px;  top: 46%; left: 90%; transform: rotate(6deg); }
 .order-stamp__bleed { animation: stampBleed 0.6s ease 0.85s both; }
-.order-stamp__shock { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(178, 31, 45, 0.5); opacity: 0; animation: stampShock 0.5s ease-out 0.55s both; pointer-events: none; }
+.order-stamp__shock { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(163, 16, 31, 0.5); opacity: 0; animation: stampShock 0.5s ease-out 0.55s both; pointer-events: none; }
 @keyframes stampSlam {
   0%   { opacity: 0; transform: rotate(-9deg) translateY(-70px) scale(2.6); }
   50%  { opacity: 1; transform: rotate(-9deg) translateY(0) scale(0.92); }
