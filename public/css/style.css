@@ -1057,7 +1057,9 @@ textarea:focus-visible {
 .page-transition {
   position: fixed;
   inset: 0;
-  background: linear-gradient(160deg, var(--leather), var(--ink));
+  background: rgba(10, 30, 51, 0.42);
+  backdrop-filter: blur(16px) saturate(1.15);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1066,91 +1068,71 @@ textarea:focus-visible {
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
 }
 .page-transition.is-active { opacity: 1; pointer-events: all; }
 
-.printer { position: relative; width: 130px; height: 140px; }
+.printer {
+  position: relative;
+  width: 170px;
+  height: 130px;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.35));
+}
+.printer__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+.printer__lcd { opacity: 0.55; }
+.page-transition.is-active .printer__lcd { animation: blinkLight 0.6s ease infinite; }
+@keyframes blinkLight { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
 .printer__paper {
   position: absolute;
-  top: 38px;
-  left: 12px;
-  right: 12px;
-  height: 74px;
-  background: #fff;
-  border-radius: 2px;
-  padding: 10px 9px 6px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  top: 34px;
+  left: 30px;
+  width: 110px;
+  height: 82px;
+  background: #fdfdfb;
+  border-radius: 1px;
+  padding: 9px 10px 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
   z-index: 2;
-  transform: translateY(2px);
+  transform: translateY(6px);
 }
-.printer__paper span {
+.printer__line {
   display: block;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--paper-edge);
-  margin-bottom: 6px;
+  height: 3px;
+  border-radius: 1px;
+  background: #4a5a68;
+  width: 100%;
+  margin-bottom: 7px;
   opacity: 0;
 }
-.printer__paper span:last-child { width: 65%; margin-bottom: 0; }
+.printer__line--title {
+  height: 5px;
+  width: 72%;
+  background: var(--leather);
+  border-radius: 1px;
+  margin-bottom: 10px;
+}
+.printer__line:last-child { margin-bottom: 0; }
 
 .page-transition.is-active .printer__paper {
-  animation: paperFeed 0.85s cubic-bezier(0.25, 0.7, 0.4, 1) forwards;
+  animation: paperFeed 0.9s cubic-bezier(0.25, 0.7, 0.4, 1) forwards;
 }
 @keyframes paperFeed {
-  from { transform: translateY(2px); }
-  to { transform: translateY(-64px); }
+  from { transform: translateY(6px); }
+  to { transform: translateY(-72px); }
 }
-.page-transition.is-active .printer__paper span:nth-child(1) { animation: lineAppear 0.15s ease 0.22s forwards; }
-.page-transition.is-active .printer__paper span:nth-child(2) { animation: lineAppear 0.15s ease 0.36s forwards; }
-.page-transition.is-active .printer__paper span:nth-child(3) { animation: lineAppear 0.15s ease 0.50s forwards; }
-.page-transition.is-active .printer__paper span:nth-child(4) { animation: lineAppear 0.15s ease 0.64s forwards; }
-@keyframes lineAppear { from { opacity: 0; } to { opacity: 1; } }
-
-.printer__body {
-  position: absolute;
-  top: 46px;
-  left: 0;
-  right: 0;
-  height: 62px;
-  background: linear-gradient(160deg, var(--accent), var(--leather));
-  border-radius: 10px;
-  z-index: 3;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
-}
-.printer__slot {
-  position: absolute;
-  top: 0;
-  left: 14px;
-  right: 14px;
-  height: 4px;
-  background: var(--ink);
-  border-radius: 2px;
-}
-.printer__light {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #7cffb2;
-  opacity: 0.5;
-}
-.page-transition.is-active .printer__light { animation: blinkLight 0.6s ease infinite; }
-@keyframes blinkLight { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
-
-.printer__tray {
-  position: absolute;
-  bottom: 6px;
-  left: 10px;
-  right: 10px;
-  height: 12px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 0 0 6px 6px;
-  z-index: 1;
-}
+.page-transition.is-active .printer__line:nth-child(1) { animation: lineAppear 0.15s ease 0.20s forwards; }
+.page-transition.is-active .printer__line:nth-child(2) { animation: lineAppear 0.15s ease 0.34s forwards; }
+.page-transition.is-active .printer__line:nth-child(3) { animation: lineAppear 0.15s ease 0.46s forwards; }
+.page-transition.is-active .printer__line:nth-child(4) { animation: lineAppear 0.15s ease 0.58s forwards; }
+.page-transition.is-active .printer__line:nth-child(5) { animation: lineAppear 0.15s ease 0.70s forwards; }
+@keyframes lineAppear { from { opacity: 0; } to { opacity: 0.85; } }
 
 .page-transition__label {
   color: #fff;
@@ -1158,6 +1140,7 @@ textarea:focus-visible {
   font-size: 0.85rem;
   letter-spacing: 0.05em;
   opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .page-transition__dots {
   display: inline-flex;
