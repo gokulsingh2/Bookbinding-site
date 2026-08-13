@@ -3,9 +3,7 @@
 // bubbling into that navigation — it should only add a cart item and show a toast, never
 // leave this page.
 (function () {
-  // Sensible defaults for a one-click add — matches the first option of each dropdown
-  // on the full item builder (/order/new), so a quick add and a built item look the same
-  // unless the customer chooses to customize specs on the builder instead.
+  // Sensible defaults for a one-click add.
   const DEFAULTS = {
     quantity: 1,
     pageCount: null,
