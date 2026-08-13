@@ -727,6 +727,116 @@ h1, h2, h3, .site-logo {
 #notesSection { margin-bottom: 32px; }
 #notesSection h3 { font-size: 1rem; margin-bottom: 6px; font-family: var(--font-display); }
 
+.confirmation__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin-top: 8px;
+}
+
+/* ---------- Order confirmation — ink stamp ---------- */
+.order-stamp {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  flex-shrink: 0;
+  transform: rotate(-9deg) scale(1);
+  animation: stampSlam 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) 0.55s both;
+  filter: drop-shadow(0 3px 2px rgba(11, 47, 92, 0.18));
+}
+.order-stamp__svg { width: 100%; height: 100%; overflow: visible; }
+
+/* the stamped ink itself: deep distressed red, printed onto the paper */
+.order-stamp__rings,
+.order-stamp__ink {
+  fill: #b21f2d;
+  mix-blend-mode: multiply;
+  opacity: 0.88;
+}
+.order-stamp__rings circle {
+  fill: none;
+  stroke: #b21f2d;
+  stroke-width: 3.5;
+}
+.order-stamp__rings circle.order-stamp__ring--dashed {
+  stroke-width: 2.4;
+  stroke-dasharray: 3 4;
+}
+.order-stamp__arc-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+.order-stamp__headline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+.order-stamp__rule {
+  stroke: #b21f2d;
+  stroke-width: 2;
+}
+.order-stamp__order-no {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* uneven ink bleeding past the crisp edge of the stamp — a few soft blotches */
+.order-stamp__bleed {
+  position: absolute;
+  border-radius: 50%;
+  background: #b21f2d;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  filter: blur(4px);
+  pointer-events: none;
+}
+.order-stamp__bleed--1 { width: 22px; height: 14px; top: 6%;  left: 62%; transform: rotate(18deg); }
+.order-stamp__bleed--2 { width: 16px; height: 10px; top: 72%; left: 8%;  transform: rotate(-24deg); }
+.order-stamp__bleed--3 { width: 12px; height: 9px;  top: 46%; left: 90%; transform: rotate(6deg); }
+.order-stamp__bleed {
+  animation: stampBleed 0.6s ease 0.85s both;
+}
+
+/* a quick pale shockwave ring on impact, like the pad striking the paper */
+.order-stamp__shock {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(178, 31, 45, 0.5);
+  opacity: 0;
+  animation: stampShock 0.5s ease-out 0.55s both;
+  pointer-events: none;
+}
+
+@keyframes stampSlam {
+  0%   { opacity: 0; transform: rotate(-9deg) translateY(-70px) scale(2.6); }
+  50%  { opacity: 1; transform: rotate(-9deg) translateY(0) scale(0.92); }
+  68%  { transform: rotate(-9deg) scale(1.08); }
+  84%  { transform: rotate(-9deg) scale(0.97); }
+  100% { opacity: 1; transform: rotate(-9deg) scale(1); }
+}
+@keyframes stampBleed {
+  0%   { opacity: 0; }
+  40%  { opacity: 0.3; }
+  100% { opacity: 0.16; }
+}
+@keyframes stampShock {
+  0%   { opacity: 0.9; transform: scale(0.6); }
+  100% { opacity: 0; transform: scale(1.35); }
+}
+
+@media (max-width: 560px) {
+  .confirmation__bottom { justify-content: center; }
+  .order-stamp { width: 124px; height: 124px; }
+}
+
 /* ---------- My Orders list ---------- */
 .orders-list { display: flex; flex-direction: column; gap: 14px; }
 .order-card {

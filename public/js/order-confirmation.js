@@ -51,6 +51,8 @@
 
   function renderOrder(order) {
     document.getElementById('orderNumber').textContent = order.order_number;
+    const stampNumberEl = document.getElementById('stampOrderNumber');
+    if (stampNumberEl) stampNumberEl.textContent = '#' + order.order_number;
     document.getElementById('serviceName').textContent = order.service_name;
     document.getElementById('quantity').textContent = order.quantity;
     document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
