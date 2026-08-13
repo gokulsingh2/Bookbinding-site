@@ -29,7 +29,13 @@
           </svg>
           Order Confirmed
         </div>
-        <h1>Thanks for your order!</h1>
+        <div class="confirmation__heading-row">
+          <h1>Thanks for your order!</h1>
+
+          <div class="confirmation__stamp-row">
+            <%- include('partials/order-stamp') %>
+          </div>
+        </div>
         <p class="section__subtitle" style="margin-bottom: 20px;">Here's a summary of everything you ordered.</p>
 
         <div id="ordersList" class="cart-items"></div>

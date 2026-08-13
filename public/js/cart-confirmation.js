@@ -53,8 +53,17 @@
     const grandTotal = orders.reduce((sum, o) => sum + Number(o.price_estimate || 0), 0);
     grandTotalEl.textContent = formatPrice(grandTotal);
 
+    const stampNumberEl = document.getElementById('stampOrderNumber');
+    if (stampNumberEl) {
+      stampNumberEl.textContent = orders.length > 1
+        ? `#${orders[0].order_number} +${orders.length - 1}`
+        : `#${orders[0].order_number}`;
+    }
+
     loadingState.style.display = 'none';
     confirmationState.style.display = 'block';
+
+    if (window.celebrate) window.celebrate();
   }
 
   init();
