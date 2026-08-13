@@ -34,9 +34,21 @@
 body {
   margin: 0;
   font-family: var(--font-body);
-  background: var(--paper);
+  background:
+    radial-gradient(ellipse 1200px 500px at 50% -8%, rgba(210, 96, 30, 0.07), transparent 60%),
+    var(--paper);
   color: var(--ink);
   line-height: 1.5;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 h1, h2, h3, .site-logo {
@@ -235,7 +247,56 @@ h1, h2, h3, .site-logo {
 .section h1 { font-size: 2.1rem; margin-bottom: 8px; color: var(--leather); }
 .section h2 { font-size: 1.7rem; margin-bottom: 28px; text-align: center; }
 .section__subtitle { color: var(--ink-soft); margin-bottom: 32px; }
+.section__subtitle--script {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--leather);
+  margin-bottom: 20px;
+}
+.section__divider {
+  width: 100px;
+  border-top: 2px dashed var(--paper-edge);
+  margin: 0 0 36px;
+}
 .section__cta { text-align: center; margin-top: 36px; }
+
+/* Trust-signal bar — borrowed structurally from trade-print sites' feature
+   rows, restated in RJ Printing Hub's real value props and warm palette. */
+.trust-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 22px 24px;
+  background: var(--cream-deep);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius);
+  margin-bottom: 40px;
+}
+.trust-bar__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.trust-bar__icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--leather);
+  box-shadow: var(--shadow-sm);
+}
+.trust-bar__icon svg { width: 19px; height: 19px; }
+.trust-bar__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
 
 .card-grid {
   display: grid;
@@ -244,13 +305,23 @@ h1, h2, h3, .site-logo {
 }
 .service-card {
   display: block;
+  position: relative;
+  overflow: hidden;
   background: #fff;
   border: 1px solid var(--paper-edge);
   border-radius: var(--radius);
   padding: 24px;
+  padding-top: 28px;
   text-decoration: none;
   color: var(--ink);
   transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--cat, var(--accent));
 }
 .service-card:hover {
   box-shadow: var(--shadow-md);
@@ -263,6 +334,79 @@ h1, h2, h3, .site-logo {
 .service-card__price { color: var(--ink) !important; font-size: 1.05rem; }
 .service-card__price span { font-weight: normal; font-family: var(--font-body); color: #927e6a; font-size: 0.8rem; }
 .service-card__turnaround { font-size: 0.85rem !important; color: #927e6a !important; }
+
+/* Category system — three warm variants keep the brand cohesive
+   while still giving each service group its own identity at a glance. */
+.service-card--thesis  { --cat: #8c2e12; }
+.service-card--books   { --cat: #b8862e; }
+.service-card--posters { --cat: #d2601e; }
+.service-card--other   { --cat: #6e5d4e; }
+
+.service-card--thesis:hover  { box-shadow: 0 10px 28px rgba(140, 46, 18, 0.18); border-color: #8c2e12; }
+.service-card--books:hover   { box-shadow: 0 10px 28px rgba(184, 134, 46, 0.20); border-color: #b8862e; }
+.service-card--posters:hover { box-shadow: 0 10px 28px rgba(210, 96, 30, 0.20); border-color: #d2601e; }
+.service-card--other:hover   { box-shadow: 0 10px 28px rgba(110, 93, 78, 0.18); border-color: #6e5d4e; }
+
+.service-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.service-card__icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: var(--cat, var(--accent));
+}
+.service-card__icon svg { width: 20px; height: 20px; }
+.service-card--thesis .service-card__icon  { background: rgba(140, 46, 18, 0.09); }
+.service-card--books .service-card__icon   { background: rgba(184, 134, 46, 0.12); }
+.service-card--posters .service-card__icon { background: rgba(210, 96, 30, 0.12); }
+.service-card--other .service-card__icon   { background: rgba(110, 93, 78, 0.09); }
+.service-card__tag {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--cat, var(--accent));
+}
+
+.service-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--paper-edge);
+}
+.service-card__price--quote {
+  font-family: var(--font-body) !important;
+  font-weight: 600;
+  font-size: 0.82rem !important;
+  color: var(--cat, var(--accent)) !important;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.service-card--thesis .service-card__price--quote  { background: rgba(140, 46, 18, 0.07); }
+.service-card--books .service-card__price--quote   { background: rgba(184, 134, 46, 0.10); }
+.service-card--posters .service-card__price--quote { background: rgba(210, 96, 30, 0.10); }
+.service-card--other .service-card__price--quote   { background: rgba(110, 93, 78, 0.07); }
+.service-card__turnaround {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 !important;
+}
+.service-card__turnaround svg { opacity: 0.7; flex-shrink: 0; }
 
 /* ---------- Service detail ---------- */
 .back-link {
@@ -724,6 +868,8 @@ textarea:focus-visible {
   }
 
   .order-card__top { flex-wrap: wrap; gap: 6px; }
+
+  .trust-bar { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
@@ -731,6 +877,7 @@ textarea:focus-visible {
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .card-grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr; }
+  .trust-bar { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
