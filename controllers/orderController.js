@@ -1,90 +1,104 @@
 const orderModel = require('../models/orderModel');
 const serviceModel = require('../models/serviceModel');
 const userModel = require('../models/userModel');
-const { sendOrderConfirmationEmail } = require('../utils/mailer');
+const { sendOrderConfirmationEmail, sendCartOrderConfirmationEmail } = require('../utils/mailer');
 
 const VALID_FULFILLMENT_TYPES = ['pickup', 'local_delivery', 'shipping'];
 const VALID_PAPER_SIZES = ['A1', 'A2', 'A3', 'A4'];
 const VALID_PRINT_COLORS = ['bw', 'color'];
 const VALID_BINDING_TYPES = ['spiral', 'soft_bind', 'perfect_binding', 'digital_embossing', 'handmade_embossing'];
 const VALID_PAPER_QUALITIES = ['70gsm', '85gsm', '100gsm', '150gsm', '200gsm', '250gsm', '300gsm', 'glossy'];
+const MAX_CART_ITEMS = 20;
+
+// Shared by both single-item checkout (create) and multi-item cart checkout (checkoutCart).
+// Looks up + validates one line item against a service and the shared fulfillment info,
+// and returns the exact object orderModel.createOrder() expects. Throws a plain Error with
+// a customer-facing message on any validation failure — callers turn that into a 400.
+async function validateAndBuildItem(itemInput, { fulfillmentType, deliveryAddress, isUrgent }) {
+  const {
+    serviceId,
+    quantity,
+    pageCount,
+    paperSize,
+    printColor,
+    bindingType,
+    paperQuality,
+    specialInstructions,
+    uploadedFileUrl,
+  } = itemInput || {};
+
+  if (!serviceId) {
+    throw new Error('A service must be selected for every item');
+  }
+
+  const service = await serviceModel.findById(serviceId);
+  if (!service || !service.is_active) {
+    throw new Error('One of the selected services is not available');
+  }
+
+  const qty = Number(quantity) || 1;
+  if (qty < 1 || !Number.isInteger(qty)) {
+    throw new Error('Quantity must be a whole number of at least 1');
+  }
+
+  if (!paperSize || !VALID_PAPER_SIZES.includes(paperSize)) {
+    throw new Error('A valid paper size is required for every item');
+  }
+
+  if (!printColor || !VALID_PRINT_COLORS.includes(printColor)) {
+    throw new Error('A valid print color is required for every item');
+  }
+
+  // Binding type is optional — posters don't get bound.
+  if (bindingType && !VALID_BINDING_TYPES.includes(bindingType)) {
+    throw new Error('Invalid binding type');
+  }
+
+  if (!paperQuality || !VALID_PAPER_QUALITIES.includes(paperQuality)) {
+    throw new Error('A valid paper quality is required for every item');
+  }
+
+  // Price is always recomputed server-side from the current service price — the client's
+  // number is never trusted, so a tampered request can't discount an order.
+  const priceEstimate = Number(service.base_price) * qty;
+
+  return {
+    serviceId: service.id,
+    serviceName: service.name,
+    quantity: qty,
+    pageCount: pageCount ? Number(pageCount) : null,
+    paperSize,
+    printColor,
+    bindingType: bindingType || null,
+    paperQuality,
+    specialInstructions: specialInstructions || null,
+    uploadedFileUrl: uploadedFileUrl || null,
+    fulfillmentType,
+    deliveryAddress,
+    isUrgent: !!isUrgent,
+    priceEstimate,
+  };
+}
 
 async function create(req, res) {
   try {
-    const {
-      serviceId,
-      quantity,
-      pageCount,
-      paperSize,
-      printColor,
-      bindingType,
-      paperQuality,
-      specialInstructions,
-      fulfillmentType,
-      deliveryAddress,
-      isUrgent,
-    } = req.body;
-
-    // --- Validation ---
-    if (!serviceId) {
-      return res.status(400).json({ error: 'A service must be selected' });
-    }
-
-    const service = await serviceModel.findById(serviceId);
-    if (!service || !service.is_active) {
-      return res.status(400).json({ error: 'Selected service is not available' });
-    }
-
-    const qty = Number(quantity) || 1;
-    if (qty < 1 || !Number.isInteger(qty)) {
-      return res.status(400).json({ error: 'Quantity must be a whole number of at least 1' });
-    }
-
-    if (!paperSize || !VALID_PAPER_SIZES.includes(paperSize)) {
-      return res.status(400).json({ error: 'A valid paper size is required' });
-    }
-
-    if (!printColor || !VALID_PRINT_COLORS.includes(printColor)) {
-      return res.status(400).json({ error: 'A valid print color is required' });
-    }
-
-    // Binding type is optional — posters don't get bound.
-    if (bindingType && !VALID_BINDING_TYPES.includes(bindingType)) {
-      return res.status(400).json({ error: 'Invalid binding type' });
-    }
-
-    if (!paperQuality || !VALID_PAPER_QUALITIES.includes(paperQuality)) {
-      return res.status(400).json({ error: 'A valid paper quality is required' });
-    }
+    const { fulfillmentType, deliveryAddress, isUrgent } = req.body;
 
     if (!fulfillmentType || !VALID_FULFILLMENT_TYPES.includes(fulfillmentType)) {
       return res.status(400).json({ error: 'A valid fulfillment type is required' });
     }
-
     if (fulfillmentType !== 'pickup' && (!deliveryAddress || !deliveryAddress.trim())) {
       return res.status(400).json({ error: 'A delivery address is required for delivery/shipping orders' });
     }
 
-    // --- Price estimate: base_price × quantity ---
-    // Admins can adjust the final price later once they've reviewed the order (e.g. for
-    // urgent jobs, unusual page counts, or custom covers) — this is just the customer-facing estimate.
-    const priceEstimate = Number(service.base_price) * qty;
+    let itemData;
+    try {
+      itemData = await validateAndBuildItem(req.body, { fulfillmentType, deliveryAddress, isUrgent });
+    } catch (validationErr) {
+      return res.status(400).json({ error: validationErr.message });
+    }
 
-    const order = await orderModel.createOrder({
-      customerId: req.user.id,
-      serviceId: service.id,
-      quantity: qty,
-      pageCount: pageCount ? Number(pageCount) : null,
-      paperSize,
-      printColor,
-      bindingType: bindingType || null,
-      paperQuality,
-      specialInstructions,
-      fulfillmentType,
-      deliveryAddress,
-      isUrgent: !!isUrgent,
-      priceEstimate,
-    });
+    const order = await orderModel.createOrder({ customerId: req.user.id, ...itemData });
 
     // Send the confirmation email in the background — a slow or failed email
     // should never block the order response, since the order itself already succeeded.
@@ -94,7 +108,7 @@ async function create(req, res) {
         to: customer.email,
         name: customer.name,
         order,
-        serviceName: service.name,
+        serviceName: itemData.serviceName,
       });
     } catch (mailErr) {
       console.error('Failed to send order confirmation email:', mailErr.message);
@@ -103,6 +117,63 @@ async function create(req, res) {
     return res.status(201).json({ order });
   } catch (err) {
     console.error('Create order error:', err);
+    return res.status(500).json({ error: 'Something went wrong while placing your order' });
+  }
+}
+
+// Cart checkout: takes several line items (each its own service + specs, built client-side
+// in the cart) plus ONE shared fulfillment choice, and creates one order row per item —
+// same schema, same validation per item, just looped. Every item is validated up front
+// before anything is written, so a bad item blocks the whole checkout rather than
+// silently placing a partial cart.
+async function checkoutCart(req, res) {
+  try {
+    const { items, fulfillmentType, deliveryAddress, isUrgent } = req.body;
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Your cart is empty' });
+    }
+    if (items.length > MAX_CART_ITEMS) {
+      return res.status(400).json({ error: `A single checkout is limited to ${MAX_CART_ITEMS} items` });
+    }
+    if (!fulfillmentType || !VALID_FULFILLMENT_TYPES.includes(fulfillmentType)) {
+      return res.status(400).json({ error: 'A valid fulfillment type is required' });
+    }
+    if (fulfillmentType !== 'pickup' && (!deliveryAddress || !deliveryAddress.trim())) {
+      return res.status(400).json({ error: 'A delivery address is required for delivery/shipping orders' });
+    }
+
+    const shared = { fulfillmentType, deliveryAddress, isUrgent };
+
+    let itemsData;
+    try {
+      itemsData = await Promise.all(items.map((item) => validateAndBuildItem(item, shared)));
+    } catch (validationErr) {
+      return res.status(400).json({ error: validationErr.message });
+    }
+
+    const orders = [];
+    for (const itemData of itemsData) {
+      const order = await orderModel.createOrder({ customerId: req.user.id, ...itemData });
+      orders.push({ order, serviceName: itemData.serviceName });
+    }
+
+    // One consolidated email for the whole cart, rather than spamming a separate
+    // email per item.
+    try {
+      const customer = await userModel.findById(req.user.id);
+      await sendCartOrderConfirmationEmail({
+        to: customer.email,
+        name: customer.name,
+        orders,
+      });
+    } catch (mailErr) {
+      console.error('Failed to send cart confirmation email:', mailErr.message);
+    }
+
+    return res.status(201).json({ orders: orders.map((o) => o.order) });
+  } catch (err) {
+    console.error('Checkout cart error:', err);
     return res.status(500).json({ error: 'Something went wrong while placing your order' });
   }
 }
@@ -184,4 +255,4 @@ async function updateStatus(req, res) {
   }
 }
 
-module.exports = { create, getMyOrders, getById, getAllForAdmin, updateStatus };
+module.exports = { create, checkoutCart, getMyOrders, getById, getAllForAdmin, updateStatus };

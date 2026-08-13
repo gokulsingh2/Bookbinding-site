@@ -6,9 +6,6 @@
   const formWrapper = document.getElementById('orderFormWrapper');
   const serviceSelect = document.getElementById('serviceSelect');
   const quantityInput = document.getElementById('quantity');
-  const fulfillmentSelect = document.getElementById('fulfillmentType');
-  const addressField = document.getElementById('addressField');
-  const deliveryAddressInput = document.getElementById('deliveryAddress');
   const priceEstimateEl = document.getElementById('priceEstimate');
   const orderForm = document.getElementById('orderForm');
   const resultEl = document.getElementById('result');
@@ -36,10 +33,6 @@
     const serviceId = serviceSelect.value;
     selectedService = services.find((s) => String(s.id) === String(serviceId)) || null;
     updatePriceEstimate();
-  }
-
-  function onFulfillmentChange() {
-    addressField.style.display = fulfillmentSelect.value === 'pickup' ? 'none' : 'block';
   }
 
   async function loadServices() {
@@ -110,7 +103,7 @@
 
     const submitBtn = orderForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Placing order…';
+    submitBtn.textContent = 'Adding…';
 
     let uploadedFileUrl = null;
     try {
@@ -119,13 +112,20 @@
       resultEl.textContent = err.message || 'File upload failed. Please try again.';
       resultEl.className = 'err';
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Place Order';
+      submitBtn.textContent = 'Add to Cart';
       return;
     }
 
-    const payload = {
+    const quantity = parseInt(quantityInput.value, 10) || 1;
+
+    // This is a cart line item, not a placed order yet — it's saved locally and only
+    // becomes a real order (and hits the database) once the customer checks out from /cart.
+    const item = {
       serviceId: selectedService.id,
-      quantity: parseInt(quantityInput.value, 10) || 1,
+      serviceName: selectedService.name,
+      basePrice: Number(selectedService.base_price),
+      priceNote: selectedService.price_note || null,
+      quantity,
       pageCount: document.getElementById('pageCount').value || null,
       paperSize: document.getElementById('paperSize').value,
       printColor: document.getElementById('printColor').value,
@@ -133,49 +133,20 @@
       paperQuality: document.getElementById('paperQuality').value,
       specialInstructions: document.getElementById('specialInstructions').value || null,
       uploadedFileUrl,
-      fulfillmentType: fulfillmentSelect.value,
-      deliveryAddress: deliveryAddressInput.value || null,
-      isUrgent: document.getElementById('isUrgent').checked,
     };
 
-    try {
-      const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
+    window.BBCart.addItem(item);
 
-      if (!res.ok) {
-        resultEl.textContent = data.error || 'Something went wrong placing your order.';
-        resultEl.className = 'err';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Place Order';
-        return;
-      }
+    resultEl.innerHTML = `<strong>Added to cart! 🛒</strong>`;
+    resultEl.className = 'ok';
+    document.getElementById('addedActions').style.display = 'flex';
+    orderForm.style.display = 'none';
 
-      const order = data.order;
-      resultEl.innerHTML = `<strong>Order placed! 🎉 Redirecting to your confirmation…</strong>`;
-      resultEl.className = 'ok';
-
-      if (window.celebrate) window.celebrate();
-      sessionStorage.setItem('justPlacedOrderId', String(order.id));
-
-      setTimeout(function () {
-        window.location.href = `/order/${order.id}/confirmation`;
-      }, 550);
-    } catch (err) {
-      resultEl.textContent = 'Something went wrong. Please try again.';
-      resultEl.className = 'err';
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Place Order';
-    }
+    if (window.celebrate) window.celebrate();
   }
 
   serviceSelect.addEventListener('change', onServiceChange);
   quantityInput.addEventListener('input', updatePriceEstimate);
-  fulfillmentSelect.addEventListener('change', onFulfillmentChange);
   orderForm.addEventListener('submit', handleSubmit);
 
   checkAuthAndInit();

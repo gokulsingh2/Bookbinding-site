@@ -5,6 +5,7 @@ const { requireAuth } = require('../middleware/auth');
 const isAdmin = require('../middleware/isAdmin');
 
 router.post('/', requireAuth, orderController.create);
+router.post('/checkout-cart', requireAuth, orderController.checkoutCart);
 router.get('/my', requireAuth, orderController.getMyOrders);
 router.get('/admin/all', requireAuth, isAdmin, orderController.getAllForAdmin);
 router.put('/:id/status', requireAuth, isAdmin, orderController.updateStatus);

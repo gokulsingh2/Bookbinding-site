@@ -117,6 +117,14 @@ app.get('/order/new', (req, res) => {
   res.render('order-form', { preselectedSlug: req.query.service || '' });
 });
 
+app.get('/cart', (req, res) => {
+  res.render('cart');
+});
+
+app.get('/cart/confirmation', (req, res) => {
+  res.render('cart-confirmation');
+});
+
 app.get('/forgot-password', (req, res) => {
   res.render('forgot-password');
 });

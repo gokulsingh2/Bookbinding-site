@@ -20,7 +20,8 @@
 
       <div id="orderFormWrapper" style="display:none;">
         <span class="eyebrow"><span class="eyebrow__dot"></span>Get Started</span>
-        <h1>Place an <span class="hl">Order</span></h1>
+        <h1>Add Item to <span class="hl">Cart</span></h1>
+        <p class="section__subtitle" style="margin-bottom: 18px;">Build your order item, add it to your cart, then add as many more as you need before checking out.</p>
 
         <form id="orderForm" class="order-form">
           <label for="serviceSelect">Service</label>
@@ -90,32 +91,22 @@
           <input type="file" id="uploadedFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp,.gif" />
           <p class="field-hint">Upload your thesis PDF, poster design, or document to print. PDF, Word, or image files, up to 25MB.</p>
 
-          <label for="fulfillmentType">Fulfillment</label>
-          <select id="fulfillmentType" required>
-            <option value="pickup">Pickup</option>
-            <option value="local_delivery">Local Delivery</option>
-            <option value="shipping">Shipping</option>
-          </select>
-
-          <div id="addressField" style="display:none;">
-            <label for="deliveryAddress">Delivery address</label>
-            <textarea id="deliveryAddress" rows="2" placeholder="Full address for delivery/shipping"></textarea>
-          </div>
-
-          <label class="checkbox-label">
-            <input type="checkbox" id="isUrgent" />
-            This is urgent (rush order)
-          </label>
+          <p class="field-hint">Fulfillment (pickup/delivery) and urgency are set once at checkout, in your cart.</p>
 
           <div class="order-form__estimate">
-            <span>Estimated price</span>
+            <span>Item price</span>
             <strong id="priceEstimate">₹0.00</strong>
           </div>
 
-          <button type="submit" class="btn btn--primary">Place Order</button>
+          <button type="submit" class="btn btn--primary">Add to Cart</button>
         </form>
 
         <div id="result"></div>
+
+        <div id="addedActions" style="display:none; margin-top: 16px; gap: 12px; flex-wrap: wrap;" class="cart-added-actions">
+          <a href="/order/new" class="btn btn--outline">Add Another Item</a>
+          <a href="/cart" class="btn btn--primary">Go to Cart</a>
+        </div>
       </div>
 
     </div>

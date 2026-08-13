@@ -17,6 +17,7 @@ async function createOrder(data) {
     bindingType,
     paperQuality,
     specialInstructions,
+    uploadedFileUrl,
     fulfillmentType,
     deliveryAddress,
     isUrgent,
@@ -31,9 +32,9 @@ async function createOrder(data) {
       const [result] = await pool.query(
         `INSERT INTO orders
           (order_number, customer_id, service_id, quantity, page_count, paper_size, print_color,
-           binding_type, paper_quality, special_instructions, fulfillment_type, delivery_address,
-           is_urgent, price_estimate, payment_status, order_status)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cod', 'received')`,
+           binding_type, paper_quality, special_instructions, uploaded_file_url, fulfillment_type,
+           delivery_address, is_urgent, price_estimate, payment_status, order_status)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'cod', 'received')`,
         [
           orderNumber,
           customerId,
@@ -45,6 +46,7 @@ async function createOrder(data) {
           bindingType || null,
           paperQuality || null,
           specialInstructions || null,
+          uploadedFileUrl || null,
           fulfillmentType,
           deliveryAddress || null,
           !!isUrgent,

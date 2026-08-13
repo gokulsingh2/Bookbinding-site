@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmation — RJ Printing Hub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <div id="loadingState">
+        <p>Loading your orders…</p>
+      </div>
+
+      <div id="errorState" style="display:none;">
+        <p id="errorMessage">We couldn't find those orders.</p>
+        <a href="/my-orders" class="btn btn--primary">My Orders</a>
+      </div>
+
+      <div id="confirmationState" style="display:none;">
+        <div class="confirmation__badge">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="11"/>
+            <path d="M7 12.5l3.2 3.2L17 9"/>
+          </svg>
+          Order Confirmed
+        </div>
+        <h1>Thanks for your order!</h1>
+        <p class="section__subtitle" style="margin-bottom: 20px;">Here's a summary of everything you ordered.</p>
+
+        <div id="ordersList" class="cart-items"></div>
+
+        <div class="order-form__estimate">
+          <span>Order total</span>
+          <strong id="grandTotal">₹0.00</strong>
+        </div>
+
+        <div class="confirmation__bottom">
+          <a href="/my-orders" class="btn btn--outline">View My Orders</a>
+          <a href="/services" class="btn btn--primary">Place Another Order</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/cart-confirmation.js"></script>
+</body>
+</html>

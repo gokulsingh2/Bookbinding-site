@@ -605,6 +605,61 @@ h1, h2, h3, .site-logo {
 }
 .order-form button[type="submit"] { width: 100%; }
 
+/* ---------- Cart badge (header) ---------- */
+.site-nav__cart { position: relative; display: inline-flex; align-items: center; gap: 6px; }
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* ---------- Cart page ---------- */
+.cart-items { display: flex; flex-direction: column; gap: 14px; margin: 20px 0 28px; }
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.cart-item__details h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.cart-item__specs { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.6; margin: 0; }
+.cart-item__side { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; min-width: 140px; }
+.cart-item__price { font-weight: 700; color: var(--leather); font-size: 1.05rem; }
+.cart-item__qty { display: flex; align-items: center; gap: 8px; }
+.cart-item__qty input {
+  width: 56px;
+  padding: 6px;
+  text-align: center;
+  border: 1.5px solid var(--paper-edge);
+  border-radius: 6px;
+  font-family: inherit;
+}
+.cart-item__remove {
+  background: none;
+  border: none;
+  color: #a32a1f;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+.cart-empty { text-align: center; background: #fff; border: 1px solid var(--paper-edge); border-radius: var(--radius); padding: 48px 24px; }
+.cart-empty p { color: var(--ink-soft); margin-bottom: 20px; }
+.cart-summary__row { display: flex; justify-content: space-between; font-size: 0.95rem; padding: 4px 0; color: var(--ink-soft); }
+
 /* ---------- Gallery ---------- */
 .gallery-grid {
   display: grid;
