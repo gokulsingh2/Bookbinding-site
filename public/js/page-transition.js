@@ -24,6 +24,12 @@
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return; // let "open in new tab" etc. work normally
 
+    // A button (or anything explicitly opted out) nested inside a link — e.g. the
+    // "Add to Cart" button inside a service card — has its own click behaviour and
+    // must never also trigger the wrapping card's navigation, no matter which
+    // script's listener happens to run first.
+    if (e.target.closest('button, [data-no-transition]')) return;
+
     const link = e.target.closest('a[href]');
     if (!isInternalNavigableLink(link)) return;
 
