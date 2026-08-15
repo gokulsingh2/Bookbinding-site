@@ -9,6 +9,12 @@
     return '₹' + Number(amount || 0).toFixed(2);
   }
 
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
   function getOrderIds() {
     const params = new URLSearchParams(window.location.search);
     const raw = params.get('ids') || '';
@@ -41,8 +47,8 @@
     ordersList.innerHTML = orders.map((order) => `
       <div class="cart-item">
         <div class="cart-item__details">
-          <h3>${order.service_name}</h3>
-          <p class="cart-item__specs">Order ${order.order_number} · Qty × ${order.quantity} · <span class="status-pill">${order.order_status}</span></p>
+          <h3>${escapeHtml(order.service_name)}</h3>
+          <p class="cart-item__specs">Order ${escapeHtml(order.order_number)} · Qty × ${order.quantity} · <span class="status-pill">${escapeHtml(order.order_status)}</span></p>
         </div>
         <div class="cart-item__side">
           <span class="cart-item__price">${formatPrice(order.price_estimate)}</span>
