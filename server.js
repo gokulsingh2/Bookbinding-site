@@ -101,6 +101,10 @@ app.get('/admin/gallery', (req, res) => {
   res.render('admin-gallery');
 });
 
+app.get('/admin/messages', (req, res) => {
+  res.render('admin-messages');
+});
+
 app.get('/my-orders', (req, res) => {
   res.render('my-orders');
 });

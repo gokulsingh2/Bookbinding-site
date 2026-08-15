@@ -70,7 +70,12 @@
     document.getElementById('paperQuality').textContent = paperQualityLabels[order.paper_quality] || order.paper_quality || '—';
     document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
     document.getElementById('deliveryAddress').textContent = order.delivery_address || '—';
-    document.getElementById('urgent').textContent = order.is_urgent ? 'Yes' : 'No';
+    document.getElementById('urgent').innerHTML = order.is_urgent
+      ? '<span class="flag-badge flag-badge--urgent">Urgent</span>'
+      : 'No';
+    document.getElementById('uploadedFile').innerHTML = order.uploaded_file_url
+      ? `<a href="${order.uploaded_file_url}" target="_blank" rel="noopener" class="flag-badge flag-badge--file">📎 View / Download File</a>`
+      : '<span style="color:var(--ink-soft);">No file uploaded</span>';
     document.getElementById('priceEstimate').textContent = formatPrice(order.final_price || order.price_estimate);
 
     if (order.special_instructions) {

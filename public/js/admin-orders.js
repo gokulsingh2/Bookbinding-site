@@ -3,6 +3,7 @@
   const accessDenied = document.getElementById('accessDenied');
   const ordersContent = document.getElementById('ordersContent');
   const statusFilter = document.getElementById('statusFilter');
+  const urgentOnly = document.getElementById('urgentOnly');
   const ordersBody = document.getElementById('ordersBody');
 
   const statusLabels = {
@@ -29,21 +30,26 @@
 
   function render() {
     const filter = statusFilter.value;
-    const filtered = filter ? allOrders.filter((o) => o.order_status === filter) : allOrders;
+    let filtered = filter ? allOrders.filter((o) => o.order_status === filter) : allOrders;
+    if (urgentOnly.checked) filtered = filtered.filter((o) => o.is_urgent);
 
     if (filtered.length === 0) {
-      ordersBody.innerHTML = '<tr><td colspan="7">No orders match this filter.</td></tr>';
+      ordersBody.innerHTML = '<tr><td colspan="8">No orders match this filter.</td></tr>';
       return;
     }
 
     ordersBody.innerHTML = filtered
       .map(
         (o) => `
-      <tr onclick="window.location.href='/admin/orders/${o.id}'" style="cursor:pointer;">
+      <tr onclick="window.location.href='/admin/orders/${o.id}'" style="cursor:pointer;" class="${o.is_urgent ? 'order-row--urgent' : ''}">
         <td>${o.order_number}</td>
         <td>${o.customer_name}<br><span style="color:#999;font-size:0.8rem;">${o.customer_email}</span></td>
         <td>${o.service_name}</td>
         <td>${fulfillmentLabels[o.fulfillment_type] || o.fulfillment_type}</td>
+        <td>
+          ${o.is_urgent ? '<span class="flag-badge flag-badge--urgent">Urgent</span>' : ''}
+          ${o.uploaded_file_url ? `<a href="${o.uploaded_file_url}" target="_blank" rel="noopener" class="flag-badge flag-badge--file" onclick="event.stopPropagation();">📎 File</a>` : ''}
+        </td>
         <td><span class="status-badge status-badge--${o.order_status}">${statusLabels[o.order_status] || o.order_status}</span></td>
         <td>${formatPrice(o.final_price || o.price_estimate)}</td>
         <td>${formatDate(o.created_at)}</td>
@@ -75,5 +81,6 @@
   }
 
   statusFilter.addEventListener('change', render);
+  urgentOnly.addEventListener('change', render);
   init();
 })();

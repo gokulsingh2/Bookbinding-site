@@ -35,6 +35,18 @@
       renderStats(orders);
       renderRecent(orders.slice(0, 10));
 
+      // Messages count is a nice-to-have on this dashboard — if it fails to load,
+      // the rest of the dashboard (which already loaded successfully) still shows.
+      try {
+        const msgRes = await fetch('/api/contact/admin/all', { credentials: 'include' });
+        if (msgRes.ok) {
+          const msgData = await msgRes.json();
+          document.getElementById('statMessages').textContent = (msgData.messages || []).length;
+        }
+      } catch (msgErr) {
+        // leave the messages stat at its default 0 rather than failing the whole dashboard
+      }
+
       loadingState.style.display = 'none';
       dashboardContent.style.display = 'block';
     } catch (err) {
@@ -45,12 +57,14 @@
   function renderStats(orders) {
     const counts = { received: 0, in_progress: 0, ready: 0, delivered: 0 };
     let revenue = 0;
+    let urgentCount = 0;
 
     orders.forEach((o) => {
       if (counts[o.order_status] !== undefined) counts[o.order_status]++;
       if (o.order_status !== 'cancelled') {
         revenue += Number(o.final_price || o.price_estimate || 0);
       }
+      if (o.is_urgent) urgentCount++;
     });
 
     document.getElementById('statTotal').textContent = orders.length;
@@ -58,6 +72,7 @@
     document.getElementById('statInProgress').textContent = counts.in_progress;
     document.getElementById('statReady').textContent = counts.ready;
     document.getElementById('statDelivered').textContent = counts.delivered;
+    document.getElementById('statUrgent').textContent = urgentCount;
     document.getElementById('statRevenue').textContent = formatPrice(revenue);
   }
 
@@ -71,8 +86,8 @@
     tbody.innerHTML = orders
       .map(
         (o) => `
-      <tr onclick="window.location.href='/admin/orders/${o.id}'" style="cursor:pointer;">
-        <td>${o.order_number}</td>
+      <tr onclick="window.location.href='/admin/orders/${o.id}'" style="cursor:pointer;" class="${o.is_urgent ? 'order-row--urgent' : ''}">
+        <td>${o.order_number}${o.is_urgent ? ' <span class="flag-badge flag-badge--urgent">Urgent</span>' : ''}</td>
         <td>${o.customer_name}</td>
         <td>${o.service_name}</td>
         <td><span class="status-badge status-badge--${o.order_status}">${statusLabels[o.order_status] || o.order_status}</span></td>

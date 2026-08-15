@@ -23,7 +23,7 @@
       <div id="ordersContent" style="display:none;">
         <h1>Manage Orders</h1>
 
-        <div class="admin-filters">
+        <div class="admin-filters" style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
           <select id="statusFilter">
             <option value="">All statuses</option>
             <option value="received">Received</option>
@@ -32,12 +32,16 @@
             <option value="delivered">Delivered</option>
             <option value="cancelled">Cancelled</option>
           </select>
+          <label class="checkbox-label" style="margin-top:0 !important;">
+            <input type="checkbox" id="urgentOnly" />
+            Urgent only
+          </label>
         </div>
 
         <div class="admin-table-wrapper">
           <table class="admin-table">
             <thead>
-              <tr><th>Order #</th><th>Customer</th><th>Service</th><th>Fulfillment</th><th>Status</th><th>Price</th><th>Date</th></tr>
+              <tr><th>Order #</th><th>Customer</th><th>Service</th><th>Fulfillment</th><th>Flags</th><th>Status</th><th>Price</th><th>Date</th></tr>
             </thead>
             <tbody id="ordersBody"></tbody>
           </table>

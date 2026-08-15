@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages — RJ Printing Hub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner">
+      <%- include('partials/admin-nav') %>
+
+      <div id="loadingState"><p>Loading messages…</p></div>
+      <div id="accessDenied" class="order-form__notice" style="display:none;">
+        <p>Admin access required.</p>
+        <a href="/test-auth.html" class="btn btn--primary">Log in</a>
+      </div>
+
+      <div id="messagesContent" style="display:none;">
+        <h1>Contact Messages</h1>
+        <p class="section__subtitle">Submissions from the contact form, most recent first.</p>
+
+        <div id="emptyState" style="display:none;">
+          <p>No messages yet.</p>
+        </div>
+
+        <div id="messagesList" class="message-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/admin-messages.js"></script>
+</body>
+</html>
