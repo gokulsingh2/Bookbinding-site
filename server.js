@@ -127,6 +127,14 @@ app.get('/cart/confirmation', (req, res) => {
   res.render('cart-confirmation');
 });
 
+app.get('/login', (req, res) => {
+  // Only allow a same-site relative path in `redirect` (e.g. /cart) — never a full
+  // URL — so this can't be used as an open redirect to another site.
+  const requested = typeof req.query.redirect === 'string' ? req.query.redirect : '';
+  const redirectTo = requested.startsWith('/') && !requested.startsWith('//') ? requested : '/';
+  res.render('login', { redirectTo });
+});
+
 app.get('/forgot-password', (req, res) => {
   res.render('forgot-password');
 });
