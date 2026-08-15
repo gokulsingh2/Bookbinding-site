@@ -11,6 +11,7 @@ const serviceRoutes = require('./routes/services');
 const orderRoutes = require('./routes/orders');
 const galleryRoutes = require('./routes/gallery');
 const contactRoutes = require('./routes/contact');
+const uploadRoutes = require('./routes/uploads');
 const serviceModel = require('./models/serviceModel');
 const galleryModel = require('./models/galleryModel');
 
@@ -32,6 +33,7 @@ app.use('/api/services', serviceRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/gallery', galleryRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/uploads', uploadRoutes);
 
 // Public pages (server-rendered)
 app.get('/', async (req, res, next) => {

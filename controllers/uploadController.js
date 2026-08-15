@@ -1,28 +1,21 @@
 const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
 
-const UPLOAD_DIR = path.join(__dirname, '..', 'public', 'uploads');
-
-// Make sure the folder exists — a fresh clone/deploy won't have it,
-// since git doesn't track empty directories.
-if (!fs.existsSync(UPLOAD_DIR)) {
-  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-}
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const ALLOWED_EXTENSIONS = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.webp', '.gif'];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, UPLOAD_DIR);
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname).toLowerCase();
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9) + ext;
-    cb(null, uniqueName);
-  },
-});
+// Files are held in memory only long enough to stream them to Cloudinary —
+// never written to local disk. Render's filesystem is ephemeral (wiped on
+// every deploy/restart), so disk storage would silently lose every
+// customer's uploaded file the next time the app redeploys.
+const storage = multer.memoryStorage();
 
 function fileFilter(req, file, cb) {
   const ext = path.extname(file.originalname).toLowerCase();
@@ -38,8 +31,24 @@ const upload = multer({
   fileFilter: fileFilter,
 }).single('file');
 
+function uploadToCloudinary(buffer, publicId) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        // 'auto' lets Cloudinary route images correctly and stores PDFs/docs
+        // as raw files — both come back with a normal https URL either way.
+        resource_type: 'auto',
+        public_id: publicId,
+        folder: 'rj-printing-hub/orders',
+      },
+      (err, result) => (err ? reject(err) : resolve(result))
+    );
+    stream.end(buffer);
+  });
+}
+
 exports.uploadFile = function (req, res) {
-  upload(req, res, function (err) {
+  upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
       if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({ error: 'File is too large. Max size is 10MB.' });
@@ -53,7 +62,13 @@ exports.uploadFile = function (req, res) {
       return res.status(400).json({ error: 'No file was uploaded.' });
     }
 
-    const url = '/uploads/' + req.file.filename;
-    res.status(201).json({ url });
+    try {
+      const uniqueId = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      const result = await uploadToCloudinary(req.file.buffer, uniqueId);
+      return res.status(201).json({ url: result.secure_url });
+    } catch (cloudErr) {
+      console.error('Cloudinary upload error:', cloudErr.message);
+      return res.status(502).json({ error: 'Failed to upload file. Please try again.' });
+    }
   });
 };

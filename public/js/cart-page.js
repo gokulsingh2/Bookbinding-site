@@ -60,6 +60,7 @@
             <label style="margin:0; font-weight:400;">Qty</label>
             <input type="number" min="1" value="${item.quantity}" data-qty-for="${item.id}" />
           </div>
+          <button type="button" class="cart-item__edit" data-edit-id="${item.id}">Edit</button>
           <button type="button" class="cart-item__remove" data-remove-id="${item.id}">Remove</button>
         </div>
       </div>
@@ -84,6 +85,17 @@
     if (removeId) {
       window.BBCart.removeItem(removeId);
       render();
+      return;
+    }
+
+    const editId = e.target.getAttribute('data-edit-id');
+    if (editId) {
+      const item = window.BBCart.getCart().find((i) => i.id === editId);
+      if (!item) return;
+      window.BBItemEditor.open(item, (patch) => {
+        window.BBCart.updateItem(editId, patch);
+        render();
+      });
     }
   }
 

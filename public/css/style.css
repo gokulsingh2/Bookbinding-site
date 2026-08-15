@@ -723,6 +723,83 @@ h1, h2, h3, .site-logo {
 .cart-empty { text-align: center; background: #fff; border: 1px solid var(--paper-edge); border-radius: var(--radius); padding: 48px 24px; }
 .cart-empty p { color: var(--ink-soft); margin-bottom: 20px; }
 .cart-summary__row { display: flex; justify-content: space-between; font-size: 0.95rem; padding: 4px 0; color: var(--ink-soft); }
+.cart-item__edit {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* ---------- Item editor modal ---------- */
+.item-editor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 30, 51, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.item-editor-overlay.is-active { opacity: 1; pointer-events: all; }
+.item-editor {
+  background: #fff;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+  transform: translateY(14px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.item-editor-overlay.is-active .item-editor { transform: translateY(0) scale(1); opacity: 1; }
+.item-editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--paper-edge);
+}
+.item-editor__head h2 { margin: 0; font-size: 1.2rem; color: var(--leather); }
+.item-editor__close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 0 4px;
+}
+.item-editor__close:hover { color: var(--leather); }
+.item-editor form { padding: 20px 24px 24px; }
+.item-editor__file-status {
+  font-size: 0.85rem;
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+}
+.item-editor__file-status--ok { color: #1e6b2f; }
+.item-editor__file-status--err { color: #a32a1f; }
+.item-editor__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.item-editor__actions .btn { width: auto; }
+@media (max-width: 560px) {
+  .item-editor__actions { flex-direction: column-reverse; }
+  .item-editor__actions .btn { width: 100%; }
+}
 
 /* ---------- Gallery ---------- */
 .gallery-grid {

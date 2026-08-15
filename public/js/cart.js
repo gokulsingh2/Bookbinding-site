@@ -42,6 +42,17 @@
     return items;
   }
 
+  // Merges `patch` into the existing item (used by the item-spec editor to save
+  // paper size/color/binding/quality/notes/file in one go). Unlike updateItemQuantity,
+  // this doesn't special-case any single field.
+  function updateItem(id, patch) {
+    const items = getCart();
+    const item = items.find((i) => i.id === id);
+    if (item) Object.assign(item, patch);
+    saveCart(items);
+    return items;
+  }
+
   function removeItem(id) {
     const items = getCart().filter((i) => i.id !== id);
     saveCart(items);
@@ -123,6 +134,7 @@
     saveCart,
     addItem,
     updateItemQuantity,
+    updateItem,
     removeItem,
     clearCart,
     lineTotal,
