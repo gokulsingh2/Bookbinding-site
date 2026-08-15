@@ -100,19 +100,16 @@ async function create(req, res) {
 
     const order = await orderModel.createOrder({ customerId: req.user.id, ...itemData });
 
-    // Send the confirmation email in the background — a slow or failed email
-    // should never block the order response, since the order itself already succeeded.
-    try {
-      const customer = await userModel.findById(req.user.id);
-      await sendOrderConfirmationEmail({
+    // Fire-and-forget: don't await the email, so a slow or failed send never
+    // delays the response the customer is waiting on. Errors are still logged.
+    userModel.findById(req.user.id)
+      .then((customer) => sendOrderConfirmationEmail({
         to: customer.email,
         name: customer.name,
         order,
         serviceName: itemData.serviceName,
-      });
-    } catch (mailErr) {
-      console.error('Failed to send order confirmation email:', mailErr.message);
-    }
+      }))
+      .catch((mailErr) => console.error('Failed to send order confirmation email:', mailErr.message));
 
     return res.status(201).json({ order });
   } catch (err) {
@@ -152,24 +149,25 @@ async function checkoutCart(req, res) {
       return res.status(400).json({ error: validationErr.message });
     }
 
-    const orders = [];
-    for (const itemData of itemsData) {
-      const order = await orderModel.createOrder({ customerId: req.user.id, ...itemData });
-      orders.push({ order, serviceName: itemData.serviceName });
-    }
+    // Each item's order_number is independently randomized (see orderModel), so
+    // these inserts don't depend on each other — running them in parallel instead
+    // of one-by-one is what actually matters for checkout speed on a multi-item cart.
+    const orders = (await Promise.all(
+      itemsData.map(async (itemData) => {
+        const order = await orderModel.createOrder({ customerId: req.user.id, ...itemData });
+        return { order, serviceName: itemData.serviceName };
+      })
+    ));
 
-    // One consolidated email for the whole cart, rather than spamming a separate
-    // email per item.
-    try {
-      const customer = await userModel.findById(req.user.id);
-      await sendCartOrderConfirmationEmail({
+    // Fire-and-forget: don't await the consolidated email, so a slow or failed
+    // send never delays the response the customer is waiting on.
+    userModel.findById(req.user.id)
+      .then((customer) => sendCartOrderConfirmationEmail({
         to: customer.email,
         name: customer.name,
         orders,
-      });
-    } catch (mailErr) {
-      console.error('Failed to send cart confirmation email:', mailErr.message);
-    }
+      }))
+      .catch((mailErr) => console.error('Failed to send cart confirmation email:', mailErr.message));
 
     return res.status(201).json({ orders: orders.map((o) => o.order) });
   } catch (err) {
