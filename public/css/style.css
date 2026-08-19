@@ -10,7 +10,7 @@
      for compatibility with existing markup (e.g. --leather is now violet). */
   --ink: #170f26;           /* body text — near-black, violet-tinted ink */
   --paper: #ffffff;         /* page background — white */
-  --leather: #4c1d7a;       /* primary brand color — deep violet */
+  --leather: #5b3fd6;       /* primary brand color — vivid indigo-violet */
   --accent: #ff6f59;        /* CTA / hover — coral */
 
   /* Extended tokens */
@@ -229,7 +229,7 @@ h1, h2, h3, .site-logo {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(180deg, var(--cream-deep), var(--paper));
+  background: linear-gradient(135deg, #ffffff 0%, var(--cream-deep) 45%, #d9c5f2 100%);
   padding: 88px 24px;
   text-align: center;
   position: relative;
@@ -426,7 +426,7 @@ h1, h2, h3, .site-logo {
 
 /* Category system — a blue family so every card stays on-brand
    while still giving each service group a distinct identity. */
-.service-card--thesis  { --cat: #4c1d7a; --cat-light: #9b6fd6; }
+.service-card--thesis  { --cat: #5b3fd6; --cat-light: #9b6fd6; }
 .service-card--books   { --cat: #7c2d6b; --cat-light: #d0629f; }
 .service-card--posters { --cat: #d1483a; --cat-light: #ff8a75; }
 .service-card--other   { --cat: #4b4160; --cat-light: #9187ab; }
