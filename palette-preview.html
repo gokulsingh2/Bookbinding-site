@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Violet & Ink Preview</title>
+<style>
+  :root {
+    --ink: #170f26; --paper: #ffffff; --leather: #4c1d7a; --accent: #ff6f59;
+    --ink-soft: #5b4f74; --cream-deep: #f4eefb; --paper-edge: #ddccf0; --accent-dark: #e2543f;
+    --font-display: Georgia, serif; --font-body: -apple-system, sans-serif;
+    --shadow-sm: 0 2px 8px rgba(76, 29, 122, 0.10);
+    --shadow-md: 0 8px 24px rgba(76, 29, 122, 0.18);
+  }
+  body { font-family: var(--font-body); background: var(--cream-deep); color: var(--ink); padding: 50px; margin: 0; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-family: var(--font-display); font-weight: 800; color: var(--leather); font-size: 2.2rem; margin-bottom: 6px; }
+  h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; margin: 30px 0 10px; }
+  p { line-height: 1.6; }
+  .swatches { display: flex; gap: 14px; margin: 18px 0 34px; flex-wrap: wrap; }
+  .swatch { width: 90px; }
+  .swatch__block { height: 60px; border-radius: 10px; box-shadow: var(--shadow-sm); }
+  .swatch__label { font-size: 0.75rem; margin-top: 6px; color: var(--ink-soft); text-align: center; }
+  .btn { display: inline-block; padding: 12px 24px; background: var(--leather); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 800; border: none; cursor: pointer; box-shadow: var(--shadow-sm); margin-right: 10px; }
+  .btn:hover { background: var(--accent); }
+  .btn--outline { background: transparent; color: var(--leather); border: 1px solid var(--leather); }
+  .btn--outline:hover { background: var(--leather); color: #fff; }
+  .card { background: #fff; border-radius: 10px; padding: 24px; box-shadow: var(--shadow-md); margin: 20px 0; }
+  .loader-demo { display: flex; align-items: center; justify-content: center; height: 180px; background: rgba(23,15,38,0.9); border-radius: 14px; margin: 20px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>RJ Printing Hub</h1>
+  <p style="color:var(--ink-soft);">Violet &amp; Ink palette — bold headings and buttons, normal-weight body text (like this line).</p>
+
+  <div class="swatches">
+    <div class="swatch"><div class="swatch__block" style="background:var(--leather);"></div><div class="swatch__label">Primary (violet)</div></div>
+    <div class="swatch"><div class="swatch__block" style="background:var(--accent);"></div><div class="swatch__label">Accent (coral)</div></div>
+    <div class="swatch"><div class="swatch__block" style="background:var(--ink);"></div><div class="swatch__label">Ink (text)</div></div>
+    <div class="swatch"><div class="swatch__block" style="background:var(--cream-deep); border:1px solid var(--paper-edge);"></div><div class="swatch__label">Section bg</div></div>
+    <div class="swatch"><div class="swatch__block" style="background:#7c2d6b;"></div><div class="swatch__label">Books category</div></div>
+    <div class="swatch"><div class="swatch__block" style="background:#d1483a;"></div><div class="swatch__label">Posters category</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Bold buttons &amp; headings</h2>
+    <p>Body copy like this stays at normal weight, exactly as you asked — only headings and buttons go heavier.</p>
+    <a href="#" class="btn">Place Order</a>
+    <button class="btn btn--outline">Learn More</button>
+  </div>
+
+  <h2>New interactive loader (page transitions)</h2>
+  <div class="loader-demo">
+    <div class="loader">
+      <span class="loader__ring"></span>
+      <span class="loader__blob"></span>
+      <span class="loader__orbit"><span class="loader__spark"></span></span>
+    </div>
+  </div>
+</div>
+
+<style>
+.loader { position: relative; width: 84px; height: 84px; }
+.loader__ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(255, 111, 89, 0.35); animation: loaderRingBreathe 2.4s ease-in-out infinite; }
+@keyframes loaderRingBreathe { 0%, 100% { transform: scale(0.92); opacity: 0.5; } 50% { transform: scale(1.08); opacity: 1; } }
+.loader__blob { position: absolute; inset: 14px; background: linear-gradient(135deg, #8b5cf6, var(--leather)); box-shadow: 0 0 22px rgba(255, 111, 89, 0.45); animation: loaderBlobMorph 2.6s ease-in-out infinite, loaderBlobSpin 5s linear infinite; }
+@keyframes loaderBlobMorph {
+  0%, 100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
+  25%      { border-radius: 62% 38% 30% 70% / 50% 62% 38% 50%; }
+  50%      { border-radius: 35% 65% 55% 45% / 62% 35% 65% 38%; }
+  75%      { border-radius: 55% 45% 40% 60% / 40% 55% 45% 60%; }
+}
+@keyframes loaderBlobSpin { to { transform: rotate(360deg); } }
+.loader__orbit { position: absolute; inset: -6px; display: block; animation: loaderOrbitSpin 1.5s linear infinite; }
+@keyframes loaderOrbitSpin { to { transform: rotate(360deg); } }
+.loader__spark { position: absolute; top: 0; left: 50%; width: 9px; height: 9px; margin-left: -4.5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px 2px rgba(255, 111, 89, 0.85); }
+</style>
+</body>
+</html>
