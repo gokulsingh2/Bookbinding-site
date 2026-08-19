@@ -1,43 +1,10 @@
 <div id="pageTransition" class="page-transition" aria-hidden="true">
-  <div class="printer">
-    <div class="printer__paper">
-      <span class="printer__line printer__line--title"></span>
-      <span class="printer__line"></span>
-      <span class="printer__line" style="width:88%;"></span>
-      <span class="printer__line" style="width:95%;"></span>
-      <span class="printer__line" style="width:60%;"></span>
-    </div>
-    <svg class="printer__svg" viewBox="0 0 170 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="printerBody" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#4aa3ec"/>
-          <stop offset="42%" stop-color="#1f5fbf"/>
-          <stop offset="100%" stop-color="#0a2c58"/>
-        </linearGradient>
-        <linearGradient id="printerTray" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#0d2745"/>
-          <stop offset="100%" stop-color="#061a30"/>
-        </linearGradient>
-      </defs>
-      <ellipse cx="85" cy="122" rx="66" ry="6" fill="rgba(0,0,0,0.32)"/>
-      <rect x="14" y="92" width="142" height="20" rx="4" fill="url(#printerTray)"/>
-      <rect x="14" y="92" width="142" height="3" rx="1.5" fill="#000" opacity="0.3"/>
-      <rect x="8" y="46" width="154" height="62" rx="12" fill="url(#printerBody)" stroke="#062042" stroke-width="1.5"/>
-      <rect x="8" y="46" width="154" height="13" rx="12" fill="#fff" opacity="0.14"/>
-      <rect x="112" y="64" width="34" height="24" rx="4" fill="#0a2036" opacity="0.9"/>
-      <rect x="117" y="69" width="24" height="6" rx="1.5" fill="#7cffb2" class="printer__lcd"/>
-      <circle cx="120" cy="80" r="2.4" fill="#eaf3fc"/>
-      <circle cx="129" cy="80" r="2.4" fill="#eaf3fc"/>
-      <circle cx="138" cy="80" r="2.4" fill="#eaf3fc"/>
-      <line x1="20" y1="68" x2="20" y2="98" stroke="#04162c" stroke-width="2" opacity="0.3"/>
-      <line x1="26" y1="68" x2="26" y2="98" stroke="#04162c" stroke-width="2" opacity="0.3"/>
-      <line x1="32" y1="68" x2="32" y2="98" stroke="#04162c" stroke-width="2" opacity="0.3"/>
-      <rect x="30" y="42" width="110" height="9" rx="3" fill="#04162c"/>
-      <rect x="30" y="42" width="110" height="3" rx="1.5" fill="#000" opacity="0.4"/>
-      <text x="85" y="105" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#fff" opacity="0.55" font-weight="600">RJ PRINTING HUB</text>
-    </svg>
+  <div class="loader">
+    <span class="loader__pulse"></span>
+    <span class="loader__pulse"></span>
+    <span class="loader__pulse"></span>
+    <span class="loader__core"></span>
   </div>
-  <p class="page-transition__label">Printing your page<span class="page-transition__dots"><span></span><span></span><span></span></span></p>
 </div>
 
 <header class="site-header">
