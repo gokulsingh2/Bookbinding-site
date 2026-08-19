@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Fixes Preview</title>
+<style>
+  :root {
+    --ink: #170f26; --paper: #ffffff; --leather: #5b3fd6; --accent: #ff6f59;
+    --ink-soft: #5b4f74; --cream-deep: #f4eefb; --paper-edge: #ddccf0; --accent-dark: #e2543f;
+    --heading: #2a1f4d;
+    --font-display: Georgia, serif; --font-body: -apple-system, sans-serif;
+  }
+  body {
+    margin: 0; font-family: var(--font-body); color: var(--ink); padding: 0;
+    background:
+      radial-gradient(ellipse 1200px 500px at 50% -8%, rgba(255, 111, 89, 0.09), transparent 60%),
+      linear-gradient(160deg, #ffffff 0%, var(--cream-deep) 40%, #e5d7f7 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 60px 30px; }
+  .fake-header { background: #fff; padding: 16px 30px; box-shadow: 0 2px 8px rgba(76,29,122,0.08); display:flex; justify-content: space-between; align-items:center; }
+  .fake-header strong { color: var(--leather); font-weight: 800; font-family: var(--font-display); }
+  h1 { font-family: var(--font-display); font-weight: 800; color: var(--heading); font-size: 2.3rem; margin: 0 0 8px; }
+  p { line-height: 1.6; color: var(--ink-soft); }
+  .divider { height: 40px; }
+  .hl {
+    position: relative; display: inline-block; font-weight: 800; color: var(--heading); padding: 0 4px;
+  }
+  .hl::after {
+    content: ''; position: absolute; left: -3px; right: -3px; bottom: 6%; height: 38%;
+    background: linear-gradient(100deg, var(--accent-dark), var(--accent));
+    border-radius: 2px 9px 3px 10px / 8px 3px 9px 2px;
+    transform: scaleX(0); transform-origin: left center; z-index: -1;
+    animation: hlWipe 0.65s cubic-bezier(0.65,0,0.35,1) 0.4s both;
+  }
+  .hl:hover::after { animation: hlWiggle 0.5s ease; }
+  @keyframes hlWipe { to { transform: scaleX(1); } }
+  @keyframes hlWiggle {
+    0%, 100% { transform: scaleX(1) rotate(0deg); }
+    30% { transform: scaleX(1.04) rotate(-1.2deg); }
+    60% { transform: scaleX(0.98) rotate(1deg); }
+  }
+  .note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 30px; }
+</style>
+</head>
+<body>
+  <div class="fake-header"><strong>RJ Printing Hub</strong><span style="font-size:0.85rem;color:var(--ink-soft);">(mock header)</span></div>
+
+  <div class="page">
+    <h1>Our <span class="hl">Work</span></h1>
+    <p>A look at finished bindings and restorations. Notice the highlight is now a hand-drawn stroke sitting behind the word — hover it to see a little wiggle.</p>
+
+    <div class="divider"></div>
+
+    <h1>Get in <span class="hl">Touch</span></h1>
+    <p>Questions about a service, a custom job, or an existing order? Reach out.</p>
+
+    <div class="divider"></div>
+
+    <h1><span class="hl">Checkout</span></h1>
+    <p>Same treatment reused everywhere <code>.hl</code> is used — one shared style, no per-page tweaking needed.</p>
+
+    <p class="note">This background gradient is now on the &lt;body&gt; itself, so it shows up on every page — gallery, contact, cart, services, everywhere — not just the homepage hero.</p>
+  </div>
+</body>
+</html>

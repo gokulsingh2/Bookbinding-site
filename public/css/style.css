@@ -18,6 +18,7 @@
   --cream-deep: #f4eefb;    /* alt section background — pale lavender */
   --paper-edge: #ddccf0;    /* borders, dividers, subtle fills — light violet */
   --accent-dark: #e2543f;   /* pressed/active state — deeper coral */
+  --heading: #2a1f4d;       /* large headline text — deep muted indigo, bold but not shiny */
 
   /* Type */
   --font-display: 'Fraunces', Georgia, serif;
@@ -37,7 +38,8 @@ body {
   font-family: var(--font-body);
   background:
     radial-gradient(ellipse 1200px 500px at 50% -8%, rgba(255, 111, 89, 0.09), transparent 60%),
-    var(--paper);
+    linear-gradient(160deg, #ffffff 0%, var(--cream-deep) 40%, #e5d7f7 100%);
+  background-attachment: fixed;
   color: var(--ink);
   line-height: 1.5;
   position: relative;
@@ -239,7 +241,7 @@ h1, h2, h3, .site-logo {
   font-size: 2.6rem;
   line-height: 1.25;
   margin-bottom: 16px;
-  color: var(--leather);
+  color: var(--heading);
 }
 .hero p { font-size: 1.15rem; color: var(--ink-soft); margin-bottom: 28px; }
 
@@ -247,7 +249,7 @@ h1, h2, h3, .site-logo {
 .section { padding: 64px 24px; }
 .section__inner { max-width: 1100px; margin: 0 auto; }
 .section__inner--narrow { max-width: 700px; }
-.section h1 { font-size: 2.1rem; margin-bottom: 8px; color: var(--leather); }
+.section h1 { font-size: 2.1rem; margin-bottom: 8px; color: var(--heading); }
 .section h2 { font-size: 1.7rem; margin-bottom: 28px; text-align: center; }
 .section__subtitle { color: var(--ink-soft); margin-bottom: 32px; }
 .section__subtitle--script {
@@ -319,8 +321,7 @@ h1, h2, h3, .site-logo {
   to { stroke-dashoffset: 0; }
 }
 @keyframes hlWipe {
-  from { background-size: 0% 42%; }
-  to { background-size: 100% 42%; }
+  to { transform: scaleX(1); }
 }
 @keyframes pulseDot {
   0%, 100% { box-shadow: 0 0 0 0 rgba(255, 111, 89, 0.45); }
@@ -330,17 +331,38 @@ h1, h2, h3, .site-logo {
 .section { animation: fadeInUp 0.55s ease both; }
 .section h1 { animation: fadeInUp 0.55s ease both; }
 
-/* Highlighter accent — wrap key words in <span class="hl"> in any heading. */
+/* Highlighter accent — wrap key words in <span class="hl"> in any heading.
+   The stroke sits behind the text (z-index -1) as its own hand-drawn shape,
+   so it never fights the letters for contrast the way a background-behind-text
+   highlight can. Text stays the readable heading color throughout. */
 .hl {
   position: relative;
-  font-weight: 700;
-  color: var(--leather);
-  background-image: linear-gradient(to right, var(--accent-dark), var(--accent));
-  background-repeat: no-repeat;
-  background-position: 0 90%;
-  background-size: 0% 42%;
-  animation: hlWipe 0.8s ease 0.35s both;
-  padding: 0 2px;
+  display: inline-block;
+  font-weight: 800;
+  color: var(--heading);
+  padding: 0 4px;
+}
+.hl::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  bottom: 6%;
+  height: 38%;
+  background: linear-gradient(100deg, var(--accent-dark), var(--accent));
+  border-radius: 2px 9px 3px 10px / 8px 3px 9px 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  z-index: -1;
+  animation: hlWipe 0.65s cubic-bezier(0.65, 0, 0.35, 1) 0.4s both;
+}
+.hl:hover::after {
+  animation: hlWiggle 0.5s ease;
+}
+@keyframes hlWiggle {
+  0%, 100% { transform: scaleX(1) rotate(0deg); }
+  30%      { transform: scaleX(1.04) rotate(-1.2deg); }
+  60%      { transform: scaleX(0.98) rotate(1deg); }
 }
 
 .eyebrow {
