@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Sora:wght@600;700;800&display=swap');
 
 /* ============================================================
    Design tokens — dark blue, light blue & white system.
@@ -244,14 +244,14 @@ h1, h2, h3, .site-logo {
 .site-logo:focus-visible .logo-spark { animation-duration: 0.9s; }
 
 .site-logo:active .logo-mark { transform: scale(0.96); }
-.site-nav { display: flex; gap: 38px; }
+.site-nav { display: flex; gap: 54px; }
 .site-nav a {
   color: var(--ink);
   text-decoration: none;
-  font-family: var(--font-head);
-  font-size: 1.02rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-family: 'Sora', var(--font-head);
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.015em;
   display: inline-block;
   transition: color 0.15s ease, transform 0.1s ease;
 }
@@ -1789,12 +1789,18 @@ textarea:focus-visible {
 }
 
 /* ---------- Responsive / mobile polish ---------- */
+@media (max-width: 1024px) {
+  .logo-svg { width: 300px; height: auto; }
+  .site-nav { gap: 30px; }
+  .site-nav a { font-size: 1rem; }
+}
+
 @media (max-width: 720px) {
   .site-header__inner {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .logo-svg { width: 250px; height: auto; }
+  .logo-svg { width: 290px; height: auto; }
   .site-nav {
     order: 3;
     width: 100%;
@@ -1841,7 +1847,7 @@ textarea:focus-visible {
 
 @media (max-width: 480px) {
   .site-logo { font-size: 1.1rem; }
-  .logo-svg { width: 210px; }
+  .logo-svg { width: 240px; }
   .site-nav { gap: 8px; }
   .site-nav a { font-size: 0.82rem; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
