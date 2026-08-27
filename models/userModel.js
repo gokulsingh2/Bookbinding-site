@@ -43,6 +43,11 @@ async function updatePasswordAndClearToken(userId, passwordHash) {
   );
 }
 
+async function updateName(userId, name) {
+  await pool.query('UPDATE users SET name = ? WHERE id = ?', [name, userId]);
+  return findById(userId);
+}
+
 module.exports = {
   findByEmail,
   findById,
@@ -50,4 +55,5 @@ module.exports = {
   setResetToken,
   findByValidResetToken,
   updatePasswordAndClearToken,
+  updateName,
 };

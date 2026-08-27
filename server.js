@@ -107,6 +107,10 @@ app.get('/admin/messages', (req, res) => {
   res.render('admin-messages');
 });
 
+app.get('/profile', (req, res) => {
+  res.render('profile');
+});
+
 app.get('/my-orders', (req, res) => {
   res.render('my-orders');
 });

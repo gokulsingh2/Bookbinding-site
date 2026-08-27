@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — RJ Printing Hub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner section__inner--narrow">
+      <h1>My Profile</h1>
+
+      <div id="loadingState"><p>Loading your profile…</p></div>
+
+      <div id="loginNotice" class="order-form__notice" style="display:none;">
+        <p>You'll need to be logged in to view your profile.</p>
+        <a href="/login?redirect=/profile" class="btn btn--primary">Log in / Register</a>
+      </div>
+
+      <div id="profileCard" class="profile-card" style="display:none;">
+        <div class="profile-card__avatar" id="profileAvatar"></div>
+
+        <form id="profileForm" class="profile-form">
+          <label for="profileName">Name</label>
+          <input type="text" id="profileName" required maxlength="100" autocomplete="name" />
+
+          <label for="profileEmail">Email</label>
+          <input type="email" id="profileEmail" disabled />
+          <p class="field-hint">Email can't be changed here — contact support if you need this updated.</p>
+
+          <button type="submit" class="btn btn--primary" id="profileSaveBtn">Save changes</button>
+          <div id="profileResult"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+
+  <script src="/js/profile.js"></script>
+</body>
+</html>

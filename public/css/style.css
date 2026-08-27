@@ -1469,7 +1469,47 @@ h1, h2, h3, .site-logo {
   align-items: center;
 }
 
-/* ---------- Contact page ---------- */
+/* ---------- Profile page ---------- */
+.profile-card {
+  max-width: 420px;
+  margin: 24px 0;
+  padding: 32px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  animation: fadeInUp 0.4s ease both;
+}
+.profile-card__avatar {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, var(--leather));
+  color: #fff;
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(91, 63, 214, 0.35);
+}
+.profile-form { text-align: left; }
+.profile-form label { display: block; margin: 14px 0 4px; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.profile-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--paper-edge);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+.profile-form input:disabled { background: #f4eefb; color: var(--ink-soft); cursor: not-allowed; }
+.profile-form .btn { margin-top: 20px; width: 100%; }
+#profileResult { margin-top: 10px; font-size: 0.9rem; font-weight: 600; min-height: 1.2em; }
+
+
 .contact-info {
   background: #fff;
   border: 1px solid var(--paper-edge);
@@ -1644,67 +1684,54 @@ textarea:focus-visible {
 }
 .page-transition.is-active { opacity: 1; pointer-events: all; }
 
-.loader {
+.loader-book {
   position: relative;
-  width: 84px;
-  height: 84px;
+  width: 72px;
+  height: 88px;
+  perspective: 340px;
+  animation: loaderPop 0.5s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes loaderPop {
+  0%   { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/* A soft outer ring that slowly breathes, giving the blob some depth to sit in. */
-.loader__ring {
+/* the book's spine + back cover — stays put, everything else flips in front of it */
+.loader-book__spine {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 111, 89, 0.35);
-}
-.page-transition.is-active .loader__ring {
-  animation: loaderRingBreathe 2.4s ease-in-out infinite;
-}
-@keyframes loaderRingBreathe {
-  0%, 100% { transform: scale(0.92); opacity: 0.5; }
-  50%      { transform: scale(1.08); opacity: 1; }
+  left: 4px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #8b5cf6, var(--leather));
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
 }
 
-/* An organic ink blob that continuously reshapes itself while it spins —
-   references the site's "ink" branding, in violet with a coral glow. */
-.loader__blob {
+/* two pages that take turns flipping open, like a book being fanned through —
+   simple (just a rotateY loop) but reads as lively thanks to the stagger + glow. */
+.loader-book__page {
   position: absolute;
-  inset: 14px;
-  background: linear-gradient(135deg, #8b5cf6, var(--leather));
-  box-shadow: 0 0 22px rgba(255, 111, 89, 0.45);
+  inset: 0;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(135deg, #fff7f5, #ffe4dc);
+  transform-origin: right center;
+  transform: rotateY(0deg);
+  opacity: 0;
 }
-.page-transition.is-active .loader__blob {
-  animation: loaderBlobMorph 2.6s ease-in-out infinite, loaderBlobSpin 5s linear infinite;
+.page-transition.is-active .loader-book__page--1 {
+  animation: pageFlip 1.2s cubic-bezier(.45, 0, .55, 1) infinite;
 }
-@keyframes loaderBlobMorph {
-  0%, 100% { border-radius: 42% 58% 65% 35% / 45% 45% 55% 55%; }
-  25%      { border-radius: 62% 38% 30% 70% / 50% 62% 38% 50%; }
-  50%      { border-radius: 35% 65% 55% 45% / 62% 35% 65% 38%; }
-  75%      { border-radius: 55% 45% 40% 60% / 40% 55% 45% 60%; }
+.page-transition.is-active .loader-book__page--2 {
+  animation: pageFlip 1.2s cubic-bezier(.45, 0, .55, 1) infinite;
+  animation-delay: 0.6s;
 }
-@keyframes loaderBlobSpin { to { transform: rotate(360deg); } }
-
-/* A coral spark orbiting the blob — the one moving, independent element that
-   makes the whole thing read as "alive" rather than a static pulsing shape. */
-.loader__orbit {
-  position: absolute;
-  inset: -6px;
-  display: block;
-}
-.page-transition.is-active .loader__orbit {
-  animation: loaderOrbitSpin 1.5s linear infinite;
-}
-@keyframes loaderOrbitSpin { to { transform: rotate(360deg); } }
-.loader__spark {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 12px 2px rgba(255, 111, 89, 0.85);
+@keyframes pageFlip {
+  0%   { transform: rotateY(0deg);    opacity: 0; }
+  8%   { opacity: 1; }
+  50%  { transform: rotateY(-160deg); opacity: 1; }
+  58%  { opacity: 0; }
+  100% { transform: rotateY(-160deg); opacity: 0; }
 }
 
 /* ---------- Icon print-stamp — a small "print head" bounce on hover ---------- */

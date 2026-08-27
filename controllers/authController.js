@@ -181,4 +181,25 @@ async function resetPassword(req, res) {
   }
 }
 
-module.exports = { register, login, logout, me, forgotPassword, resetPassword };
+async function updateProfile(req, res) {
+  try {
+    const { name } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: 'Name cannot be empty' });
+    }
+    if (name.trim().length > 100) {
+      return res.status(400).json({ error: 'Name is too long' });
+    }
+
+    const user = await userModel.updateName(req.user.id, name.trim());
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    return res.json({ user });
+  } catch (err) {
+    console.error('Update profile error:', err);
+    return res.status(500).json({ error: 'Something went wrong while updating your profile' });
+  }
+}
+
+module.exports = { register, login, logout, me, forgotPassword, resetPassword, updateProfile };
