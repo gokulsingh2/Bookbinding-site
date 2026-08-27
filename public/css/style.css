@@ -718,47 +718,6 @@ h1, h2, h3, .site-logo {
   color: var(--heading);
   padding: 0 4px;
 }
-.hl__text {
-  display: inline-block;
-  clip-path: inset(0 100% 0 0);
-  animation: hlPrint 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.4s forwards;
-}
-@keyframes hlPrint {
-  to { clip-path: inset(0 0 0 0); }
-}
-
-/* Ink drips — hang from the bottom of the freshly "printed" text and
-   settle into place shortly after the print-reveal finishes. */
-.drip {
-  position: absolute;
-  top: 100%;
-  width: 6px;
-  height: 0;
-  background: linear-gradient(180deg, var(--accent), var(--accent-dark));
-  border-radius: 0 0 50% 50% / 0 0 65% 65%;
-  box-shadow: inset -1px 0 1px rgba(255, 255, 255, 0.35);
-  opacity: 0;
-  animation: dripFall 0.9s cubic-bezier(0.3, 0, 0.2, 1) both;
-}
-.drip--1 { left: 8%;  width: 5px; animation-delay: 0.95s; }
-.drip--2 { left: 30%; width: 7px; animation-delay: 1.1s; }
-.drip--3 { left: 58%; width: 6px; animation-delay: 1s; }
-.drip--4 { left: 82%; width: 5px; animation-delay: 1.2s; }
-@keyframes dripFall {
-  0%   { height: 0;    opacity: 0; }
-  20%  { height: 3px;  opacity: 1; }
-  50%  { height: 24px; opacity: 1; }
-  72%  { height: 19px; opacity: 1; }
-  100% { height: 11px; opacity: 1; }
-}
-.hl:hover .drip {
-  animation: dripWiggle 0.4s ease;
-}
-@keyframes dripWiggle {
-  0%, 100% { transform: scaleY(1); }
-  40%      { transform: scaleY(1.18); }
-  70%      { transform: scaleY(0.94); }
-}
 
 .eyebrow {
   display: inline-flex;
