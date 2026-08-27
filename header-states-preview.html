@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Header Auth States Preview</title>
+<style>
+  :root {
+    --ink: #170f26; --paper: #ffffff; --leather: #5b3fd6; --accent: #ff6f59;
+    --ink-soft: #5b4f74; --cream-deep: #f4eefb; --paper-edge: #ddccf0; --accent-dark: #e2543f;
+    --heading: #2a1f4d;
+    --font-display: Georgia, serif; --font-body: -apple-system, sans-serif;
+    --shadow-sm: 0 2px 8px rgba(76, 29, 122, 0.10);
+    --shadow-md: 0 8px 24px rgba(76, 29, 122, 0.18);
+  }
+  body { font-family: var(--font-body); margin: 0; background: #f4f8fc; }
+  .fake-header { background: #fff; padding: 16px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(76,29,122,0.08); }
+  .logo { font-weight: 800; color: var(--leather); font-family: var(--font-display); font-size: 1.3rem; }
+  .btn { display: inline-block; padding: 8px 16px; background: var(--leather); color: #fff; text-decoration: none; border-radius: 6px; font-weight: 800; font-size: 0.85rem; }
+  .label { text-align: center; padding: 16px; color: var(--ink-soft); font-size: 0.9rem; }
+  .site-nav__cart { position: relative; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; color: var(--leather); text-decoration: none; }
+  .site-nav__cart:hover { background: var(--cream-deep); }
+  .cart-icon { width: 22px; height: 22px; }
+  .cart-badge { position: absolute; top: -2px; right: -2px; background: var(--accent); color: #fff; font-size: 0.65rem; font-weight: 700; border-radius: 999px; min-width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+</style>
+</head>
+<body>
+
+<div class="label">Logged OUT — only "Log in" shows</div>
+<div class="fake-header">
+  <span class="logo">RJ Printing Hub</span>
+  <div style="display:flex; gap:20px; color:var(--ink);">Home Services Gallery Contact</div>
+  <a href="#" class="btn">Log in</a>
+</div>
+
+<div class="label">Logged IN — cart + profile dropdown (open)</div>
+<div class="fake-header">
+  <span class="logo">RJ Printing Hub</span>
+  <div style="display:flex; gap:20px; color:var(--ink);">Home Services Gallery Contact</div>
+  <div class="loggedin-auth" style="display:flex; align-items:center; gap:14px;">
+    <a href="#" class="site-nav__cart">
+      <svg class="cart-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 3h2l.6 3M4.6 6h15.4l-1.8 7.5a1.5 1.5 0 01-1.46 1.15H7.9a1.5 1.5 0 01-1.47-1.2L4.6 6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M7.6 9.4h11.4M8.5 12.4h9.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="9.4" cy="19" r="1.5" fill="currentColor"/>
+        <circle cx="16.8" cy="19" r="1.5" fill="currentColor"/>
+      </svg>
+      <span class="cart-badge">3</span>
+    </a>
+
+    <div class="account-menu">
+      <button type="button" class="account-menu__trigger" aria-expanded="true">
+        <span class="account-menu__avatar">G</span>
+        <svg class="account-menu__chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="account-menu__dropdown account-menu__dropdown--open" style="position:absolute;">
+        <div class="account-menu__info">
+          <span class="account-menu__info-name">Gokul Singh</span>
+          <span class="account-menu__info-email">gokul@example.com</span>
+        </div>
+        <a href="#" class="account-menu__item">📦 My Orders</a>
+        <a href="#" class="account-menu__item">🛠️ Admin Dashboard</a>
+        <button type="button" class="account-menu__item account-menu__item--logout">↪ Log out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.account-menu { position: relative; }
+.account-menu__trigger { display: flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; padding: 4px; border-radius: 999px; }
+.account-menu__trigger:hover { background: var(--cream-deep); }
+.account-menu__avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #8a63f5, var(--leather)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; font-family: var(--font-display); box-shadow: var(--shadow-sm); }
+.account-menu__chevron { width: 16px; height: 16px; color: var(--ink-soft); transform: rotate(180deg); }
+.account-menu__dropdown { position: absolute; top: calc(100% + 10px); right: 0; min-width: 220px; background: #fff; border-radius: 10px; box-shadow: var(--shadow-md); border: 1px solid var(--paper-edge); padding: 8px; }
+.account-menu__info { display: flex; flex-direction: column; padding: 8px 10px 10px; border-bottom: 1px solid var(--paper-edge); margin-bottom: 6px; }
+.account-menu__info-name { font-weight: 700; color: var(--heading); font-size: 0.92rem; }
+.account-menu__info-email { font-size: 0.78rem; color: var(--ink-soft); }
+.account-menu__item { display: flex; align-items: center; gap: 9px; width: 100%; padding: 9px 10px; border-radius: 6px; border: none; background: none; color: var(--ink); font-size: 0.88rem; text-decoration: none; cursor: pointer; text-align: left; box-sizing: border-box; }
+.account-menu__item:hover { background: var(--cream-deep); }
+.account-menu__item--logout { color: var(--accent-dark); }
+</style>
+</body>
+</html>
