@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
 
 /* ============================================================
    Design tokens — dark blue, light blue & white system.
@@ -23,6 +23,7 @@
   /* Type */
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'Work Sans', -apple-system, sans-serif;
+  --font-head: 'Space Grotesk', 'Work Sans', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
   /* Elevation — violet-tinted shadows instead of flat black */
@@ -247,8 +248,10 @@ h1, h2, h3, .site-logo {
 .site-nav a {
   color: var(--ink);
   text-decoration: none;
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-family: var(--font-head);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   display: inline-block;
   transition: color 0.15s ease, transform 0.1s ease;
 }
