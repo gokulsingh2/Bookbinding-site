@@ -164,86 +164,8 @@ h1, h2, h3, .site-logo {
   align-items: center;
 }
 
-/* ---------- Animated interactive logo ---------- */
-.logo-svg { overflow: visible; transition: filter 0.5s ease; }
-
-.logo-mark { transform-box: fill-box; transform-origin: center; animation: logoFloat 4.5s ease-in-out infinite; }
-
-.logo-glow { transform-box: fill-box; transform-origin: center; opacity: 0; transform: scale(0.6); transition: opacity 0.4s ease, transform 0.4s ease; }
-
-.logo-pages { transform-box: fill-box; transform-origin: 130px 42px; transition: transform 0.45s cubic-bezier(.34,1.56,.64,1); }
-
-.logo-cover {
-  transform-box: fill-box;
-  transform-origin: 68px 61px;
-  animation: logoBreathe 3.2s ease-in-out infinite;
-  transition: transform 0.45s cubic-bezier(.34,1.56,.64,1);
-}
-
-.logo-quill {
-  transform-box: fill-box;
-  transform-origin: 146px 12px;
-  animation: logoQuillIdle 2.6s ease-in-out infinite;
-  transition: transform 0.4s ease;
-}
-
-.logo-quill-ink {
-  stroke-dasharray: 26;
-  stroke-dashoffset: 26;
-  opacity: 0.85;
-  transition: stroke-dashoffset 0.7s ease 0.15s;
-}
-
-.logo-spark { transform-box: fill-box; transform-origin: center; opacity: 0.35; animation: logoTwinkle 2.4s ease-in-out infinite; }
-.logo-spark--1 { animation-delay: 0.3s; }
-.logo-spark--2 { animation-delay: 1.1s; }
-
-.logo-text { transition: filter 0.4s ease; }
-
-/* idle motion */
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
-}
-@keyframes logoBreathe {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.015) rotate(-0.6deg); }
-}
-@keyframes logoQuillIdle {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-4deg); }
-}
-@keyframes logoTwinkle {
-  0%, 100% { opacity: 0.25; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.15); }
-}
-
-/* interactive hover: book opens, colors shift, quill signs its name */
-.site-logo:hover .logo-svg,
-.site-logo:focus-visible .logo-svg { filter: hue-rotate(28deg) saturate(1.25); }
-
-.site-logo:hover .logo-glow,
-.site-logo:focus-visible .logo-glow { opacity: 1; transform: scale(1); }
-
-.site-logo:hover .logo-mark,
-.site-logo:focus-visible .logo-mark { animation-play-state: paused; }
-
-.site-logo:hover .logo-pages,
-.site-logo:focus-visible .logo-pages { transform: rotate(-9deg) translate(-3px, 1px); }
-
-.site-logo:hover .logo-cover,
-.site-logo:focus-visible .logo-cover { animation-play-state: paused; transform: rotate(7deg) scale(1.04); }
-
-.site-logo:hover .logo-quill,
-.site-logo:focus-visible .logo-quill { animation-play-state: paused; transform: rotate(-16deg) translate(-4px, 3px); }
-
-.site-logo:hover .logo-quill-ink,
-.site-logo:focus-visible .logo-quill-ink { stroke-dashoffset: 0; }
-
-.site-logo:hover .logo-spark,
-.site-logo:focus-visible .logo-spark { animation-duration: 0.9s; }
-
-.site-logo:active .logo-mark { transform: scale(0.96); }
+/* ---------- Logo ---------- */
+.logo-svg { overflow: visible; }
 .site-nav { display: flex; gap: 54px; }
 .site-nav a {
   color: var(--ink);
