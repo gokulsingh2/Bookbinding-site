@@ -1,4 +1,18 @@
-# Adding real photos to the service cards
+# Adding real photos to the site
+
+The code now looks for real photos in two places:
+
+## 1. Homepage hero (the big photo at the top of the site)
+```
+public/images/hero-binding.jpg
+```
+Until this file exists, the homepage shows a matching illustrated placeholder
+instead — so the hero never looks broken while you're sourcing a photo.
+
+Good search terms: "bookbinding workshop", "thesis binding close up",
+"student with printed thesis", "hardcover binding process".
+
+## 2. Service cards
 
 The code now looks for real photos here:
 
