@@ -436,18 +436,10 @@ h1, h2, h3, .site-logo {
   color: var(--leather);
   margin-bottom: 18px;
 }
-.hero__eyebrow::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  animation: pulseDot 2s ease-in-out infinite;
-}
 
 .hero__headline {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 3.2rem;
   line-height: 1.08;
   letter-spacing: -0.015em;
