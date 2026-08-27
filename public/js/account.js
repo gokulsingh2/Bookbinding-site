@@ -1,8 +1,15 @@
-// Gates the header's cart / profile UI behind login. On every page load this checks
-// /api/auth/me once and shows exactly one of the two header states — nothing cart- or
-// account-related is visible until that check resolves, so there's no flash of the
-// wrong state for a logged-out visitor.
+// Gates the header's cart / profile UI behind login, and exposes a single shared
+// auth-check promise (window.__BBAuthCheck) other scripts can reuse — e.g.
+// services-add-to-cart.js checks it before allowing an "Add to Cart" click, without
+// firing its own separate /api/auth/me request.
 (function () {
+  window.__BBAuthCheck = fetch('/api/auth/me', { credentials: 'include' })
+    .then(function (res) {
+      if (!res.ok) return { loggedIn: false, user: null };
+      return res.json().then(function (data) { return { loggedIn: true, user: data.user }; });
+    })
+    .catch(function () { return { loggedIn: false, user: null }; });
+
   const loggedOutAuth = document.getElementById('loggedOutAuth');
   const loggedInAuth = document.getElementById('loggedInAuth');
   if (!loggedOutAuth || !loggedInAuth) return; // header markup not present on this page
@@ -49,12 +56,10 @@
   }
 
   async function init() {
-    try {
-      const res = await fetch('/api/auth/me', { credentials: 'include' });
-      if (!res.ok) throw new Error('not authenticated');
-      const data = await res.json();
-      showLoggedIn(data.user);
-    } catch (err) {
+    const authState = await window.__BBAuthCheck;
+    if (authState.loggedIn) {
+      showLoggedIn(authState.user);
+    } else {
       showLoggedOut();
     }
   }

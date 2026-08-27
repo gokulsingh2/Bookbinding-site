@@ -15,7 +15,7 @@
     uploadedFileUrl: null,
   };
 
-  function handleClick(e) {
+  async function handleClick(e) {
     const btn = e.target.closest('.add-to-cart-btn');
     if (!btn) return;
 
@@ -23,6 +23,14 @@
     // which would otherwise navigate to the service detail page.
     e.preventDefault();
     e.stopPropagation();
+
+    // Reuses the single shared auth check that account.js already kicked off on page
+    // load (see public/js/account.js) instead of firing a second /api/auth/me request.
+    const authState = window.__BBAuthCheck ? await window.__BBAuthCheck : { loggedIn: false };
+    if (!authState.loggedIn) {
+      window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+      return;
+    }
 
     const item = Object.assign({}, DEFAULTS, {
       serviceId: btn.getAttribute('data-service-id'),
