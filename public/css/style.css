@@ -1919,9 +1919,9 @@ textarea:focus-visible {
 
 .loader-book {
   position: relative;
-  width: 72px;
-  height: 88px;
-  perspective: 340px;
+  width: 84px;
+  height: 96px;
+  perspective: 360px;
   animation: loaderPop 0.5s cubic-bezier(.34, 1.56, .64, 1);
 }
 @keyframes loaderPop {
@@ -1929,42 +1929,64 @@ textarea:focus-visible {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* the book's spine + back cover — stays put, everything else flips in front of it */
+/* the spine — a fixed black bar down the center; pages flip on either side of it */
 .loader-book__spine {
   position: absolute;
-  inset: 0;
-  left: 4px;
-  border-radius: 4px;
-  background: linear-gradient(160deg, #8b5cf6, var(--leather));
-  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
+  top: 4px;
+  bottom: 4px;
+  left: 50%;
+  width: 6px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: #161616;
+  z-index: 5;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* two pages that take turns flipping open, like a book being fanned through —
-   simple (just a rotateY loop) but reads as lively thanks to the stagger + glow. */
+/* wire-o coil rings threaded through the spine, same motif as the site logo */
+.loader-book__ring {
+  position: absolute;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.6px solid #d8d8d8;
+  background: transparent;
+  z-index: 6;
+}
+
+/* four pages, each pinned to the spine and flipping independently between the
+   right stack and the left stack — staggered delays make them turn one by one
+   rather than all at once, and each page's own cycle goes both directions. */
 .loader-book__page {
   position: absolute;
-  inset: 0;
-  left: 4px;
-  width: calc(50% - 4px);
-  border-radius: 3px 0 0 3px;
-  background: linear-gradient(135deg, #fff7f5, #ffe4dc);
-  transform-origin: right center;
+  top: 5px;
+  bottom: 5px;
+  left: 50%;
+  width: 36px;
+  transform-origin: left center;
+  background: linear-gradient(120deg, #ffffff, #dcdcdc);
+  border: 1px solid #bdbdbd;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  box-shadow: 1px 0 5px rgba(0, 0, 0, 0.18);
   transform: rotateY(0deg);
-  opacity: 0;
 }
-.page-transition.is-active .loader-book__page--1 {
-  animation: pageFlip 1.2s cubic-bezier(.45, 0, .55, 1) infinite;
-}
-.page-transition.is-active .loader-book__page--2 {
-  animation: pageFlip 1.2s cubic-bezier(.45, 0, .55, 1) infinite;
-  animation-delay: 0.6s;
-}
-@keyframes pageFlip {
-  0%   { transform: rotateY(0deg);    opacity: 0; }
-  8%   { opacity: 1; }
-  50%  { transform: rotateY(-160deg); opacity: 1; }
-  58%  { opacity: 0; }
-  100% { transform: rotateY(-160deg); opacity: 0; }
+.page-transition.is-active .loader-book__page--a { animation: pageRiffle 3.2s ease-in-out infinite; }
+.page-transition.is-active .loader-book__page--b { animation: pageRiffle 3.2s ease-in-out infinite; animation-delay: 0.3s; }
+.page-transition.is-active .loader-book__page--c { animation: pageRiffle 3.2s ease-in-out infinite; animation-delay: 0.6s; }
+.page-transition.is-active .loader-book__page--d { animation: pageRiffle 3.2s ease-in-out infinite; animation-delay: 0.9s; }
+.loader-book__page--a { z-index: 4; }
+.loader-book__page--b { z-index: 3; top: 6px; bottom: 6px; width: 35px; opacity: 0.96; }
+.loader-book__page--c { z-index: 2; top: 7px; bottom: 7px; width: 34px; opacity: 0.92; }
+.loader-book__page--d { z-index: 1; top: 8px; bottom: 8px; width: 33px; opacity: 0.88; }
+@keyframes pageRiffle {
+  0%   { transform: rotateY(0deg); }
+  22%  { transform: rotateY(-178deg); }
+  50%  { transform: rotateY(-178deg); }
+  72%  { transform: rotateY(0deg); }
+  100% { transform: rotateY(0deg); }
 }
 
 /* ---------- Icon print-stamp — a small "print head" bounce on hover ---------- */
