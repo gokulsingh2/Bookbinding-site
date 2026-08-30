@@ -14,6 +14,12 @@
     <div class="section__inner section__inner--narrow">
       <a href="/services" class="back-link">&larr; All services</a>
 
+      <% if (service.image_url) { %>
+        <div class="service-detail__image">
+          <img src="<%= service.image_url %>" alt="<%= service.name %>" loading="lazy" />
+        </div>
+      <% } %>
+
       <h1><%= service.name %></h1>
       <p class="service-detail__price">
         ₹<%= Number(service.base_price).toFixed(2) %>
