@@ -24,6 +24,20 @@ async function create(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const existing = await galleryModel.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Image not found' });
+    }
+    const image = await galleryModel.update(req.params.id, req.body);
+    return res.json({ image });
+  } catch (err) {
+    console.error('Update gallery image error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
 async function remove(req, res) {
   try {
     const existing = await galleryModel.findById(req.params.id);
@@ -38,4 +52,4 @@ async function remove(req, res) {
   }
 }
 
-module.exports = { list, create, remove };
+module.exports = { list, create, update, remove };

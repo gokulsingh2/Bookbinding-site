@@ -24,12 +24,13 @@
         <h1>Manage Gallery</h1>
 
         <h2 class="admin-section-title">Add a Photo</h2>
-        <p class="section__subtitle" style="margin-bottom:12px;">
-          Paste a direct image URL (e.g. from Cloudinary or another host). File upload comes in a later phase.
-        </p>
         <form id="addImageForm" class="order-form">
+          <label for="galleryImageFile">Upload a photo</label>
+          <input type="file" id="galleryImageFile" accept=".jpg,.jpeg,.png,.webp,.gif" />
+          <p id="galleryImageStatus" class="item-editor__file-status"></p>
+          <p class="section__subtitle" style="margin: 6px 0 4px;">— or paste a direct image URL instead —</p>
           <label for="imageUrl">Image URL</label>
-          <input type="text" id="imageUrl" placeholder="https://..." required />
+          <input type="text" id="imageUrl" placeholder="https://..." />
           <label for="caption">Caption (optional)</label>
           <input type="text" id="caption" placeholder="e.g. Hardcover finish — walnut brown" />
           <label for="serviceId">Tag to a service (optional)</label>
@@ -40,6 +41,29 @@
 
         <h2 class="admin-section-title">Current Photos</h2>
         <div id="galleryGrid" class="gallery-grid admin-gallery-grid"></div>
+      </div>
+      <div class="item-editor-overlay" id="editImageOverlay">
+        <div class="item-editor" role="dialog" aria-modal="true" aria-labelledby="editImageTitle">
+          <div class="item-editor__head">
+            <h2 id="editImageTitle">Edit Photo</h2>
+            <button type="button" class="item-editor__close" id="editImageClose" aria-label="Close">&times;</button>
+          </div>
+          <form id="editImageForm" class="order-form">
+            <input type="hidden" id="editImageId" />
+            <label for="editImageFile">Photo</label>
+            <img id="editCurrentImage" alt="Current photo" style="display:none; width:100%; max-height:160px; object-fit:cover; border-radius:6px; margin-bottom:8px;" />
+            <input type="file" id="editImageFile" accept=".jpg,.jpeg,.png,.webp,.gif" />
+            <p id="editImageStatus" class="item-editor__file-status"></p>
+            <label for="editCaption">Caption</label>
+            <input type="text" id="editCaption" placeholder="e.g. Hardcover finish — walnut brown" />
+            <label for="editServiceId">Tag to a service (optional)</label>
+            <select id="editServiceId"><option value="">— None —</option></select>
+            <div class="item-editor__actions">
+              <button type="button" class="btn btn--outline" id="editImageCancel">Cancel</button>
+              <button type="submit" class="btn btn--primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </section>

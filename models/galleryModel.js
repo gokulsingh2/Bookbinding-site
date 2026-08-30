@@ -23,8 +23,35 @@ async function create({ imageUrl, caption, serviceId, displayOrder }) {
   return findById(result.insertId);
 }
 
+async function update(id, fields) {
+  const allowed = {
+    imageUrl: 'image_url',
+    caption: 'caption',
+    serviceId: 'service_id',
+    displayOrder: 'display_order',
+  };
+
+  const setClauses = [];
+  const values = [];
+
+  for (const [key, column] of Object.entries(allowed)) {
+    if (fields[key] !== undefined) {
+      setClauses.push(`${column} = ?`);
+      values.push(fields[key]);
+    }
+  }
+
+  if (setClauses.length === 0) {
+    return findById(id);
+  }
+
+  values.push(id);
+  await pool.query(`UPDATE gallery_images SET ${setClauses.join(', ')} WHERE id = ?`, values);
+  return findById(id);
+}
+
 async function remove(id) {
   await pool.query('DELETE FROM gallery_images WHERE id = ?', [id]);
 }
 
-module.exports = { findAll, findById, create, remove };
+module.exports = { findAll, findById, create, update, remove };

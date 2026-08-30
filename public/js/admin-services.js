@@ -15,6 +15,7 @@
   const editCurrentImage = document.getElementById('editCurrentImage');
   const editServiceImageInput = document.getElementById('editServiceImage');
   const editServiceImageStatus = document.getElementById('editServiceImageStatus');
+  const editServiceImageRemove = document.getElementById('editServiceImageRemove');
 
   let addPendingImageUrl;   // undefined until a photo is actually uploaded this session
   let editPendingImageUrl;  // undefined = no new photo chosen; existing image_url is kept
@@ -61,6 +62,20 @@
     const file = editServiceImageInput.files[0];
     if (!file) return;
     editPendingImageUrl = await uploadImage(file, editServiceImageStatus);
+    if (editPendingImageUrl) {
+      editCurrentImage.src = editPendingImageUrl;
+      editCurrentImage.style.display = 'block';
+      editServiceImageRemove.style.display = 'inline-block';
+    }
+  });
+
+  editServiceImageRemove.addEventListener('click', () => {
+    editPendingImageUrl = null; // explicit null = clear the photo on save
+    editCurrentImage.style.display = 'none';
+    editServiceImageInput.value = '';
+    editServiceImageStatus.textContent = 'Photo will be removed on save.';
+    editServiceImageStatus.className = 'item-editor__file-status';
+    editServiceImageRemove.style.display = 'none';
   });
 
   async function loadServices() {
@@ -165,8 +180,10 @@
     if (service.image_url) {
       editCurrentImage.src = service.image_url;
       editCurrentImage.style.display = 'block';
+      editServiceImageRemove.style.display = 'inline-block';
     } else {
       editCurrentImage.style.display = 'none';
+      editServiceImageRemove.style.display = 'none';
     }
 
     editOverlay.classList.add('is-active');

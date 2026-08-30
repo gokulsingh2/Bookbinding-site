@@ -6,6 +6,7 @@ const isAdmin = require('../middleware/isAdmin');
 
 router.get('/', galleryController.list);
 router.post('/', requireAuth, isAdmin, galleryController.create);
+router.put('/:id', requireAuth, isAdmin, galleryController.update);
 router.delete('/:id', requireAuth, isAdmin, galleryController.remove);
 
 module.exports = router;
