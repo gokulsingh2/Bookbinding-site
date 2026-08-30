@@ -63,18 +63,21 @@
       <% if (services && services.length > 0) { %>
         <div class="card-grid">
           <% services.slice(0, 3).forEach(function(service) {
-            let cat = 'other', catLabel = 'Printing', cover = '/images/services/printing.jpg'; let coverFallback = '/images/cover-other.svg';
+            let cat = 'other', catLabel = 'Printing', categoryDefaultCover = '/images/services/printing.jpg'; let coverFallback = '/images/cover-other.svg';
             let icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h8l4 4v14a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v4h4"/></svg>';
             if (service.slug.includes('thesis')) {
-              cat = 'thesis'; catLabel = 'Thesis'; cover = '/images/services/thesis.jpg'; coverFallback = '/images/cover-thesis.svg';
+              cat = 'thesis'; catLabel = 'Thesis'; categoryDefaultCover = '/images/services/thesis.jpg'; coverFallback = '/images/cover-thesis.svg';
               icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>';
             } else if (service.slug.includes('book')) {
-              cat = 'books'; catLabel = 'Books'; cover = '/images/services/books.jpg'; coverFallback = '/images/cover-books.svg';
+              cat = 'books'; catLabel = 'Books'; categoryDefaultCover = '/images/services/books.jpg'; coverFallback = '/images/cover-books.svg';
               icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5v-13z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5v-13z"/></svg>';
             } else if (service.slug.includes('poster')) {
-              cat = 'posters'; catLabel = 'Posters'; cover = '/images/services/posters.jpg'; coverFallback = '/images/cover-posters.svg';
+              cat = 'posters'; catLabel = 'Posters'; categoryDefaultCover = '/images/services/posters.jpg'; coverFallback = '/images/cover-posters.svg';
               icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="1.5"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M21 16l-5.5-5.5a1 1 0 00-1.4 0L6 19"/></svg>';
             }
+            // A service's own uploaded photo (set via Admin → Services) always
+            // wins over the category default — matches the Services page.
+            let cover = service.image_url || categoryDefaultCover;
           %>
             <a href="/services/<%= service.slug %>" class="service-card service-card--<%= cat %>">
               <div class="service-card__cover">
