@@ -601,8 +601,8 @@ h1, h2, h3, .site-logo {
    text treatment, used across every page so nothing feels static.
    ============================================================ */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(18px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; margin-top: 18px; }
+  to { opacity: 1; margin-top: 0; }
 }
 @keyframes popIn {
   0% { opacity: 0; transform: scale(0.6); }
