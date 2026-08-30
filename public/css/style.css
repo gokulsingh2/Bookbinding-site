@@ -1929,31 +1929,19 @@ textarea:focus-visible {
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* the spine — a fixed black bar down the center; pages flip on either side of it */
-.loader-book__spine {
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 50%;
-  width: 6px;
-  transform: translateX(-50%);
-  border-radius: 2px;
-  background: #161616;
-  z-index: 5;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
-/* wire-o coil rings threaded through the spine, same motif as the site logo */
+/* wire-o coil rings — this IS the spine now, no solid bar behind it.
+   Slightly elongated (not circular) so each loop reads like real coil wire. */
 .loader-book__ring {
   position: absolute;
   left: 50%;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 15px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1.6px solid #d8d8d8;
+  border: 1.8px solid #cfcfcf;
   background: transparent;
   z-index: 6;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 }
 
 /* four pages, each pinned to the spine and flipping independently between the
