@@ -182,6 +182,59 @@ h1, h2, h3, .site-logo {
 .site-nav__auth { display: flex; align-items: center; gap: 10px; }
 .loggedin-auth { display: flex; align-items: center; gap: 14px; }
 
+/* ---------- Admin header nav (replaces site-nav + cart on admin pages) ---------- */
+.admin-body .site-header__inner { max-width: 1400px; }
+.admin-body .logo-svg { width: 230px; height: auto; }
+
+.admin-header-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.admin-header-nav::-webkit-scrollbar { display: none; }
+.admin-header-nav__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.admin-header-nav__item svg { flex-shrink: 0; opacity: 0.8; }
+.admin-header-nav__item:active { transform: scale(0.95); }
+
+.admin-header-nav__item--violet:hover, .admin-header-nav__item--violet.is-active { background: #ede7fc; color: var(--leather); }
+.admin-header-nav__item--blue:hover, .admin-header-nav__item--blue.is-active { background: #e3edfb; color: #2454a0; }
+.admin-header-nav__item--coral:hover, .admin-header-nav__item--coral.is-active { background: #ffe9e4; color: #c14a34; }
+.admin-header-nav__item--teal:hover, .admin-header-nav__item--teal.is-active { background: #dcf3f0; color: #0f766e; }
+.admin-header-nav__item--green:hover, .admin-header-nav__item--green.is-active { background: #e6f4ea; color: #1e6b2f; }
+.admin-header-nav__item--amber:hover, .admin-header-nav__item--amber.is-active { background: #fdf1d6; color: #916b0a; }
+
+.admin-welcome-note {
+  font-family: var(--font-head);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+@media (max-width: 1150px) {
+  .admin-header-nav__item span { display: none; }
+  .admin-header-nav__item { padding: 9px; }
+  .admin-welcome-note { display: none; }
+}
+@media (max-width: 640px) {
+  .admin-body .logo-svg { width: 160px; }
+}
+
 /* ---------- Account menu (profile icon + dropdown) ---------- */
 .account-menu { position: relative; }
 .account-menu__trigger {

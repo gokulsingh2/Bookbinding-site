@@ -20,6 +20,7 @@
   const dropdownNameEl = document.getElementById('accountDropdownName');
   const dropdownEmailEl = document.getElementById('accountDropdownEmail');
   const adminLink = document.getElementById('adminDashboardLink');
+  const adminWelcomeNote = document.getElementById('adminWelcomeNote');
   const logoutBtn = document.getElementById('logoutBtn');
 
   function showLoggedOut() {
@@ -38,6 +39,11 @@
 
     if (adminLink) {
       adminLink.style.display = user.role === 'admin' ? 'flex' : 'none';
+    }
+
+    if (adminWelcomeNote) {
+      const firstName = (user.name || '').trim().split(/\s+/)[0];
+      adminWelcomeNote.textContent = 'Welcome back, ' + (firstName || 'Admin') + ' \uD83D\uDC4B';
     }
 
     // The cart badge reflects localStorage, which persists across login state —

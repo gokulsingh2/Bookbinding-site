@@ -80,31 +80,31 @@ app.get('/gallery', async (req, res, next) => {
 });
 
 app.get('/admin', (req, res) => {
-  res.render('admin-dashboard');
+  res.render('admin-dashboard', { isAdminPage: true });
 });
 
 app.get('/admin/orders', (req, res) => {
-  res.render('admin-orders');
+  res.render('admin-orders', { isAdminPage: true });
 });
 
 app.get('/admin/orders/:id', (req, res) => {
-  res.render('admin-order-detail', { orderId: req.params.id });
+  res.render('admin-order-detail', { orderId: req.params.id, isAdminPage: true });
 });
 
 app.get('/admin/services', (req, res) => {
-  res.render('admin-services');
+  res.render('admin-services', { isAdminPage: true });
 });
 
 app.get('/admin/analytics', (req, res) => {
-  res.render('admin-analytics');
+  res.render('admin-analytics', { isAdminPage: true });
 });
 
 app.get('/admin/gallery', (req, res) => {
-  res.render('admin-gallery');
+  res.render('admin-gallery', { isAdminPage: true });
 });
 
 app.get('/admin/messages', (req, res) => {
-  res.render('admin-messages');
+  res.render('admin-messages', { isAdminPage: true });
 });
 
 app.get('/profile', (req, res) => {
