@@ -17,35 +17,69 @@
 <header class="site-header">
   <div class="site-header__inner">
     <a href="/" class="site-logo" aria-label="RJ Printing Hub — home">
-      <svg class="logo-svg" width="370" height="61" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
+      <svg class="logo-svg" width="60" height="60" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="rjLogoTitle rjLogoDesc">
+        <title id="rjLogoTitle">RJ Printing Hub Logo</title>
+        <desc id="rjLogoDesc">Dark circular badge logo with three stylized books and white "RJ Printing HUB" typography</desc>
         <defs>
-          <style>@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap');</style>
+          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45" />
+          </filter>
+          <linearGradient id="circleGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#454547" />
+            <stop offset="100%" stop-color="#303033" />
+          </linearGradient>
+          <linearGradient id="bookHighlight" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="50%" stop-color="#e9e9e9" />
+            <stop offset="100%" stop-color="#ffffff" />
+          </linearGradient>
+          <style>
+            .white { fill: #ffffff; }
+            .book-line { fill: none; stroke: url(#bookHighlight); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+            .main-title { fill: #ffffff; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", Arial, sans-serif; font-weight: 900; letter-spacing: -1px; }
+          </style>
         </defs>
 
-        <!-- Three ascending book spines + the tallest flipping open, shelf line beneath —
-             original mark inspired by a stock "bookstore emblem" concept, redrawn from scratch. -->
-        <path d="M12 104 L178 104" stroke="#17140f" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- Main badge -->
+        <circle cx="400" cy="400" r="285" fill="url(#circleGradient)" filter="url(#softShadow)" />
+        <!-- Subtle inner border -->
+        <circle cx="400" cy="400" r="280" fill="none" stroke="#5a5a5c" stroke-width="2" opacity="0.8" />
 
-        <!-- Book 1 — black, shortest -->
-        <path d="M20 100 L20 72 Q20 68 24 68 L40 68 Q44 68 44 72 L44 100 Z" fill="#17140f"/>
-        <line x1="41" y1="68" x2="41" y2="100" stroke="#ffffff" stroke-width="1.5" opacity="0.22"/>
+        <!-- Top book -->
+        <path class="book-line" d="
+          M285 265
+          H520
+          C540 265 550 275 550 292
+          V316
+          C550 332 540 340 523 340
+          H315
+        " />
+        <!-- Middle book -->
+        <path class="book-line" d="
+          M520 340
+          H275
+          C258 340 248 350 248 366
+          V397
+          C248 413 258 423 275 423
+          H510
+        " />
+        <!-- Bottom book -->
+        <path class="book-line" d="
+          M310 423
+          H530
+          C547 423 557 433 557 449
+          V478
+          C557 494 547 503 530 503
+          H327
+        " />
 
-        <!-- Book 2 — blue, medium (swapped from red) -->
-        <path d="M48 100 L48 49 Q48 45 52 45 L68 45 Q72 45 72 49 L72 100 Z" fill="#2f6fd6"/>
-        <line x1="69" y1="45" x2="69" y2="100" stroke="#ffffff" stroke-width="1.5" opacity="0.22"/>
+        <!-- Fine book shadows for depth -->
+        <path d="M286 273 H518 C534 273 542 281 542 294 V310 C542 323 534 331 520 331 H315" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
+        <path d="M276 348 H510" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
+        <path d="M327 494 H527" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
 
-        <!-- Book 3 — orange, tallest, flipping open -->
-        <path d="M76 100 L76 22 Q76 18 80 18 L96 18 Q100 18 100 22 L100 100 Z" fill="#f2871d"/>
-        <rect x="76" y="35" width="24" height="3" fill="#ffffff" opacity="0.9"/>
-        <rect x="76" y="50" width="24" height="3" fill="#ffffff" opacity="0.9"/>
-        <rect x="76" y="65" width="24" height="3" fill="#ffffff" opacity="0.9"/>
-        <rect x="76" y="80" width="24" height="3" fill="#ffffff" opacity="0.9"/>
-        <path d="M100 20 L152 34 L146 74 L100 88 Z" fill="#ffffff" stroke="#f2871d" stroke-width="2.5" stroke-linejoin="round"/>
-        <line x1="100" y1="20" x2="146" y2="74" stroke="#f2871d" stroke-width="1" opacity="0.55"/>
-
-        <text x="178" y="72" font-family="'Archivo Black', sans-serif" font-size="36" letter-spacing="-0.5">
-          <tspan fill="#17140f">RJ PRINTING HUB</tspan>
-        </text>
+        <!-- Brand name -->
+        <text x="400" y="600" text-anchor="middle" class="main-title" font-size="46">RJ Printing HUB</text>
       </svg>
     </a>
     <% if (typeof isAdminPage !== 'undefined' && isAdminPage) { %>

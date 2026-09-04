@@ -1,38 +1,56 @@
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub icon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-labelledby="favTitle favDesc">
+  <title id="favTitle">RJ Printing Hub Logo</title>
+  <desc id="favDesc">Dark circular badge logo with three stylized books and white "RJ Printing HUB" typography</desc>
   <defs>
-    <linearGradient id="favShieldGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2c2a25"/>
-      <stop offset="100%" stop-color="#0b0a08"/>
+    <filter id="favSoftShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+    <linearGradient id="favCircleGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#454547" />
+      <stop offset="100%" stop-color="#303033" />
     </linearGradient>
-    <linearGradient id="favPageGradL" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ffa25c"/>
-      <stop offset="100%" stop-color="#e8631a"/>
+    <linearGradient id="favBookHighlight" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#e9e9e9" />
+      <stop offset="100%" stop-color="#ffffff" />
     </linearGradient>
-    <linearGradient id="favPageGradR" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ff8a3d"/>
-      <stop offset="100%" stop-color="#d9560f"/>
-    </linearGradient>
+    <style>
+      .favBookLine { fill: none; stroke: url(#favBookHighlight); stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .favMainTitle { fill: #ffffff; font-family: Impact, Haettenschweiler, "Arial Narrow Bold", Arial, sans-serif; font-weight: 900; letter-spacing: -1px; }
+    </style>
   </defs>
 
-  <path d="M50 4 C36 4 22 9 15 17 L15 47 C15 75 28 91 50 99 C72 91 85 75 85 47 L85 17 C78 9 64 4 50 4 Z" fill="url(#favShieldGrad)" stroke="#1c1a15" stroke-width="1"/>
-  <path d="M50 12 C39 12 27 15 21 21 L21 47 C21 68 32 81 50 88 C68 81 79 68 79 47 L79 21 C73 15 61 12 50 12 Z" fill="none" stroke="#d97a37" stroke-width="1.3" opacity="0.85"/>
+  <circle cx="400" cy="400" r="285" fill="url(#favCircleGradient)" filter="url(#favSoftShadow)" />
+  <circle cx="400" cy="400" r="280" fill="none" stroke="#5a5a5c" stroke-width="2" opacity="0.8" />
 
-  <!-- book sized with margin so the shield's copper border stays visible -->
-  <path d="M48.0 40.0 L34.8 36.0 C29.5 34.7 26.9 38.7 26.9 43.9 L26.9 61.8 C26.9 67.0 29.5 69.7 34.8 71.0 L47.4 72.3 Z" fill="url(#favPageGradL)"/>
-  <path d="M52.0 40.0 L65.2 36.0 C70.5 34.7 73.1 38.7 73.1 43.9 L73.1 61.8 C73.1 67.0 70.5 69.7 65.2 71.0 L52.6 72.3 Z" fill="url(#favPageGradR)"/>
+  <path class="favBookLine" d="
+    M285 265
+    H520
+    C540 265 550 275 550 292
+    V316
+    C550 332 540 340 523 340
+    H315
+  " />
+  <path class="favBookLine" d="
+    M520 340
+    H275
+    C258 340 248 350 248 366
+    V397
+    C248 413 258 423 275 423
+    H510
+  " />
+  <path class="favBookLine" d="
+    M310 423
+    H530
+    C547 423 557 433 557 449
+    V478
+    C557 494 547 503 530 503
+    H327
+  " />
 
-  <line x1="32.8" y1="45.9" x2="43.4" y2="47.9" stroke="#b8460c" stroke-width="0.9" opacity="0.55"/>
-  <line x1="32.8" y1="50.5" x2="42.1" y2="52.5" stroke="#b8460c" stroke-width="0.9" opacity="0.5"/>
-  <line x1="32.8" y1="55.2" x2="40.8" y2="57.1" stroke="#b8460c" stroke-width="0.9" opacity="0.45"/>
-  <line x1="56.6" y1="47.9" x2="67.2" y2="45.9" stroke="#b8460c" stroke-width="0.9" opacity="0.55"/>
-  <line x1="57.9" y1="52.5" x2="67.2" y2="50.5" stroke="#b8460c" stroke-width="0.9" opacity="0.5"/>
-  <line x1="59.2" y1="57.1" x2="67.2" y2="55.2" stroke="#b8460c" stroke-width="0.9" opacity="0.45"/>
+  <path d="M286 273 H518 C534 273 542 281 542 294 V310 C542 323 534 331 520 331 H315" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
+  <path d="M276 348 H510" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
+  <path d="M327 494 H527" fill="none" stroke="#bcbcbc" stroke-width="3" opacity="0.65" />
 
-  <path d="M48.0 40.0 L52.0 40.0 L52.6 72.3 L47.4 72.3 Z" fill="#ffffff"/>
-
-  <ellipse cx="50" cy="45.3" rx="3.0" ry="2.0" fill="none" stroke="#b9b2a6" stroke-width="1.2"/>
-  <ellipse cx="50" cy="51.2" rx="3.0" ry="2.0" fill="none" stroke="#b9b2a6" stroke-width="1.2"/>
-  <ellipse cx="50" cy="57.1" rx="3.0" ry="2.0" fill="none" stroke="#b9b2a6" stroke-width="1.2"/>
-  <ellipse cx="50" cy="63.1" rx="3.0" ry="2.0" fill="none" stroke="#b9b2a6" stroke-width="1.2"/>
-  <ellipse cx="50" cy="69.0" rx="3.0" ry="2.0" fill="none" stroke="#b9b2a6" stroke-width="1.2"/>
+  <text x="400" y="600" text-anchor="middle" class="favMainTitle" font-size="46">RJ Printing HUB</text>
 </svg>
