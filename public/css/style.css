@@ -1823,7 +1823,7 @@ textarea:focus-visible {
 
 /* ---------- Responsive / mobile polish ---------- */
 @media (max-width: 1024px) {
-  .logo-svg { width: 56px; height: auto; }
+  .logo-svg { width: 66px; height: auto; }
   .site-nav { gap: 26px; }
   .site-nav a { font-size: 0.82rem; letter-spacing: 0.1em; }
 }
@@ -1833,7 +1833,7 @@ textarea:focus-visible {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .logo-svg { width: 52px; height: auto; }
+  .logo-svg { width: 60px; height: auto; }
   .site-nav {
     order: 3;
     width: 100%;
@@ -1893,8 +1893,8 @@ textarea:focus-visible {
 
 @media (max-width: 480px) {
   .site-logo { font-size: 1.1rem; }
-  .site-logo__text { font-size: 1rem; margin-left: 8px; }
-  .logo-svg { width: 46px; }
+  .site-logo__text { font-size: 1.05rem; margin-left: 8px; }
+  .logo-svg { width: 54px; height: auto; }
   .site-nav { gap: 8px; }
   .site-nav a { font-size: 0.7rem; letter-spacing: 0.06em; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
