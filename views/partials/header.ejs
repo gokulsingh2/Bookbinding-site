@@ -19,32 +19,32 @@
     <a href="/" class="site-logo" aria-label="RJ Printing Hub — home">
       <svg class="logo-svg" width="370" height="61" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
         <defs>
-          <style>
-            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&amp;display=swap');
-            .rjph-gold { fill: none; stroke: #8b7836; stroke-linecap: round; stroke-linejoin: round; }
-          </style>
+          <style>@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&amp;display=swap');</style>
         </defs>
 
-        <!-- Open book mark, adapted from client-provided artwork (orig. viewBox 0 0 500 560),
-             tree removed per request, scaled up ~0.95x so the book is now the whole icon. -->
-        <g transform="translate(-115, -220) scale(0.95)">
-          <g class="rjph-gold" stroke-width="5">
-            <path d="M250 267 C220 246 183 242 150 250 L142 323 C181 314 217 318 250 338" />
-            <path d="M250 267 C280 246 317 242 350 250 L358 323 C319 314 283 318 250 338" />
-            <path d="M250 267 L250 338" />
-            <path d="M160 265 C188 260 216 265 239 278" stroke-width="3" />
-            <path d="M157 280 C185 275 215 280 239 292" stroke-width="3" />
-            <path d="M155 296 C185 291 213 296 239 307" stroke-width="3" />
-            <path d="M340 265 C312 260 284 265 261 278" stroke-width="3" />
-            <path d="M343 280 C315 275 285 280 261 292" stroke-width="3" />
-            <path d="M345 296 C315 291 287 296 261 307" stroke-width="3" />
-          </g>
-        </g>
+        <!-- Three ascending book spines + the tallest flipping open, shelf line beneath —
+             original mark inspired by a stock "bookstore emblem" concept, redrawn from scratch. -->
+        <path d="M12 104 L178 104" stroke="#17140f" stroke-width="3.5" stroke-linecap="round"/>
 
-        <text x="250" y="70" font-family="'Poppins', sans-serif" font-weight="600" font-size="34" letter-spacing="0">
-          <tspan fill="#2b2013">RJ </tspan>
-          <tspan fill="#8b7836">Printing </tspan>
-          <tspan fill="#2b2013">Hub</tspan>
+        <!-- Book 1 — black, shortest -->
+        <path d="M20 100 L20 72 Q20 68 24 68 L40 68 Q44 68 44 72 L44 100 Z" fill="#17140f"/>
+        <line x1="41" y1="68" x2="41" y2="100" stroke="#ffffff" stroke-width="1.5" opacity="0.22"/>
+
+        <!-- Book 2 — blue, medium (swapped from red) -->
+        <path d="M48 100 L48 49 Q48 45 52 45 L68 45 Q72 45 72 49 L72 100 Z" fill="#2f6fd6"/>
+        <line x1="69" y1="45" x2="69" y2="100" stroke="#ffffff" stroke-width="1.5" opacity="0.22"/>
+
+        <!-- Book 3 — orange, tallest, flipping open -->
+        <path d="M76 100 L76 22 Q76 18 80 18 L96 18 Q100 18 100 22 L100 100 Z" fill="#f2871d"/>
+        <rect x="76" y="35" width="24" height="3" fill="#ffffff" opacity="0.9"/>
+        <rect x="76" y="50" width="24" height="3" fill="#ffffff" opacity="0.9"/>
+        <rect x="76" y="65" width="24" height="3" fill="#ffffff" opacity="0.9"/>
+        <rect x="76" y="80" width="24" height="3" fill="#ffffff" opacity="0.9"/>
+        <path d="M100 20 L152 34 L146 74 L100 88 Z" fill="#ffffff" stroke="#f2871d" stroke-width="2.5" stroke-linejoin="round"/>
+        <line x1="100" y1="20" x2="146" y2="74" stroke="#f2871d" stroke-width="1" opacity="0.55"/>
+
+        <text x="178" y="72" font-family="'Archivo Black', sans-serif" font-size="36" letter-spacing="-0.5">
+          <tspan fill="#17140f">RJ PRINTING HUB</tspan>
         </text>
       </svg>
     </a>
