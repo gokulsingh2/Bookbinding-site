@@ -1,16 +1,48 @@
-<svg width="270" height="46" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
+<svg width="270" height="46" viewBox="0 0 940 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
   <defs>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&amp;display=swap');</style>
-    <linearGradient id="hdrCoverGrad" x1="0" y1="0" x2="1" y2="1">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700&amp;display=swap');</style>
+    <linearGradient id="hdrBookMid" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#7c5cf0"/>
       <stop offset="100%" stop-color="#5b3fd6"/>
     </linearGradient>
+    <linearGradient id="hdrBookBig" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8a75"/>
+      <stop offset="100%" stop-color="#ff6f59"/>
+    </linearGradient>
   </defs>
-  <rect x="60" y="45" width="70" height="48" rx="4" fill="#ddccf0" stroke="#7c5cf0" stroke-width="1"/>
-  <rect x="64" y="41" width="70" height="48" rx="4" fill="#f4eefb" stroke="#7c5cf0" stroke-width="1"/>
-  <rect x="68" y="37" width="70" height="48" rx="4" fill="url(#hdrCoverGrad)" stroke="#5b3fd6" stroke-width="1.5"/>
-  <rect x="76" y="47" width="54" height="6" rx="1.5" fill="#ffffff"/>
-  <rect x="76" y="57" width="42" height="3" rx="1" fill="#ffffff" opacity="0.75"/>
-  <rect x="76" y="64" width="32" height="3" rx="1" fill="#ffffff" opacity="0.55"/>
-  <text x="160" y="76" font-family="'Caveat', cursive" font-weight="700" font-size="42" fill="#5b3fd6">RJ Printing Hub</text>
+
+  <!-- Book-stack icon: original silhouette geometry, repositioned + recolored
+       onto the site's Violet & Ink palette (was black/orange/blue). -->
+  <g transform="translate(20.00 40.68) scale(0.3733) translate(-221 -204)">
+    <!-- back book (was black) -->
+    <path fill="#2a1f4d" d="M226 592 L247 393 C250 363 272 344 304 341 L332 349 L318 588 Z"/>
+    <path fill="#ffffff" opacity="0.55" d="M303 360 L315 363 L302 588 L290 588 Z"/>
+
+    <!-- middle book (was blue) -->
+    <path fill="url(#hdrBookMid)" d="M316 588 L342 330 C345 294 374 273 414 269 L449 280 L430 588 Z"/>
+    <path fill="#ffffff" opacity="0.5" d="M409 286 L430 291 L414 588 L399 588 Z"/>
+
+    <!-- front book (was orange) -->
+    <path fill="url(#hdrBookBig)" d="M421 588 L441 274 C443 238 468 211 503 204 C529 199 554 205 579 217 L670 254 L744 285 L726 588 Z"/>
+    <path fill="#fffaf5" d="M500 221 C526 216 550 222 574 233 L738 292 L720 548 L478 548 Z"/>
+    <path fill="url(#hdrBookBig)" d="M574 233 L738 292 L720 548 L708 548 L724 300 L566 243 Z"/>
+    <path fill="url(#hdrBookBig)" d="M441 274 C443 238 468 211 503 204 L529 208 L505 588 L421 588 Z"/>
+
+    <!-- spine detail lines -->
+    <g fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round">
+      <path d="M447 278 C464 261 481 258 508 263"/>
+      <path d="M444 326 C462 309 479 306 505 311"/>
+      <path d="M440 376 C458 359 475 356 501 361"/>
+      <path d="M437 426 C455 409 472 406 498 411"/>
+      <path d="M433 476 C451 459 468 456 495 461"/>
+      <path d="M430 526 C448 509 465 506 492 511"/>
+    </g>
+
+    <!-- base line under the stack, now a soft coral accent instead of solid black -->
+    <path fill="#ff6f59" opacity="0.85" d="M221 605 L850 605 L864 621 L864 629 L224 629 L221 621 Z"/>
+  </g>
+
+  <!-- Wordmark: sized naturally, no forced stretching, sitting clear of the icon
+       on plain background so it stays legible regardless of what's behind it. -->
+  <text x="290" y="150" font-family="'Fraunces', Georgia, serif" font-weight="700" font-size="78" fill="#2a1f4d">RJ Printing Hub</text>
 </svg>
