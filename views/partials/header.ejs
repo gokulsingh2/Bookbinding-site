@@ -20,49 +20,68 @@
       <svg class="logo-svg" width="370" height="61" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
         <defs>
           <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&amp;display=swap');</style>
-          <linearGradient id="shieldGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#2c2a25"/>
-            <stop offset="100%" stop-color="#0b0a08"/>
-          </linearGradient>
           <linearGradient id="pageGradL" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffa25c"/>
-            <stop offset="100%" stop-color="#e8631a"/>
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#ece6fa"/>
           </linearGradient>
           <linearGradient id="pageGradR" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ff8a3d"/>
-            <stop offset="100%" stop-color="#d9560f"/>
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#ece6fa"/>
           </linearGradient>
         </defs>
 
-        <!-- shield badge -->
-        <path d="M75 4 C56 4 37 9 27 17 L27 52 C27 80 43 98 75 106 C107 98 123 80 123 52 L123 17 C113 9 94 4 75 4 Z" fill="url(#shieldGrad)" stroke="#1c1a15" stroke-width="1"/>
-        <path d="M75 12 C60 12 44 16 35 23 L35 52 C35 74 48 89 75 96 C102 89 115 74 115 52 L115 23 C106 16 90 12 75 12 Z" fill="none" stroke="#d97a37" stroke-width="1.3" opacity="0.85"/>
+        <!-- tree, growing from the book's spine -->
+        <g stroke="#5b3fd6" stroke-width="2.4" stroke-linecap="round" fill="none">
+          <path d="M75 42 L75 18"/>
+          <path d="M75 30 L59 21"/>
+          <path d="M75 26 L91 17"/>
+          <path d="M75 20 L64 8"/>
+          <path d="M75 16 L75 3"/>
+          <path d="M75 20 L86 8"/>
+        </g>
+        <g fill="#5b3fd6">
+          <circle cx="58" cy="19" r="3"/>
+          <circle cx="52" cy="23" r="2.4"/>
+          <circle cx="61" cy="24" r="2.3"/>
+          <circle cx="92" cy="15" r="3"/>
+          <circle cx="98" cy="19" r="2.4"/>
+          <circle cx="89" cy="21" r="2.3"/>
+          <circle cx="63" cy="7" r="3"/>
+          <circle cx="57" cy="10" r="2.4"/>
+          <circle cx="66" cy="11" r="2.3"/>
+          <circle cx="75" cy="2" r="3.2"/>
+          <circle cx="68" cy="4" r="2.4"/>
+          <circle cx="82" cy="4" r="2.4"/>
+          <circle cx="87" cy="7" r="3"/>
+          <circle cx="93" cy="9" r="2.4"/>
+          <circle cx="84" cy="11" r="2.3"/>
+        </g>
 
-        <!-- open book, wire-o bound (sized with margin so the shield border stays visible) -->
-        <path d="M72.1 42.4 L53.8 37.3 C46.5 35.8 42.9 40.9 42.9 48.2 L42.9 73.0 C42.9 80.3 46.5 84.0 53.8 85.4 L70.6 87.6 Z" fill="url(#pageGradL)"/>
-        <path d="M77.9 42.4 L96.2 37.3 C103.5 35.8 107.1 40.9 107.1 48.2 L107.1 73.0 C107.1 80.3 103.5 84.0 96.2 85.4 L79.4 87.6 Z" fill="url(#pageGradR)"/>
+        <!-- open book, wire-o bound -->
+        <path d="M72.1 42.4 L53.8 37.3 C46.5 35.8 42.9 40.9 42.9 48.2 L42.9 73.0 C42.9 80.3 46.5 84.0 53.8 85.4 L70.6 87.6 Z" fill="url(#pageGradL)" stroke="#5b3fd6" stroke-width="1.4"/>
+        <path d="M77.9 42.4 L96.2 37.3 C103.5 35.8 107.1 40.9 107.1 48.2 L107.1 73.0 C107.1 80.3 103.5 84.0 96.2 85.4 L79.4 87.6 Z" fill="url(#pageGradR)" stroke="#5b3fd6" stroke-width="1.4"/>
 
         <!-- page text lines -->
-        <line x1="49.5" y1="50.4" x2="64.1" y2="52.6" stroke="#b8460c" stroke-width="1" opacity="0.55"/>
-        <line x1="49.5" y1="56.2" x2="62.6" y2="58.4" stroke="#b8460c" stroke-width="1" opacity="0.5"/>
-        <line x1="49.5" y1="62.1" x2="61.1" y2="64.3" stroke="#b8460c" stroke-width="1" opacity="0.45"/>
-        <line x1="86.0" y1="52.6" x2="100.6" y2="50.4" stroke="#b8460c" stroke-width="1" opacity="0.55"/>
-        <line x1="87.4" y1="58.4" x2="100.6" y2="56.2" stroke="#b8460c" stroke-width="1" opacity="0.5"/>
-        <line x1="88.9" y1="64.3" x2="100.6" y2="62.1" stroke="#b8460c" stroke-width="1" opacity="0.45"/>
+        <line x1="49.5" y1="50.4" x2="64.1" y2="52.6" stroke="#5b3fd6" stroke-width="1" opacity="0.4"/>
+        <line x1="49.5" y1="56.2" x2="62.6" y2="58.4" stroke="#5b3fd6" stroke-width="1" opacity="0.35"/>
+        <line x1="49.5" y1="62.1" x2="61.1" y2="64.3" stroke="#5b3fd6" stroke-width="1" opacity="0.3"/>
+        <line x1="86.0" y1="52.6" x2="100.6" y2="50.4" stroke="#5b3fd6" stroke-width="1" opacity="0.4"/>
+        <line x1="87.4" y1="58.4" x2="100.6" y2="56.2" stroke="#5b3fd6" stroke-width="1" opacity="0.35"/>
+        <line x1="88.9" y1="64.3" x2="100.6" y2="62.1" stroke="#5b3fd6" stroke-width="1" opacity="0.3"/>
 
         <!-- white gutter with visible page edges -->
         <path d="M72.1 42.4 L77.9 42.4 L79.4 87.6 L70.6 87.6 Z" fill="#ffffff"/>
 
         <!-- wire-o coil rings threaded through the spine -->
-        <ellipse cx="75" cy="49.7" rx="4.0" ry="2.6" fill="none" stroke="#b9b2a6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="57.3" rx="4.0" ry="2.6" fill="none" stroke="#b9b2a6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="65" rx="4.0" ry="2.6" fill="none" stroke="#b9b2a6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="72.7" rx="4.0" ry="2.6" fill="none" stroke="#b9b2a6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="80.3" rx="4.0" ry="2.6" fill="none" stroke="#b9b2a6" stroke-width="1.4"/>
+        <ellipse cx="75" cy="49.7" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
+        <ellipse cx="75" cy="57.3" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
+        <ellipse cx="75" cy="65" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
+        <ellipse cx="75" cy="72.7" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
+        <ellipse cx="75" cy="80.3" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
 
         <text x="145" y="70" font-family="'Playfair Display', Georgia, serif" font-weight="600" font-size="34" letter-spacing="0.5">
           <tspan fill="#15130f">rj </tspan>
-          <tspan fill="#e8631a">printing </tspan>
+          <tspan fill="#5b3fd6">printing </tspan>
           <tspan fill="#15130f">hub</tspan>
         </text>
       </svg>
