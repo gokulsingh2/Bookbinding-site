@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Sora:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Sora:wght@600;700;800&family=Playfair+Display:wght@500;600;700&display=swap');
 
 /* ============================================================
    Design tokens — dark blue, light blue & white system.
@@ -166,14 +166,15 @@ h1, h2, h3, .site-logo {
 
 /* ---------- Logo ---------- */
 .logo-svg { overflow: visible; }
-.site-nav { display: flex; gap: 54px; }
+.site-nav { display: flex; gap: 46px; }
 .site-nav a {
   color: var(--ink);
   text-decoration: none;
-  font-family: 'Sora', var(--font-head);
-  font-size: 1.08rem;
-  font-weight: 700;
-  letter-spacing: 0.015em;
+  font-family: 'Work Sans', var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   display: inline-block;
   transition: color 0.15s ease, transform 0.1s ease;
 }
@@ -1815,8 +1816,8 @@ textarea:focus-visible {
 /* ---------- Responsive / mobile polish ---------- */
 @media (max-width: 1024px) {
   .logo-svg { width: 300px; height: auto; }
-  .site-nav { gap: 30px; }
-  .site-nav a { font-size: 1rem; }
+  .site-nav { gap: 26px; }
+  .site-nav a { font-size: 0.82rem; letter-spacing: 0.1em; }
 }
 
 @media (max-width: 720px) {
@@ -1831,7 +1832,7 @@ textarea:focus-visible {
     justify-content: space-between;
     gap: 12px;
   }
-  .site-nav a { font-size: 0.92rem; }
+  .site-nav a { font-size: 0.78rem; letter-spacing: 0.08em; }
   .site-nav__auth { gap: 8px; }
 
   .hero--split { padding: 36px 20px 48px; }
@@ -1886,7 +1887,7 @@ textarea:focus-visible {
   .site-logo { font-size: 1.1rem; }
   .logo-svg { width: 240px; }
   .site-nav { gap: 8px; }
-  .site-nav a { font-size: 0.82rem; }
+  .site-nav a { font-size: 0.7rem; letter-spacing: 0.06em; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .card-grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr; }
