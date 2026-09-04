@@ -163,6 +163,14 @@ h1, h2, h3, .site-logo {
   display: flex;
   align-items: center;
 }
+.site-logo__text {
+  margin-left: 12px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
 
 /* ---------- Logo ---------- */
 .logo-svg { overflow: visible; }
@@ -1885,6 +1893,7 @@ textarea:focus-visible {
 
 @media (max-width: 480px) {
   .site-logo { font-size: 1.1rem; }
+  .site-logo__text { font-size: 1rem; margin-left: 8px; }
   .logo-svg { width: 46px; }
   .site-nav { gap: 8px; }
   .site-nav a { font-size: 0.7rem; letter-spacing: 0.06em; }
