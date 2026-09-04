@@ -19,70 +19,62 @@
     <a href="/" class="site-logo" aria-label="RJ Printing Hub — home">
       <svg class="logo-svg" width="370" height="61" viewBox="0 0 680 113" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RJ Printing Hub">
         <defs>
-          <style>@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&amp;display=swap');</style>
-          <linearGradient id="pageGradL" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="100%" stop-color="#ece6fa"/>
-          </linearGradient>
-          <linearGradient id="pageGradR" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="100%" stop-color="#ece6fa"/>
-          </linearGradient>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&amp;display=swap');
+            .rjph-gold { fill: none; stroke: #8b7836; stroke-linecap: round; stroke-linejoin: round; }
+            .rjph-gold-fill { fill: #8b7836; }
+          </style>
         </defs>
 
-        <!-- tree, growing from the book's spine -->
-        <g stroke="#5b3fd6" stroke-width="2.4" stroke-linecap="round" fill="none">
-          <path d="M75 42 L75 18"/>
-          <path d="M75 30 L59 21"/>
-          <path d="M75 26 L91 17"/>
-          <path d="M75 20 L64 8"/>
-          <path d="M75 16 L75 3"/>
-          <path d="M75 20 L86 8"/>
+        <!-- Tree + open book mark, adapted from client-provided artwork (orig. viewBox 0 0 500 560),
+             scaled ~0.307x and repositioned to sit inline with the wordmark. -->
+        <g transform="translate(-8.5, 0.3) scale(0.307)">
+          <!-- Tree trunk + branches -->
+          <g class="rjph-gold" stroke-width="5">
+            <path d="M250 260 C250 225 250 175 250 120" />
+            <path d="M250 178 C225 155 205 132 192 105" />
+            <path d="M250 178 C275 150 296 125 310 94" />
+            <path d="M250 143 C230 120 218 98 214 75" />
+            <path d="M250 142 C270 118 282 92 285 66" />
+            <path d="M250 118 C238 95 238 70 246 48" />
+          </g>
+          <!-- Leaves -->
+          <g class="rjph-gold-fill">
+            <ellipse cx="185" cy="100" rx="7" ry="15" transform="rotate(-38 185 100)" />
+            <ellipse cx="202" cy="118" rx="7" ry="15" transform="rotate(-50 202 118)" />
+            <ellipse cx="213" cy="87" rx="7" ry="15" transform="rotate(-20 213 87)" />
+            <ellipse cx="224" cy="70" rx="7" ry="15" transform="rotate(-8 224 70)" />
+            <ellipse cx="232" cy="95" rx="7" ry="15" transform="rotate(-42 232 95)" />
+            <ellipse cx="216" cy="130" rx="7" ry="15" transform="rotate(-57 216 130)" />
+            <ellipse cx="315" cy="91" rx="7" ry="15" transform="rotate(38 315 91)" />
+            <ellipse cx="297" cy="112" rx="7" ry="15" transform="rotate(48 297 112)" />
+            <ellipse cx="286" cy="76" rx="7" ry="15" transform="rotate(17 286 76)" />
+            <ellipse cx="273" cy="57" rx="7" ry="15" transform="rotate(5 273 57)" />
+            <ellipse cx="272" cy="101" rx="7" ry="15" transform="rotate(42 272 101)" />
+            <ellipse cx="294" cy="132" rx="7" ry="15" transform="rotate(56 294 132)" />
+            <ellipse cx="247" cy="43" rx="7" ry="15" />
+            <ellipse cx="250" cy="77" rx="7" ry="15" transform="rotate(-18 250 77)" />
+            <ellipse cx="263" cy="92" rx="7" ry="15" transform="rotate(30 263 92)" />
+            <ellipse cx="238" cy="108" rx="7" ry="15" transform="rotate(-32 238 108)" />
+          </g>
+          <!-- Open book -->
+          <g class="rjph-gold" stroke-width="5">
+            <path d="M250 267 C220 246 183 242 150 250 L142 323 C181 314 217 318 250 338" />
+            <path d="M250 267 C280 246 317 242 350 250 L358 323 C319 314 283 318 250 338" />
+            <path d="M250 267 L250 338" />
+            <path d="M160 265 C188 260 216 265 239 278" stroke-width="3" />
+            <path d="M157 280 C185 275 215 280 239 292" stroke-width="3" />
+            <path d="M155 296 C185 291 213 296 239 307" stroke-width="3" />
+            <path d="M340 265 C312 260 284 265 261 278" stroke-width="3" />
+            <path d="M343 280 C315 275 285 280 261 292" stroke-width="3" />
+            <path d="M345 296 C315 291 287 296 261 307" stroke-width="3" />
+          </g>
         </g>
-        <g fill="#5b3fd6">
-          <circle cx="58" cy="19" r="3"/>
-          <circle cx="52" cy="23" r="2.4"/>
-          <circle cx="61" cy="24" r="2.3"/>
-          <circle cx="92" cy="15" r="3"/>
-          <circle cx="98" cy="19" r="2.4"/>
-          <circle cx="89" cy="21" r="2.3"/>
-          <circle cx="63" cy="7" r="3"/>
-          <circle cx="57" cy="10" r="2.4"/>
-          <circle cx="66" cy="11" r="2.3"/>
-          <circle cx="75" cy="2" r="3.2"/>
-          <circle cx="68" cy="4" r="2.4"/>
-          <circle cx="82" cy="4" r="2.4"/>
-          <circle cx="87" cy="7" r="3"/>
-          <circle cx="93" cy="9" r="2.4"/>
-          <circle cx="84" cy="11" r="2.3"/>
-        </g>
 
-        <!-- open book, wire-o bound -->
-        <path d="M72.1 42.4 L53.8 37.3 C46.5 35.8 42.9 40.9 42.9 48.2 L42.9 73.0 C42.9 80.3 46.5 84.0 53.8 85.4 L70.6 87.6 Z" fill="url(#pageGradL)" stroke="#5b3fd6" stroke-width="1.4"/>
-        <path d="M77.9 42.4 L96.2 37.3 C103.5 35.8 107.1 40.9 107.1 48.2 L107.1 73.0 C107.1 80.3 103.5 84.0 96.2 85.4 L79.4 87.6 Z" fill="url(#pageGradR)" stroke="#5b3fd6" stroke-width="1.4"/>
-
-        <!-- page text lines -->
-        <line x1="49.5" y1="50.4" x2="64.1" y2="52.6" stroke="#5b3fd6" stroke-width="1" opacity="0.4"/>
-        <line x1="49.5" y1="56.2" x2="62.6" y2="58.4" stroke="#5b3fd6" stroke-width="1" opacity="0.35"/>
-        <line x1="49.5" y1="62.1" x2="61.1" y2="64.3" stroke="#5b3fd6" stroke-width="1" opacity="0.3"/>
-        <line x1="86.0" y1="52.6" x2="100.6" y2="50.4" stroke="#5b3fd6" stroke-width="1" opacity="0.4"/>
-        <line x1="87.4" y1="58.4" x2="100.6" y2="56.2" stroke="#5b3fd6" stroke-width="1" opacity="0.35"/>
-        <line x1="88.9" y1="64.3" x2="100.6" y2="62.1" stroke="#5b3fd6" stroke-width="1" opacity="0.3"/>
-
-        <!-- white gutter with visible page edges -->
-        <path d="M72.1 42.4 L77.9 42.4 L79.4 87.6 L70.6 87.6 Z" fill="#ffffff"/>
-
-        <!-- wire-o coil rings threaded through the spine -->
-        <ellipse cx="75" cy="49.7" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="57.3" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="65" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="72.7" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
-        <ellipse cx="75" cy="80.3" rx="4.0" ry="2.6" fill="none" stroke="#a89cd6" stroke-width="1.4"/>
-
-        <text x="145" y="70" font-family="'Playfair Display', Georgia, serif" font-weight="600" font-size="34" letter-spacing="0.5">
-          <tspan fill="#15130f">rj </tspan>
-          <tspan fill="#5b3fd6">printing </tspan>
-          <tspan fill="#15130f">hub</tspan>
+        <text x="126" y="70" font-family="'Playfair Display', Georgia, serif" font-weight="600" font-size="34" letter-spacing="0.5">
+          <tspan fill="#766329">rj </tspan>
+          <tspan fill="#8b7836">printing </tspan>
+          <tspan fill="#766329">hub</tspan>
         </text>
       </svg>
     </a>
