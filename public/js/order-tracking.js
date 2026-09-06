@@ -23,6 +23,11 @@
   // Used to show upcoming steps as "pending" even before they've happened.
   const STANDARD_SEQUENCE = ['received', 'in_progress', 'ready', 'delivered'];
 
+  // Client-side mirror of the server's 48-hour rule — purely for showing/hiding
+  // the button promptly. The real enforcement happens server-side in the
+  // /cancel endpoint, so this can't be bypassed by editing the page.
+  const CANCEL_WINDOW_MS = 48 * 60 * 60 * 1000;
+
   function formatPrice(amount) {
     return '₹' + Number(amount).toFixed(2);
   }
@@ -74,9 +79,23 @@
     document.getElementById('priceEstimate').textContent = formatPrice(order.price_estimate);
 
     renderTimeline(order, history);
+    renderCancelOption(order);
 
     loadingState.style.display = 'none';
     orderDetail.style.display = 'block';
+  }
+
+  let currentOrderId = null;
+
+  function renderCancelOption(order) {
+    currentOrderId = order.id;
+    const cancelSection = document.getElementById('cancelSection');
+
+    const isCancellable = order.order_status !== 'cancelled' && order.order_status !== 'delivered';
+    const ageMs = Date.now() - new Date(order.created_at).getTime();
+    const withinWindow = ageMs <= CANCEL_WINDOW_MS;
+
+    cancelSection.style.display = isCancellable && withinWindow ? 'block' : 'none';
   }
 
   function renderTimeline(order, history) {
@@ -126,4 +145,40 @@
   }
 
   loadOrder();
+
+  const cancelBtn = document.getElementById('cancelOrderBtn');
+  const cancelResultEl = document.getElementById('cancelResult');
+
+  async function handleCancel() {
+    const confirmed = confirm('Cancel this order? This cannot be undone.');
+    if (!confirmed) return;
+
+    cancelBtn.disabled = true;
+    cancelBtn.textContent = 'Cancelling…';
+
+    try {
+      const res = await fetch(`/api/orders/${currentOrderId}/cancel`, {
+        method: 'PUT',
+        credentials: 'include',
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        cancelResultEl.textContent = data.error || 'Something went wrong.';
+        cancelResultEl.className = 'err';
+        cancelBtn.disabled = false;
+        cancelBtn.textContent = 'Cancel Order';
+        return;
+      }
+
+      render(data.order, data.history || []);
+    } catch (err) {
+      cancelResultEl.textContent = 'Something went wrong. Please try again.';
+      cancelResultEl.className = 'err';
+      cancelBtn.disabled = false;
+      cancelBtn.textContent = 'Cancel Order';
+    }
+  }
+
+  cancelBtn.addEventListener('click', handleCancel);
 })();

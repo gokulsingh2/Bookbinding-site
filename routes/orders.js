@@ -9,6 +9,8 @@ router.post('/checkout-cart', requireAuth, orderController.checkoutCart);
 router.get('/my', requireAuth, orderController.getMyOrders);
 router.get('/admin/all', requireAuth, isAdmin, orderController.getAllForAdmin);
 router.put('/:id/status', requireAuth, isAdmin, orderController.updateStatus);
+router.put('/:id/cancel', requireAuth, orderController.cancel);
+router.delete('/:id', requireAuth, isAdmin, orderController.remove);
 router.get('/:id', requireAuth, orderController.getById);
 
 module.exports = router;

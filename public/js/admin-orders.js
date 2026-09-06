@@ -53,10 +53,47 @@
         <td><span class="status-badge status-badge--${o.order_status}">${statusLabels[o.order_status] || o.order_status}</span></td>
         <td>${formatPrice(o.final_price || o.price_estimate)}</td>
         <td>${formatDate(o.created_at)}</td>
+        <td><button type="button" class="btn btn--small btn--danger" data-delete-id="${o.id}" data-order-number="${o.order_number}" onclick="event.stopPropagation();">Delete</button></td>
       </tr>
     `
       )
       .join('');
+  }
+
+  async function handleDelete(e) {
+    const btn = e.target.closest('button[data-delete-id]');
+    if (!btn) return;
+
+    const confirmed = confirm(
+      `Delete order ${btn.dataset.orderNumber}? This permanently removes it from order ` +
+      `history, analytics, and revenue totals. This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Deleting…';
+
+    try {
+      const res = await fetch(`/api/orders/${btn.dataset.deleteId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || 'Something went wrong deleting this order.');
+        btn.disabled = false;
+        btn.textContent = 'Delete';
+        return;
+      }
+
+      allOrders = allOrders.filter((o) => String(o.id) !== String(btn.dataset.deleteId));
+      render();
+    } catch (err) {
+      alert('Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'Delete';
+    }
   }
 
   async function init() {
@@ -82,5 +119,6 @@
 
   statusFilter.addEventListener('change', render);
   urgentOnly.addEventListener('change', render);
+  ordersBody.addEventListener('click', handleDelete);
   init();
 })();

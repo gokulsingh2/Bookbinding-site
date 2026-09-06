@@ -127,4 +127,13 @@ async function updateStatus(orderId, { status, note, finalPrice }) {
   );
 }
 
-module.exports = { createOrder, findById, findByCustomer, findAllForAdmin, findStatusHistory, updateStatus };
+// Permanently removes an order. order_status_history rows for it are cleaned up
+// automatically (ON DELETE CASCADE in the schema) — no separate cleanup needed.
+// Once gone, the order no longer counts toward Total Orders, Analytics, or
+// Estimated Revenue anywhere, since every one of those reads live from this table.
+async function remove(orderId) {
+  const [result] = await pool.query('DELETE FROM orders WHERE id = ?', [orderId]);
+  return result.affectedRows > 0;
+}
+
+module.exports = { createOrder, findById, findByCustomer, findAllForAdmin, findStatusHistory, updateStatus, remove };

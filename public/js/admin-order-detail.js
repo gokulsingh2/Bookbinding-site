@@ -151,5 +151,45 @@
   }
 
   statusForm.addEventListener('submit', handleSubmit);
+
+  const deleteBtn = document.getElementById('deleteOrderBtn');
+  const deleteResultEl = document.getElementById('deleteResult');
+
+  async function handleDelete() {
+    const orderNumberText = document.getElementById('orderNumber').textContent;
+    const confirmed = confirm(
+      `Delete order ${orderNumberText}? This permanently removes it from order history, ` +
+      `analytics, and revenue totals. This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    deleteBtn.disabled = true;
+    deleteBtn.textContent = 'Deleting…';
+
+    try {
+      const res = await fetch(`/api/orders/${window.__ORDER_ID__}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        deleteResultEl.textContent = data.error || 'Something went wrong.';
+        deleteResultEl.className = 'err';
+        deleteBtn.disabled = false;
+        deleteBtn.textContent = 'Delete Order';
+        return;
+      }
+
+      window.location.href = '/admin/orders';
+    } catch (err) {
+      deleteResultEl.textContent = 'Something went wrong. Please try again.';
+      deleteResultEl.className = 'err';
+      deleteBtn.disabled = false;
+      deleteBtn.textContent = 'Delete Order';
+    }
+  }
+
+  deleteBtn.addEventListener('click', handleDelete);
   loadOrder();
 })();

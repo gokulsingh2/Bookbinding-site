@@ -227,6 +227,7 @@ async function getAllForAdmin(req, res) {
 }
 
 const VALID_ORDER_STATUSES = ['received', 'in_progress', 'ready', 'delivered', 'cancelled'];
+const CUSTOMER_CANCEL_WINDOW_MS = 48 * 60 * 60 * 1000; // 48 hours
 
 async function updateStatus(req, res) {
   try {
@@ -262,4 +263,69 @@ async function updateStatus(req, res) {
   }
 }
 
-module.exports = { create, checkoutCart, getMyOrders, getById, getAllForAdmin, updateStatus };
+async function remove(req, res) {
+  try {
+    const existing = await orderModel.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    await orderModel.remove(req.params.id);
+    return res.json({ message: 'Order deleted' });
+  } catch (err) {
+    console.error('Delete order error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
+// Customer-facing self-service cancellation — deliberately separate from the admin
+// updateStatus endpoint above, which lets an admin set ANY status. This one only
+// ever sets 'cancelled', only for the order's own owner, and only within the
+// 48-hour window, all enforced server-side so it can't be bypassed from the client.
+async function cancel(req, res) {
+  try {
+    const order = await orderModel.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const isOwner = order.customer_id === req.user.id;
+    const isAdminUser = req.user.role === 'admin';
+    if (!isOwner && !isAdminUser) {
+      return res.status(403).json({ error: 'You do not have access to this order' });
+    }
+
+    if (order.order_status === 'cancelled') {
+      return res.status(400).json({ error: 'This order is already cancelled' });
+    }
+    if (order.order_status === 'delivered') {
+      return res.status(400).json({ error: 'A delivered order cannot be cancelled' });
+    }
+
+    // Admins can still cancel past the window from the admin order page (via
+    // updateStatus) if a real-world exception is needed — this 48-hour check only
+    // applies to the customer's own self-service cancel button.
+    if (!isAdminUser) {
+      const ageMs = Date.now() - new Date(order.created_at).getTime();
+      if (ageMs > CUSTOMER_CANCEL_WINDOW_MS) {
+        return res.status(400).json({
+          error: 'This order was placed more than 48 hours ago and can no longer be cancelled online. Please contact us directly.',
+        });
+      }
+    }
+
+    await orderModel.updateStatus(req.params.id, {
+      status: 'cancelled',
+      note: isAdminUser ? 'Cancelled by admin' : 'Cancelled by customer',
+    });
+
+    const updated = await orderModel.findById(req.params.id);
+    const history = await orderModel.findStatusHistory(req.params.id);
+    return res.json({ order: updated, history });
+  } catch (err) {
+    console.error('Cancel order error:', err);
+    return res.status(500).json({ error: 'Something went wrong' });
+  }
+}
+
+module.exports = { create, checkoutCart, getMyOrders, getById, getAllForAdmin, updateStatus, remove, cancel };
