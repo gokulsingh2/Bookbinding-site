@@ -61,9 +61,33 @@
 
     const stampNumberEl = document.getElementById('stampOrderNumber');
     if (stampNumberEl) {
-      stampNumberEl.textContent = orders.length > 1
-        ? `#${orders[0].order_number} +${orders.length - 1}`
-        : `#${orders[0].order_number}`;
+      // Same text element, same styling/animation as before — just populated with one
+      // tspan per order number (stacked below the first) instead of a single line.
+      // Capped so a large multi-item cart doesn't overflow the circular stamp.
+      const MAX_STAMP_LINES = 3;
+      const LINE_HEIGHT = 20;
+
+      while (stampNumberEl.firstChild) stampNumberEl.removeChild(stampNumberEl.firstChild);
+
+      const numbers = orders.map((o) => `#${o.order_number}`);
+      const shown = numbers.slice(0, MAX_STAMP_LINES);
+      const extra = numbers.length - shown.length;
+
+      shown.forEach((num, i) => {
+        const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        tspan.setAttribute('x', '110');
+        if (i > 0) tspan.setAttribute('dy', String(LINE_HEIGHT));
+        tspan.textContent = num;
+        stampNumberEl.appendChild(tspan);
+      });
+
+      if (extra > 0) {
+        const moreTspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+        moreTspan.setAttribute('x', '110');
+        moreTspan.setAttribute('dy', String(LINE_HEIGHT));
+        moreTspan.textContent = `+${extra} more`;
+        stampNumberEl.appendChild(moreTspan);
+      }
     }
 
     loadingState.style.display = 'none';

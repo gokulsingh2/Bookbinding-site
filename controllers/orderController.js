@@ -14,7 +14,7 @@ const MAX_CART_ITEMS = 20;
 // Looks up + validates one line item against a service and the shared fulfillment info,
 // and returns the exact object orderModel.createOrder() expects. Throws a plain Error with
 // a customer-facing message on any validation failure — callers turn that into a 400.
-async function validateAndBuildItem(itemInput, { fulfillmentType, deliveryAddress, isUrgent }) {
+async function validateAndBuildItem(itemInput, { fulfillmentType, deliveryAddress, isUrgent, orderNote }) {
   const {
     serviceId,
     quantity,
@@ -62,6 +62,15 @@ async function validateAndBuildItem(itemInput, { fulfillmentType, deliveryAddres
   // number is never trusted, so a tampered request can't discount an order.
   const priceEstimate = Number(service.base_price) * qty;
 
+  // The order-level note (from the checkout form, applies to the whole cart) gets folded
+  // into every resulting order's special_instructions, labeled separately from any
+  // per-item note — since admin views orders individually, this guarantees the note is
+  // visible no matter which item's order they open first.
+  const combinedInstructions = [
+    orderNote ? `Order note: ${orderNote}` : null,
+    specialInstructions || null,
+  ].filter(Boolean).join('\n') || null;
+
   return {
     serviceId: service.id,
     serviceName: service.name,
@@ -71,7 +80,7 @@ async function validateAndBuildItem(itemInput, { fulfillmentType, deliveryAddres
     printColor,
     bindingType: bindingType || null,
     paperQuality,
-    specialInstructions: specialInstructions || null,
+    specialInstructions: combinedInstructions,
     uploadedFileUrl: uploadedFileUrl || null,
     fulfillmentType,
     deliveryAddress,
@@ -125,7 +134,7 @@ async function create(req, res) {
 // silently placing a partial cart.
 async function checkoutCart(req, res) {
   try {
-    const { items, fulfillmentType, deliveryAddress, isUrgent } = req.body;
+    const { items, fulfillmentType, deliveryAddress, isUrgent, orderNote } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Your cart is empty' });
@@ -140,7 +149,7 @@ async function checkoutCart(req, res) {
       return res.status(400).json({ error: 'A delivery address is required for delivery/shipping orders' });
     }
 
-    const shared = { fulfillmentType, deliveryAddress, isUrgent };
+    const shared = { fulfillmentType, deliveryAddress, isUrgent, orderNote: orderNote || null };
 
     let itemsData;
     try {

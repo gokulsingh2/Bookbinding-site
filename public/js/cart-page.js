@@ -144,6 +144,7 @@
       fulfillmentType,
       deliveryAddress,
       isUrgent: document.getElementById('isUrgent').checked,
+      orderNote: document.getElementById('orderNote').value.trim() || null,
     };
 
     try {
