@@ -4,6 +4,7 @@
   const confirmationState = document.getElementById('confirmationState');
   const ordersList = document.getElementById('ordersList');
   const grandTotalEl = document.getElementById('grandTotal');
+  const quoteNoteEl = document.getElementById('quoteNote');
 
   function formatPrice(amount) {
     return '₹' + Number(amount || 0).toFixed(2);
@@ -51,7 +52,7 @@
           <p class="cart-item__specs">Order ${escapeHtml(order.order_number)} · Qty × ${order.quantity} · <span class="status-pill">${escapeHtml(order.order_status)}</span></p>
         </div>
         <div class="cart-item__side">
-          <span class="cart-item__price">${formatPrice(order.price_estimate)}</span>
+          <span class="cart-item__price">${Number(order.price_estimate) > 0 ? formatPrice(order.price_estimate) : 'Price on request'}</span>
         </div>
       </div>
     `).join('');
@@ -60,12 +61,14 @@
     const quoteOrders = orders.filter((o) => Number(o.price_estimate || 0) <= 0);
     const hasPricedOrders = orders.some((o) => Number(o.price_estimate || 0) > 0);
 
-    if (quoteOrders.length > 0 && hasPricedOrders) {
-      grandTotalEl.textContent = formatPrice(grandTotal) + '+';
-    } else if (quoteOrders.length > 0) {
-      grandTotalEl.textContent = 'Price on request';
+    grandTotalEl.textContent = window.BBCart.formatTotalWithQuotes(grandTotal, quoteOrders.length, hasPricedOrders);
+
+    if (quoteOrders.length > 0) {
+      const names = quoteOrders.map((o) => o.service_name).join(', ');
+      quoteNoteEl.textContent = `Price on request: ${names}. The total amount you pay will include the price of these item(s) as well — we'll confirm the exact amount with you separately.`;
+      quoteNoteEl.style.display = 'block';
     } else {
-      grandTotalEl.textContent = formatPrice(grandTotal);
+      quoteNoteEl.style.display = 'none';
     }
 
     const stampNumberEl = document.getElementById('stampOrderNumber');

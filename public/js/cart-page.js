@@ -72,17 +72,7 @@
     const hasPricedItems = items.some((item) => Number(item.basePrice || 0) > 0);
     const count = window.BBCart.getItemCount(items);
 
-    let totalDisplay;
-    if (quoteItems.length > 0 && hasPricedItems) {
-      // Mixed cart — the number shown is real, but it's not the whole story.
-      totalDisplay = window.BBCart.formatPrice(grandTotal) + '+';
-    } else if (quoteItems.length > 0) {
-      // Every item is price-on-request — showing "₹0.00" here would look like
-      // a free order, which is worse than just saying what's actually true.
-      totalDisplay = 'Price on request';
-    } else {
-      totalDisplay = window.BBCart.formatPrice(grandTotal);
-    }
+    const totalDisplay = window.BBCart.formatTotalWithQuotes(grandTotal, quoteItems.length, hasPricedItems);
 
     grandTotalEl.textContent = totalDisplay;
     grandTotalBottomEl.textContent = totalDisplay;
@@ -91,7 +81,7 @@
 
     if (quoteItems.length > 0) {
       const names = quoteItems.map((item) => item.serviceName).join(', ');
-      quoteNoteEl.textContent = `Price on request for: ${names}. We'll confirm the exact total with you before your order is finalized.`;
+      quoteNoteEl.textContent = `Price on request: ${names}. The total amount you pay will include the price of these item(s) as well — we'll confirm the exact amount with you separately.`;
       quoteNoteEl.style.display = 'block';
     } else {
       quoteNoteEl.style.display = 'none';

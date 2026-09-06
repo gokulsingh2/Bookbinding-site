@@ -78,6 +78,19 @@
     return (items || getCart()).filter((item) => Number(item.basePrice || 0) <= 0);
   }
 
+  // The single source of truth for how a total reads when the cart mixes priced and
+  // price-on-request items — used on both the checkout page and the order-confirmed
+  // page so the wording never drifts between them.
+  function formatTotalWithQuotes(pricedTotal, quoteCount, hasPricedItems) {
+    if (quoteCount > 0 && hasPricedItems) {
+      return `${formatPrice(pricedTotal)} + ${quoteCount} item${quoteCount === 1 ? '' : 's'} price on request`;
+    }
+    if (quoteCount > 0) {
+      return 'Price on request';
+    }
+    return formatPrice(pricedTotal);
+  }
+
   function getItemCount(items) {
     return (items || getCart()).reduce((sum, item) => sum + Number(item.quantity || 1), 0);
   }
@@ -147,6 +160,7 @@
     lineTotal,
     getGrandTotal,
     getQuoteItems,
+    formatTotalWithQuotes,
     getItemCount,
     updateCartBadge,
     pulseCartIcon,
