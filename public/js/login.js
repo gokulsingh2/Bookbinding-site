@@ -4,12 +4,28 @@
   const loginResult = document.getElementById('loginResult');
   const registerResult = document.getElementById('registerResult');
 
+  const authTabs = document.getElementById('authTabs');
+
   window.showTab = function (tab) {
     loginForm.style.display = tab === 'login' ? 'block' : 'none';
     registerForm.style.display = tab === 'register' ? 'block' : 'none';
-    document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-    document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+    document.getElementById('tabLogin').classList.toggle('is-active', tab === 'login');
+    document.getElementById('tabRegister').classList.toggle('is-active', tab === 'register');
+    authTabs.classList.toggle('auth-tabs--register', tab === 'register');
   };
+
+  // Password show/hide toggles — works for any .auth-input__toggle button
+  // paired with an input via its data-target id.
+  document.querySelectorAll('.auth-input__toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const input = document.getElementById(btn.dataset.target);
+      if (!input) return;
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      btn.classList.toggle('is-showing', !showing);
+    });
+  });
 
   function showMessage(el, text, isError) {
     el.textContent = text;
