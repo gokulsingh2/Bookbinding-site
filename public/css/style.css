@@ -2062,6 +2062,9 @@ textarea:focus-visible {
     flex-wrap: wrap;
     gap: 12px;
   }
+  /* Admin header keeps a single row — the nav scrolls horizontally within itself
+     instead of wrapping, so the profile menu always stays pinned top-right. */
+  .admin-body .site-header__inner { flex-wrap: nowrap; }
   .logo-svg { width: 68px; height: auto; }
   .site-nav {
     order: 3;
