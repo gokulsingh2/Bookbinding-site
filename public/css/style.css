@@ -1187,7 +1187,8 @@ h1, h2, h3, .site-logo {
     radial-gradient(circle at 10px 0, transparent 6px, var(--cream-deep) 6.5px) top left / 20px 12px repeat-x;
 }
 .order-form__estimate strong {
-  font-size: 1.5rem;
+  font-size: 1.15rem;
+  line-height: 1.3;
   color: var(--leather);
   background: linear-gradient(120deg, var(--leather), var(--accent));
   -webkit-background-clip: text;
