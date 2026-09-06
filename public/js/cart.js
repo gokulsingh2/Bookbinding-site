@@ -71,6 +71,13 @@
     return (items || getCart()).reduce((sum, item) => sum + lineTotal(item), 0);
   }
 
+  // Items priced at 0 are "price on request" — not actually free. Anywhere a total is
+  // shown, these need to be called out separately so the number isn't mistaken for a
+  // final price when it's really only a partial sum of the items that do have a price.
+  function getQuoteItems(items) {
+    return (items || getCart()).filter((item) => Number(item.basePrice || 0) <= 0);
+  }
+
   function getItemCount(items) {
     return (items || getCart()).reduce((sum, item) => sum + Number(item.quantity || 1), 0);
   }
@@ -139,6 +146,7 @@
     clearCart,
     lineTotal,
     getGrandTotal,
+    getQuoteItems,
     getItemCount,
     updateCartBadge,
     pulseCartIcon,

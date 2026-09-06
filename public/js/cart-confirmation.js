@@ -57,7 +57,16 @@
     `).join('');
 
     const grandTotal = orders.reduce((sum, o) => sum + Number(o.price_estimate || 0), 0);
-    grandTotalEl.textContent = formatPrice(grandTotal);
+    const quoteOrders = orders.filter((o) => Number(o.price_estimate || 0) <= 0);
+    const hasPricedOrders = orders.some((o) => Number(o.price_estimate || 0) > 0);
+
+    if (quoteOrders.length > 0 && hasPricedOrders) {
+      grandTotalEl.textContent = formatPrice(grandTotal) + '+';
+    } else if (quoteOrders.length > 0) {
+      grandTotalEl.textContent = 'Price on request';
+    } else {
+      grandTotalEl.textContent = formatPrice(grandTotal);
+    }
 
     const stampNumberEl = document.getElementById('stampOrderNumber');
     if (stampNumberEl) {

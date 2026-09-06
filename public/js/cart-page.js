@@ -6,6 +6,7 @@
   const cartItemsEl = document.getElementById('cartItems');
   const grandTotalEl = document.getElementById('grandTotal');
   const grandTotalBottomEl = document.getElementById('grandTotalBottom');
+  const quoteNoteEl = document.getElementById('quoteNote');
   const itemCountEl = document.getElementById('itemCount');
   const itemCountPluralEl = document.getElementById('itemCountPlural');
   const checkoutForm = document.getElementById('checkoutForm');
@@ -67,11 +68,34 @@
     `).join('');
 
     const grandTotal = window.BBCart.getGrandTotal(items);
+    const quoteItems = window.BBCart.getQuoteItems(items);
+    const hasPricedItems = items.some((item) => Number(item.basePrice || 0) > 0);
     const count = window.BBCart.getItemCount(items);
-    grandTotalEl.textContent = window.BBCart.formatPrice(grandTotal);
-    grandTotalBottomEl.textContent = window.BBCart.formatPrice(grandTotal);
+
+    let totalDisplay;
+    if (quoteItems.length > 0 && hasPricedItems) {
+      // Mixed cart — the number shown is real, but it's not the whole story.
+      totalDisplay = window.BBCart.formatPrice(grandTotal) + '+';
+    } else if (quoteItems.length > 0) {
+      // Every item is price-on-request — showing "₹0.00" here would look like
+      // a free order, which is worse than just saying what's actually true.
+      totalDisplay = 'Price on request';
+    } else {
+      totalDisplay = window.BBCart.formatPrice(grandTotal);
+    }
+
+    grandTotalEl.textContent = totalDisplay;
+    grandTotalBottomEl.textContent = totalDisplay;
     itemCountEl.textContent = String(count);
     itemCountPluralEl.textContent = count === 1 ? '' : 's';
+
+    if (quoteItems.length > 0) {
+      const names = quoteItems.map((item) => item.serviceName).join(', ');
+      quoteNoteEl.textContent = `Price on request for: ${names}. We'll confirm the exact total with you before your order is finalized.`;
+      quoteNoteEl.style.display = 'block';
+    } else {
+      quoteNoteEl.style.display = 'none';
+    }
   }
 
   function escapeHtml(str) {
