@@ -10,9 +10,8 @@
     })
     .catch(function () { return { loggedIn: false, user: null }; });
 
-  const loggedOutAuth = document.getElementById('loggedOutAuth');
   const loggedInAuth = document.getElementById('loggedInAuth');
-  if (!loggedOutAuth || !loggedInAuth) return; // header markup not present on this page
+  if (!loggedInAuth) return; // header markup not present on this page
 
   const trigger = document.getElementById('accountTrigger');
   const dropdown = document.getElementById('accountDropdown');
@@ -24,12 +23,10 @@
   const logoutBtn = document.getElementById('logoutBtn');
 
   function showLoggedOut() {
-    loggedOutAuth.style.display = 'inline-block';
     loggedInAuth.style.display = 'none';
   }
 
   function showLoggedIn(user) {
-    loggedOutAuth.style.display = 'none';
     loggedInAuth.style.display = 'flex';
 
     const label = (user.name || user.email || '?').trim();

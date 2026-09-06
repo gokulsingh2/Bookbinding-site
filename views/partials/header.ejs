@@ -136,10 +136,6 @@
       </nav>
     <% } %>
     <div class="site-nav__auth" id="siteNavAuth">
-      <!-- Logged out: just a single Log in button. Cart/orders/account stay hidden
-           until account.js confirms a session — see public/js/account.js. -->
-      <a href="/login" id="loggedOutAuth" class="btn btn--small" style="display:none;">Log in</a>
-
       <div id="loggedInAuth" class="loggedin-auth" style="display:none;">
         <% if (typeof isAdminPage !== 'undefined' && isAdminPage) { %>
           <span id="adminWelcomeNote" class="admin-welcome-note"></span>
