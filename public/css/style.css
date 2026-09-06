@@ -401,27 +401,31 @@ h1, h2, h3, .site-logo {
 
 .admin-header-nav {
   display: flex;
-  gap: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 6px;
   overflow-x: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 .admin-header-nav::-webkit-scrollbar { display: none; }
 .admin-header-nav__item {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 13px;
-  border-radius: 9px;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
   text-decoration: none;
   color: var(--ink-soft);
   font-family: var(--font-head);
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   font-weight: 600;
   white-space: nowrap;
+  flex-shrink: 0;
   background: transparent;
   transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
 }
-.admin-header-nav__item svg { flex-shrink: 0; opacity: 0.8; }
+.admin-header-nav__item svg { flex-shrink: 0; opacity: 0.8; width: 19px; height: 19px; }
 .admin-header-nav__item:active { transform: scale(0.95); }
 
 .admin-header-nav__item--violet:hover, .admin-header-nav__item--violet.is-active { background: #ede7fc; color: var(--leather); }
@@ -437,15 +441,16 @@ h1, h2, h3, .site-logo {
   font-weight: 600;
   color: var(--ink-soft);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @media (max-width: 1150px) {
-  .admin-header-nav__item span { display: none; }
-  .admin-header-nav__item { padding: 9px; }
   .admin-welcome-note { display: none; }
 }
 @media (max-width: 640px) {
   .admin-body .logo-svg { width: 44px; }
+  .admin-header-nav__item { padding: 9px 13px; font-size: 0.85rem; gap: 6px; }
+  .admin-header-nav__item svg { width: 17px; height: 17px; }
 }
 
 /* ---------- Account menu (profile icon + dropdown) ---------- */
