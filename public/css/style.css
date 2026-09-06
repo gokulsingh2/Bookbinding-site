@@ -124,7 +124,6 @@ h1, h2, h3, .site-logo {
   50% { transform: translate(12px, -14px) scale(1.08); }
 }
 .auth-brand__content { position: relative; z-index: 1; }
-.auth-brand__mark { width: 64px; height: 64px; margin-bottom: 22px; animation: authIconFloat 3.2s ease-in-out infinite; }
 .auth-brand__title { font-family: var(--font-display); font-size: 1.9rem; font-weight: 700; line-height: 1.2; margin: 0 0 14px; }
 .auth-brand__text { font-size: 0.96rem; line-height: 1.55; color: rgba(255,255,255,0.78); max-width: 32ch; margin: 0 0 28px; }
 .auth-brand__stats { display: flex; gap: 28px; list-style: none; padding: 0; margin: 0; }
@@ -184,7 +183,7 @@ h1, h2, h3, .site-logo {
 .auth-input svg { position: absolute; left: 13px; color: var(--ink-soft); pointer-events: none; }
 .auth-input input {
   width: 100%;
-  padding: 11px 14px 11px 40px;
+  padding: 11px 40px 11px 40px;
   border: 1.5px solid var(--paper-edge);
   border-radius: 9px;
   font-size: 0.96rem;
@@ -198,13 +197,16 @@ h1, h2, h3, .site-logo {
 }
 .auth-input__toggle {
   position: absolute;
+  top: 50%;
   right: 10px;
+  transform: translateY(-50%);
   background: none;
   border: none;
   padding: 4px;
   color: var(--ink-soft);
   cursor: pointer;
   display: flex;
+  line-height: 0;
   transition: color 0.15s ease;
 }
 .auth-input__toggle:hover { color: var(--leather); }
