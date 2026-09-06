@@ -243,8 +243,9 @@ async function updateStatus(req, res) {
     }
 
     if (finalPrice !== undefined && finalPrice !== null && finalPrice !== '') {
-      if (isNaN(Number(finalPrice)) || Number(finalPrice) < 0) {
-        return res.status(400).json({ error: 'Final price must be a valid positive number' });
+      const parsedPrice = Number(finalPrice);
+      if (isNaN(parsedPrice) || parsedPrice < 0 || parsedPrice > 10000) {
+        return res.status(400).json({ error: 'Final price must be a number between ₹0 and ₹10,000' });
       }
     }
 

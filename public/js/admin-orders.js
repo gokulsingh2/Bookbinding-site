@@ -22,7 +22,8 @@
   let allOrders = [];
 
   function formatPrice(amount) {
-    return '₹' + Number(amount).toFixed(2);
+    const n = Number(amount);
+    return n > 0 ? '₹' + n.toFixed(2) : 'Price on request';
   }
   function formatDate(dateStr) {
     return new Date(dateStr).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });

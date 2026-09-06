@@ -12,6 +12,13 @@
   };
 
   function formatPrice(amount) {
+    const n = Number(amount);
+    return n > 0 ? '₹' + n.toFixed(2) : 'Price on request';
+  }
+
+  // Revenue is a real aggregate total, not a single order's price — ₹0.00 there
+  // means "no revenue yet", not "price on request", so it never uses formatPrice.
+  function formatRevenue(amount) {
     return '₹' + Number(amount).toFixed(2);
   }
 
@@ -73,7 +80,7 @@
     document.getElementById('statReady').textContent = counts.ready;
     document.getElementById('statDelivered').textContent = counts.delivered;
     document.getElementById('statUrgent').textContent = urgentCount;
-    document.getElementById('statRevenue').textContent = formatPrice(revenue);
+    document.getElementById('statRevenue').textContent = formatRevenue(revenue);
   }
 
   function renderRecent(orders) {

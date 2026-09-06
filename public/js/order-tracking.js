@@ -29,7 +29,8 @@
   const CANCEL_WINDOW_MS = 48 * 60 * 60 * 1000;
 
   function formatPrice(amount) {
-    return '₹' + Number(amount).toFixed(2);
+    const n = Number(amount);
+    return n > 0 ? '₹' + n.toFixed(2) : 'Price on request';
   }
 
   function formatDateTime(dateStr) {
@@ -76,7 +77,7 @@
     document.getElementById('serviceName').textContent = order.service_name;
     document.getElementById('quantity').textContent = order.quantity;
     document.getElementById('fulfillment').textContent = fulfillmentLabels[order.fulfillment_type] || order.fulfillment_type;
-    document.getElementById('priceEstimate').textContent = formatPrice(order.price_estimate);
+    document.getElementById('priceEstimate').textContent = formatPrice(order.final_price || order.price_estimate);
 
     renderTimeline(order, history);
     renderCancelOption(order);
