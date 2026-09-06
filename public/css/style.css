@@ -254,7 +254,7 @@ h1, h2, h3, .site-logo {
 .auth-brand__text { color: rgba(255,255,255,0.85); margin: 0 0 28px; line-height: 1.6; }
 .auth-brand__stats { list-style: none; padding: 0; margin: 0; display: flex; gap: 32px; }
 .auth-brand__stats li { display: flex; flex-direction: column; }
-.auth-brand__stats strong { font-family: var(--font-display); font-size: 1.5rem; }
+.auth-brand__stats strong { font-family: var(--font-display); font-size: 1.5rem; color: var(--accent); }
 .auth-brand__stats span { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
 
 /* Right panel — the actual form */
