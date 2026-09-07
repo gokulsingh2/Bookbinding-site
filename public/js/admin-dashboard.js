@@ -71,7 +71,7 @@
       if (o.order_status !== 'cancelled') {
         revenue += Number(o.final_price || o.price_estimate || 0);
       }
-      if (o.is_urgent) urgentCount++;
+      if (o.is_urgent && o.order_status !== 'cancelled') urgentCount++;
     });
 
     document.getElementById('statTotal').textContent = orders.length;
