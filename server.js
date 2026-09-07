@@ -70,6 +70,14 @@ app.get('/contact', (req, res) => {
   res.render('contact');
 });
 
+app.get('/terms', (req, res) => {
+  res.render('terms');
+});
+
+app.get('/privacy', (req, res) => {
+  res.render('privacy');
+});
+
 app.get('/gallery', async (req, res, next) => {
   try {
     const images = await galleryModel.findAll();
@@ -150,6 +158,54 @@ app.get('/reset-password/:token', (req, res) => {
 // A quick way to check the server + DB are alive without needing Postman
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
+});
+
+app.get('/robots.txt', (req, res) => {
+  const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+  res.type('text/plain').send(
+    [
+      'User-agent: *',
+      'Allow: /',
+      'Disallow: /admin',
+      'Disallow: /api',
+      'Disallow: /cart',
+      'Disallow: /my-orders',
+      'Disallow: /profile',
+      'Disallow: /order',
+      'Disallow: /login',
+      'Disallow: /register',
+      'Disallow: /forgot-password',
+      'Disallow: /reset-password',
+      '',
+      `Sitemap: ${baseUrl}/sitemap.xml`,
+    ].join('\n')
+  );
+});
+
+app.get('/sitemap.xml', async (req, res, next) => {
+  try {
+    const baseUrl = process.env.APP_URL || 'http://localhost:3000';
+    const services = await serviceModel.findAllActive();
+
+    const staticUrls = [
+      { loc: '/', priority: '1.0' },
+      { loc: '/services', priority: '0.9' },
+      { loc: '/gallery', priority: '0.6' },
+      { loc: '/contact', priority: '0.5' },
+      { loc: '/terms', priority: '0.3' },
+      { loc: '/privacy', priority: '0.3' },
+    ];
+    const serviceUrls = services.map((s) => ({ loc: `/services/${s.slug}`, priority: '0.8' }));
+
+    const urls = [...staticUrls, ...serviceUrls]
+      .map((u) => `  <url><loc>${baseUrl}${u.loc}</loc><priority>${u.priority}</priority></url>`)
+      .join('\n');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
+    res.type('application/xml').send(xml);
+  } catch (err) {
+    next(err);
+  }
 });
 
 // 404 fallback — API requests still get JSON (the JS across the site expects
