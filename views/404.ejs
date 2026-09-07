@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — RJ Printing Hub</title>
+  <link rel="stylesheet" href="/css/style.css?v=33" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <section class="section">
+    <div class="section__inner" style="text-align:center; padding-top: 40px; padding-bottom: 60px;">
+      <span class="eyebrow"><span class="eyebrow__dot"></span>Page Not Found</span>
+      <h1 style="font-size: 5rem; margin: 10px 0 4px;">404</h1>
+      <p class="section__subtitle" style="margin: 0 auto 32px;">
+        We couldn't find the page you were looking for — it may have been moved,
+        renamed, or the link might just be off.
+      </p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+        <a href="/" class="btn btn--primary">Back to Home</a>
+        <a href="/services" class="btn btn--outline">Browse Services</a>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

@@ -58,7 +58,7 @@ app.get('/services/:slug', async (req, res, next) => {
   try {
     const service = await serviceModel.findBySlug(req.params.slug);
     if (!service) {
-      return res.status(404).send('Service not found');
+      return res.status(404).render('404');
     }
     res.render('service-detail', { service });
   } catch (err) {
@@ -152,9 +152,13 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
 });
 
-// 404 fallback
+// 404 fallback — API requests still get JSON (the JS across the site expects
+// that shape), everything else gets a proper page instead of a raw JSON blob.
 app.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
+  res.status(404).render('404');
 });
 
 // Centralized error handler (catches anything thrown/next(err)'d)
