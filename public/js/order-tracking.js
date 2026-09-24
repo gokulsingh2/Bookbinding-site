@@ -91,12 +91,14 @@
   function renderCancelOption(order) {
     currentOrderId = order.id;
     const cancelSection = document.getElementById('cancelSection');
+    const cancelExpiredNotice = document.getElementById('cancelExpiredNotice');
 
     const isCancellable = order.order_status !== 'cancelled' && order.order_status !== 'delivered';
     const ageMs = Date.now() - new Date(order.created_at).getTime();
     const withinWindow = ageMs <= CANCEL_WINDOW_MS;
 
     cancelSection.style.display = isCancellable && withinWindow ? 'block' : 'none';
+    cancelExpiredNotice.style.display = isCancellable && !withinWindow ? 'block' : 'none';
   }
 
   function renderTimeline(order, history) {
