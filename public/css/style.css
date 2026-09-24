@@ -737,8 +737,8 @@ h1, h2, h3, .site-logo {
 .hero__stat-card {
   grid-column: 2;
   grid-row: 1;
-  background: #fff;
-  border: 1px solid var(--paper-edge);
+  background: linear-gradient(180deg, rgba(23,15,38,0.15), rgba(23,15,38,0.4)), url('/images/hero-stat-bg.jpg') center/cover no-repeat, var(--ink);
+  border: none;
   border-radius: 16px;
   padding: 20px;
   display: flex;
@@ -750,11 +750,11 @@ h1, h2, h3, .site-logo {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 2.2rem;
-  color: var(--leather);
+  color: var(--accent);
   margin: 0 0 6px;
   line-height: 1;
 }
-.hero__stat-label { font-size: 0.85rem; color: var(--ink-soft); margin: 0; line-height: 1.4; }
+.hero__stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.9); margin: 0; line-height: 1.4; }
 
 .hero__feature-card {
   grid-column: 1 / 3;
