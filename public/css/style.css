@@ -2149,7 +2149,7 @@ textarea:focus-visible {
   .hero__content { order: 2; }
   .hero__headline { font-size: 2.1rem; }
   .hero__lede { font-size: 1rem; max-width: none; }
-  .hero__stat-card { order: 3; }
+  .hero__stat-card { order: 3; min-height: 190px; justify-content: flex-end; }
   .hero__feature-card { order: 4; flex-direction: column; align-items: flex-start; }
   .hero__feature-bars { align-self: flex-end; }
 
