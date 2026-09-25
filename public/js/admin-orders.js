@@ -20,6 +20,10 @@
   };
 
   let allOrders = [];
+  let isDeleting = false;
+  let lastKnownOrderCount = null;
+  let isFirstLoad = true;
+  const REFRESH_INTERVAL_MS = 25000;
 
   function formatPrice(amount) {
     const n = Number(amount);
@@ -71,6 +75,7 @@
     );
     if (!confirmed) return;
 
+    isDeleting = true;
     btn.disabled = true;
     btn.textContent = 'Deleting…';
 
@@ -85,19 +90,46 @@
         alert(data.error || 'Something went wrong deleting this order.');
         btn.disabled = false;
         btn.textContent = 'Delete';
+        isDeleting = false;
         return;
       }
 
       allOrders = allOrders.filter((o) => String(o.id) !== String(btn.dataset.deleteId));
+      lastKnownOrderCount = allOrders.length;
       render();
+      isDeleting = false;
     } catch (err) {
       alert('Something went wrong. Please try again.');
       btn.disabled = false;
       btn.textContent = 'Delete';
+      isDeleting = false;
     }
   }
 
+  // Small floating confirmation message — same .bb-toast styling used
+  // elsewhere on the site, so this matches the Dashboard's new-order alert.
+  function showToast(message) {
+    let toast = document.getElementById('bbToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'bbToast';
+      toast.className = 'bb-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    void toast.offsetWidth;
+    toast.classList.add('bb-toast--visible');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => {
+      toast.classList.remove('bb-toast--visible');
+    }, 3200);
+  }
+
   async function init() {
+    // Skip a background refresh mid-delete so we don't yank the "Deleting…"
+    // button out from under the admin while that request is still in flight.
+    if (isDeleting) return;
+
     try {
       const res = await fetch('/api/orders/admin/all', { credentials: 'include' });
 
@@ -110,11 +142,20 @@
       const data = await res.json();
       allOrders = data.orders || [];
 
+      if (!isFirstLoad && lastKnownOrderCount !== null && allOrders.length > lastKnownOrderCount) {
+        const newCount = allOrders.length - lastKnownOrderCount;
+        showToast(newCount === 1 ? '1 new order just came in' : `${newCount} new orders just came in`);
+      }
+      lastKnownOrderCount = allOrders.length;
+      isFirstLoad = false;
+
       render();
       loadingState.style.display = 'none';
       ordersContent.style.display = 'block';
     } catch (err) {
-      loadingState.textContent = 'Something went wrong loading orders.';
+      if (isFirstLoad) {
+        loadingState.textContent = 'Something went wrong loading orders.';
+      }
     }
   }
 
@@ -122,4 +163,10 @@
   urgentOnly.addEventListener('change', render);
   ordersBody.addEventListener('click', handleDelete);
   init();
+  setInterval(() => {
+    if (document.visibilityState === 'visible') init();
+  }, REFRESH_INTERVAL_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') init();
+  });
 })();

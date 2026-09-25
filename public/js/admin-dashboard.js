@@ -3,6 +3,10 @@
   const accessDenied = document.getElementById('accessDenied');
   const dashboardContent = document.getElementById('dashboardContent');
 
+  const REFRESH_INTERVAL_MS = 25000;
+  let lastKnownOrderCount = null;
+  let isFirstLoad = true;
+
   const statusLabels = {
     received: 'Received',
     in_progress: 'In Progress',
@@ -26,6 +30,38 @@
     return new Date(dateStr).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   }
 
+  // Small floating confirmation message — reuses the same .bb-toast styling
+  // used elsewhere on the site (e.g. "Added to cart!"), so new-order alerts
+  // look consistent with the rest of the app.
+  function showToast(message) {
+    let toast = document.getElementById('bbToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'bbToast';
+      toast.className = 'bb-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    void toast.offsetWidth;
+    toast.classList.add('bb-toast--visible');
+    clearTimeout(toast._hideTimer);
+    toast._hideTimer = setTimeout(() => {
+      toast.classList.remove('bb-toast--visible');
+    }, 3200);
+  }
+
+  // Briefly flashes the Total Orders card so a new order is noticeable even
+  // if the person isn't looking directly at the number when it updates.
+  function pulseTotalCard() {
+    const card = document.getElementById('statTotal');
+    const wrapper = card && card.closest('.stat-card');
+    if (!wrapper) return;
+    wrapper.classList.remove('stat-card--pulse');
+    void wrapper.offsetWidth;
+    wrapper.classList.add('stat-card--pulse');
+    setTimeout(() => wrapper.classList.remove('stat-card--pulse'), 1500);
+  }
+
   async function init() {
     try {
       const res = await fetch('/api/orders/admin/all', { credentials: 'include' });
@@ -38,6 +74,16 @@
 
       const data = await res.json();
       const orders = data.orders || [];
+
+      // On every load after the first, compare against what we last saw so we
+      // can surface a "N new orders" toast rather than a silent number change.
+      if (!isFirstLoad && lastKnownOrderCount !== null && orders.length > lastKnownOrderCount) {
+        const newCount = orders.length - lastKnownOrderCount;
+        showToast(newCount === 1 ? '1 new order just came in' : `${newCount} new orders just came in`);
+        pulseTotalCard();
+      }
+      lastKnownOrderCount = orders.length;
+      isFirstLoad = false;
 
       renderStats(orders);
       renderRecent(orders.slice(0, 10));
@@ -57,7 +103,11 @@
       loadingState.style.display = 'none';
       dashboardContent.style.display = 'block';
     } catch (err) {
-      loadingState.textContent = 'Something went wrong loading the dashboard.';
+      // A background refresh failing shouldn't wipe out an already-visible dashboard —
+      // only show the loading-failed message if this was the very first load.
+      if (isFirstLoad) {
+        loadingState.textContent = 'Something went wrong loading the dashboard.';
+      }
     }
   }
 
@@ -107,4 +157,12 @@
   }
 
   init();
+  setInterval(() => {
+    if (document.visibilityState === 'visible') init();
+  }, REFRESH_INTERVAL_MS);
+  // Catch up immediately if the admin switches back to this tab after being
+  // away longer than the poll interval, rather than waiting for the next tick.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') init();
+  });
 })();
